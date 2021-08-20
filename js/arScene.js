@@ -1,39 +1,51 @@
 /* eslint-disable no-unused-vars */
 "use strict";
 
-import React, { Component, useState, useEffect, Fragment } from "react";
-import { StyleSheet, View } from "react-native";
-import { connect } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { StyleSheet } from "react-native";
 import {
   ViroARScene,
   ViroText,
-  ViroMaterials,
-  ViroBox,
   Viro3DObject,
   ViroAmbientLight,
   ViroSpotLight,
-  ViroARPlaneSelector,
   ViroNode,
-  ViroAnimations,
-  ViroARSceneNavigator,
 } from "react-viro";
-//var createReactClass = require("create-react-class");
-import store from "../client/redux/store";
 
-const ARScene = ({ testing }) => {
-  useEffect(() => {
-    const testingHack = store.getState().auth.auth.weAreSmart;
-    console.log("Are we Smart?", testingHack, testing);
-  }, []);
+import {
+  proofOfThunk,
+  selectMenu,
+  setProof,
+} from "../client/redux/reducers/menu";
+
+const ARScene = (props) => {
+  const dispatch = useDispatch();
+  const { assets, proof } = useSelector(selectMenu);
+
   const [text, setText] = useState("Initializing AR...");
-  const [scale, setScale] = useState(0.01);
-  const handlePinch = (pinchState, scaleFactor, source) => {
-    if (pinchState === 3) {
-      //setScale(scale * scaleFactor);
-    } else if (pinchState === 2) {
-      setScale(scale * scaleFactor);
+  const [rotation, setRotation] = useState([0, 0, 0]);
+
+  useEffect(() => {
+    if (!proof.message) {
+      dispatch(proofOfThunk("this is proof"));
+    } else {
+      dispatch(setProof());
+    }
+  }, [proof.message]);
+
+  const handleRotate = (rotateState, rotationFactor) => {
+    const factor = rotationFactor / 2;
+    if (rotateState == 2) {
+      setRotation([
+        rotation[0],
+        rotation[1] + Math.max(Math.min(factor, 10), -10),
+        rotation[2],
+      ]);
+      return;
     }
   };
+
   return (
     <ViroARScene
       onTrackingUpdated={() => {
@@ -46,9 +58,8 @@ const ARScene = ({ testing }) => {
         height={1}
         width={4}
         position={[0, 0.5, -1]}
-        style={styles.helloWorldTextStyle}
+        style={styles.textStyle}
       />
-
       <ViroAmbientLight color={"#aaaaaa"} />
       <ViroSpotLight
         innerAngle={5}
@@ -58,36 +69,32 @@ const ARScene = ({ testing }) => {
         color="#ffffff"
         castsShadow={true}
       />
-
-      <ViroNode
-        position={[0, -0.5, -1.5]}
-        dragType="FixedToWorld"
-        onDrag={() => {}}
-      >
-        <Viro3DObject
-          source={require("./res/CoffeeCup/obj/coffee_cup.obj")}
-          resources={[
-            require("./res/CoffeeCup/obj/coffee_cup.mtl"),
-            require("./res/CoffeeCup/rend/1st rend.png"),
-            require("./res/CoffeeCup/rend/2nd rend.png"),
-            require("./res/CoffeeCup/rend/3rd rend.png"),
-            require("./res/CoffeeCup/rend/3th rend.png"),
-            require("./res/CoffeeCup/rend/4th rend.png"),
-            require("./res/CoffeeCup/rend/6th rend.png"),
-            require("./res/CoffeeCup/tex/cap roughness.jpeg"),
-            require("./res/CoffeeCup/tex/coffee cup.jpg"),
-          ]}
-          scale={[scale, scale, scale]}
-          type="OBJ"
-          onPinch={handlePinch}
-        />
-      </ViroNode>
+      {assets.map(({ source, mtl, type, scale }) => (
+        <ViroNode
+          position={[0, -0.5, -0.5]}
+          dragType="FixedToWorld"
+          onDrag={() => {}}
+          key={source}
+        >
+          <Viro3DObject
+            source={{
+              uri: source,
+            }}
+            lightReceivingBitMask={3}
+            resources={[{ uri: mtl }]}
+            scale={Array(3).fill(scale)}
+            type={type}
+            onRotate={handleRotate}
+            rotation={rotation}
+          />
+        </ViroNode>
+      ))}
     </ViroARScene>
   );
 };
 
-var styles = StyleSheet.create({
-  helloWorldTextStyle: {
+const styles = StyleSheet.create({
+  textStyle: {
     fontFamily: "Arial",
     fontSize: 50,
     color: "#ffffff",
@@ -96,20 +103,5 @@ var styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = (state) => {
-  const { auth } = state.auth;
-  return {
-    testing: "fuck",
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {};
-};
-
-console.log(
-  "This is the connect object",
-  connect(mapStateToProps, null)(ARScene)
-);
-module.exports = connect(mapStateToProps, null)(ARScene).WrappedComponent;
-export default connect(mapStateToProps, null)(ARScene);
+module.exports = ARScene;
+export default ARScene;
