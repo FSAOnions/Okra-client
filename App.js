@@ -19,7 +19,8 @@ import {
 } from "react-native";
 
 import { ViroARSceneNavigator } from "react-viro";
-
+import { Provider } from "react-redux";
+import store from "./client/redux/store";
 const sharedProps = {
   apiKey: "API_KEY_HERE",
 };
@@ -28,24 +29,26 @@ const InitialARScene = require("./js/arScene");
 
 export default function Main() {
   return (
-    <Fragment>
-      <View
-        style={{
-          position: "absolute",
-          left: 0,
-          right: 0,
-          top: 0,
-          bottom: 0,
-          width: "100%",
-          height: "100%",
-        }}
-      >
-        <ViroARSceneNavigator
-          {...sharedProps}
-          initialScene={{ scene: InitialARScene }}
-        />
-      </View>
-    </Fragment>
+    <Provider store={store}>
+      <Fragment>
+        <View
+          style={{
+            position: "absolute",
+            left: 0,
+            right: 0,
+            top: 0,
+            bottom: 0,
+            width: "100%",
+            height: "100%",
+          }}
+        >
+          <ViroARSceneNavigator
+            {...sharedProps}
+            initialScene={{ scene: InitialARScene }}
+          />
+        </View>
+      </Fragment>
+    </Provider>
   );
 }
 

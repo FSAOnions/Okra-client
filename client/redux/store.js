@@ -1,3 +1,12 @@
+// import { configureStore } from "@reduxjs/toolkit";
+// import authReducer from "./reducers/auth";
+
+// export const store = configureStore({
+//   reducer: {
+//     auth: authReducer,
+//   },
+// });
+
 import { createStore, applyMiddleware } from "redux";
 import { createLogger } from "redux-logger";
 import thunkMiddleware from "redux-thunk";
