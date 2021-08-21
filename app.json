@@ -1,4 +1,10 @@
 {
   "name": "ViroSample",
-  "displayName": "ViroSample"
+  "displayName": "ViroSample",
+  "expo": {
+    "slug": "ViroSample",
+    "name": "ViroSample",
+    "sdkVersion": "35.0.0",
+    "entryPoint": ".vscode/exponentIndex.js"
+  }
 }

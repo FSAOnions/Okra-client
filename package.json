@@ -23,7 +23,7 @@
     "react": "16.8.3",
     "react-native": "0.59.9",
     "react-native-network-info": "^5.2.1",
-    "react-viro": "2.17.0",
+    "react-native-side-drawer": "^1.2.8",
     "sequelize": "^6.3.5"
   },
   "devDependencies": {
@@ -48,6 +48,7 @@
     "react-redux": "^7.0.1",
     "react-router-dom": "^5.0.0",
     "react-test-renderer": "16.8.3",
+    "react-viro": "^2.17.0",
     "redux": "^4.0.1",
     "redux-devtools-extension": "^2.13.5",
     "redux-logger": "^3.0.6",

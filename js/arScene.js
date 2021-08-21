@@ -18,6 +18,7 @@ import {
   selectMenu,
   setProof,
 } from "../client/redux/reducers/menu";
+import { setPage } from "../client/redux/reducers/userPage";
 
 const ARScene = (props) => {
   const dispatch = useDispatch();
@@ -89,6 +90,15 @@ const ARScene = (props) => {
           />
         </ViroNode>
       ))}
+      <ViroText
+        text={"Go Back"}
+        scale={[0.1, 0.1, 0.1]}
+        height={1}
+        width={4}
+        position={[0, 0.75, -1]}
+        style={styles.textStyle}
+        onClick={() => dispatch(setPage("home"))}
+      />
     </ViroARScene>
   );
 };
