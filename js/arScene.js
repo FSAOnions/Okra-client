@@ -22,7 +22,7 @@ import { setPage } from "../client/redux/reducers/userPage";
 
 const ARScene = (props) => {
   const dispatch = useDispatch();
-  const { assets, proof } = useSelector(selectMenu);
+  const { assets, proof, selected } = useSelector(selectMenu);
 
   const [text, setText] = useState("Initializing AR...");
   const [rotation, setRotation] = useState([0, 0, 0]);
@@ -70,7 +70,7 @@ const ARScene = (props) => {
         color="#ffffff"
         castsShadow={true}
       />
-      {assets.map(({ source, mtl, type, scale }) => (
+      {selected.map(({ source, mtl, type, scale }) => (
         <ViroNode
           position={[0, -0.5, -0.5]}
           dragType="FixedToWorld"

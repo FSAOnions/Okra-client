@@ -57,4 +57,4 @@ export default userPageSlice.reducer;
 
 //Selectors
 /////////////////////////////////////////////////////////////
-export const selectUserPage = (state) => state.userPage;
+export const selectLink = (state) => state.userPage.link;

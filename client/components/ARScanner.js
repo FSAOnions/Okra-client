@@ -10,9 +10,9 @@ const sharedProps = {
   apiKey: "API_KEY_HERE",
 };
 
-const InitialARScene = require("../../js/MenuARScene");
+const InitialARScene = require("../../js/ImageReaderScene");
 
-export default function Menu() {
+export default function ARScanner() {
   return (
     <View
       style={{
@@ -30,7 +30,6 @@ export default function Menu() {
         {...sharedProps}
         initialScene={{ scene: InitialARScene }}
       />
-      <MenuNav />
     </View>
   );
 }
