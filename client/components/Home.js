@@ -9,7 +9,7 @@ export default function Home() {
     <View style={styles.container}>
       <Text>Home</Text>
       <Button
-        onPress={() => dispatch(setPage("menu"))}
+        onPress={() => dispatch(setPage("scanner"))}
         title="Open"
         color="#841584"
         accessibilityLabel="Learn more about this purple button"

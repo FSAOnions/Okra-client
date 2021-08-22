@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 "use strict";
 
+const localHost = "http://10.0.0.206:8080";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { StyleSheet, View, YellowBox } from "react-native";
@@ -11,6 +12,11 @@ import {
   ViroAmbientLight,
   ViroSpotLight,
   ViroNode,
+  ViroARPlaneSelector,
+  ViroARPlane,
+  ViroBox,
+  ViroARTrackingTargets,
+  ViroARImageMarker,
 } from "react-viro";
 
 import {
@@ -53,20 +59,56 @@ const MenuARScene = (props) => {
       onTrackingUpdated={() => {
         setText("Hello World!");
       }}
-      // physicsWorld={{ gravity: [0, -9.81, 0] }}
       onClickState={(state, position, source) => {
         let newItem = Object.assign({ position }, item);
-        console.log("Hello", position, source);
         let nodeFound = position.length === 3;
         if (nodeFound) {
           newItem.position = position;
-          console.log("Hello2", newItem, source);
         }
         if (!nodeFound && state === 1) {
-          dispatch(setSelected(newItem));
+          item.name && dispatch(setSelected(newItem));
         }
       }}
     >
+      {/* <ViroARPlaneSelector
+        minHeight={0.5}
+        minWidth={0.5}
+        onPlaneSelected={(e) => {
+          console.log(e);
+          let newItem = Object.assign({ position: e.position }, item);
+          item.name && dispatch(setSelected(newItem));
+        }}
+        onAnchorFound={(anchor) => {
+          console.log(anchor);
+          console.log(anchor.position);
+        }}
+        //   onClickState={(state, source) => {
+        //   let newItem = Object.assign({ position: [] }, item);
+
+        //   dispatch(setSelected(newItem));
+        //   if (!nodeFound && state === 1) {
+        //     dispatch(setSelected(newItem));
+        //   }
+        // }}
+      ></ViroARPlaneSelector> */}
+      {/* <ViroARPlane
+        minHeight={0.5}
+        minWidth={0.5}
+        alignment={"Horizontal"}
+        position={[0, 0, 0]}
+        rotation={[45, 0, 0]}
+        style={{ backgroundColor: "rgb(255, 255, 255)" }}
+      >
+        <ViroText
+          text={text}
+          height={1}
+          width={4}
+          position={[0, 0, -1]}
+          scale={[0.5, 0.5, 0.5]}
+          style={styles.textStyle}
+        />
+        {/* <ViroBox position={[0, 0, -1]} scale={[0.5, 0.5, 0.5]} /> */}
+      {/* </ViroARPlane> */}
       <ViroText
         text={text}
         scale={[0.1, 0.1, 0.1]}
