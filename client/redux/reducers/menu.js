@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-const localHost = "http://192.168.1.153:8080";
+
+const localHost = "http://10.0.0.206:8080";
 
 //Thunks
 /////////////////////////////////////////////////////////////
