@@ -20,15 +20,13 @@ import { createSlice } from "@reduxjs/toolkit";
 const userPageSlice = createSlice({
   name: "page",
   initialState: {
-    link: "home",
-    onPage: false,
+    link: "login",
   },
   reducers: {
     setPage(state, action) {
       console.log("REDUX ACTION: ", action);
       return {
         link: action.payload,
-        onPage: !state.onPage,
       };
     },
   },

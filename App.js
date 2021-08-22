@@ -9,14 +9,15 @@
  */
 
 import React from "react";
-import Home from "./client/components/Home";
 import { Provider } from "react-redux";
 import store from "./client/redux/store";
+import Routes from "./client/components/Routes";
+import Home from "./client/components/Home";
 
 export default function Main() {
   return (
     <Provider store={store}>
-      <Home />
+      <Routes />
     </Provider>
   );
 }
