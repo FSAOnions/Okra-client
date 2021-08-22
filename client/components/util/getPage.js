@@ -1,8 +1,8 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
-import FourOhFour from "../components/FourOhFour";
-import Home from "../components/Home";
-import LogIn from "../components/LogIn";
-import Menu from "../components/ARMenu";
+import FourOhFour from "../FourOhFour";
+import Home from "../Home";
+import Menu from "../ARMenu";
 
 export default function getPage(link) {
   switch (link) {
@@ -10,8 +10,6 @@ export default function getPage(link) {
       return <Home />;
     case "menu":
       return <Menu />;
-    case "login":
-      return <LogIn />;
     default:
       return <FourOhFour />;
   }

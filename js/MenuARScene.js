@@ -3,7 +3,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, YellowBox } from "react-native";
 import {
   ViroARScene,
   ViroText,
@@ -19,10 +19,11 @@ import {
   setProof,
 } from "../client/redux/reducers/menu";
 import { setPage } from "../client/redux/reducers/userPage";
+import { setSelected } from "../client/redux/reducers/menu";
 
 const MenuARScene = (props) => {
   const dispatch = useDispatch();
-  const { assets, proof } = useSelector(selectMenu);
+  const { assets, proof, selected, item } = useSelector(selectMenu);
 
   const [text, setText] = useState("Initializing AR...");
   const [rotation, setRotation] = useState([0, 0, 0]);
@@ -53,6 +54,18 @@ const MenuARScene = (props) => {
         setText("Hello World!");
       }}
       // physicsWorld={{ gravity: [0, -9.81, 0] }}
+      onClickState={(state, position, source) => {
+        let newItem = Object.assign({ position }, item);
+        console.log("Hello", position, source);
+        let nodeFound = position.length === 3;
+        if (nodeFound) {
+          newItem.position = position;
+          console.log("Hello2", newItem, source);
+        }
+        if (!nodeFound && state === 1) {
+          dispatch(setSelected(newItem));
+        }
+      }}
     >
       <ViroText
         text={text}
@@ -71,12 +84,13 @@ const MenuARScene = (props) => {
         color="#ffffff"
         castsShadow={true}
       />
-      {assets.map(({ source, mtl, type, scale }) => (
+
+      {selected.map(({ source, mtl, type, scale, position }, idx) => (
         <ViroNode
+          key={`${idx}-${source}`}
           position={[0, -0.5, -0.5]}
           dragType="FixedToWorld"
           onDrag={() => {}}
-          key={source}
         >
           <Viro3DObject
             source={{

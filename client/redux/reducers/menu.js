@@ -26,22 +26,32 @@ const menuSlice = createSlice({
     proof: { test: "Bad", message: "" },
     assets: [
       {
+        name: "coffee cup",
         source: `${localHost}/CoffeeCup/obj/coffee_cup.obj`,
         mtl: `${localHost}/CoffeeCup/obj/coffee_cup.mtl`,
         type: "OBJ",
         scale: 0.015,
       },
       {
+        name: "hand gun",
         source: `${localHost}/GunObj/Handgun_obj.obj`,
         mtl: `${localHost}/GunObj/Handgun_obj.mtl`,
         type: "OBJ",
         scale: 0.15,
       },
     ],
+    selected: [],
+    item: { position: [0, -0.5, -0.5] },
   },
   reducers: {
     setProof(state, action) {
       return { ...state, proof: { test: "true", message: "Action" } };
+    },
+    setSelected(state, action) {
+      return { ...state, selected: [...state.selected, action.payload] };
+    },
+    setItem(state, action) {
+      return { ...state, item: action.payload };
     },
   },
   extraReducers: {
@@ -63,7 +73,7 @@ const menuSlice = createSlice({
 
 //Actions
 /////////////////////////////////////////////////////////////
-export const { setProof } = menuSlice.actions;
+export const { setProof, setSelected, setItem } = menuSlice.actions;
 
 //Reducer
 /////////////////////////////////////////////////////////////

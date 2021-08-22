@@ -12,7 +12,7 @@ const sharedProps = {
 
 const InitialARScene = require("../../js/MenuARScene");
 
-export default function Menu() {
+export default function ARMenu() {
   return (
     <View
       style={{
