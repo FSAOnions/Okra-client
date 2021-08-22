@@ -25,7 +25,7 @@ const userPageSlice = createSlice({
   },
   reducers: {
     setPage(state, action) {
-      console.log("REDUX ACTION: ", action);
+      console.log("REDUX ACTION: ", action.payload);
       return {
         link: action.payload,
         onPage: !state.onPage,
@@ -49,9 +49,12 @@ const userPageSlice = createSlice({
   //   },
 });
 
+
+
 //Actions
 /////////////////////////////////////////////////////////////
 export const { setPage } = userPageSlice.actions;
+
 
 //Reducer
 /////////////////////////////////////////////////////////////

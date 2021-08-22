@@ -92,12 +92,12 @@ const ARScene = (props) => {
       ))}
       <ViroText
         text={"Go Back"}
-        scale={[0.1, 0.1, 0.1]}
+        scale={[0.5, 0.1, 0.1]}
         height={1}
         width={4}
-        position={[0, 0.75, -1]}
+        position={[0, 0.7, 0]}
         style={styles.textStyle}
-        onClick={() => dispatch(setPage("home"))}
+        onHover={() => dispatch(setPage("home"))}
       />
     </ViroARScene>
   );

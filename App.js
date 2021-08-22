@@ -10,13 +10,14 @@
 
 import React from "react";
 import Home from "./client/components/Home";
+import LogIn from "./client/components/LogIn";
 import { Provider } from "react-redux";
 import store from "./client/redux/store";
 
 export default function Main() {
   return (
     <Provider store={store}>
-      <Home />
+      <LogIn />
     </Provider>
   );
 }
