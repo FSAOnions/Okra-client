@@ -26,14 +26,14 @@ export default function ARScanner() {
           justifyContent: "flex-end",
           alignItems: "center",
           height: "0%",
-          paddingTop: 400,
+          paddingTop: "50%",
           width: "100%",
-          backgroundColor: "none",
+          opacity: 0.3,
+          backgroundColor: "black",
         }}
       ></View>
       <ViroARSceneNavigator initialScene={{ scene: InitialARScene }} />
-
-      <Text style={styles.headline}>Searching for Restaurants...</Text>
+      <Text style={styles.headline}>Point camera at Image</Text>
     </View>
   );
 }
@@ -70,10 +70,11 @@ var styles = StyleSheet.create({
     alignItems: "center",
     height: "50%",
     width: "100%",
-    fontSize: 20,
+    fontSize: 26,
+    opacity: 0.5,
     textAlign: "center",
-    backgroundColor: "transparent",
-    color: "black",
+    backgroundColor: "black",
+    color: "rgba(255, 255, 255, 1)",
   },
   scanner: {
     width: "100%",
