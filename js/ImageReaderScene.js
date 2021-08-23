@@ -4,7 +4,7 @@
 const localHost = "http://192.168.1.153:8080";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { StyleSheet, View, YellowBox, Alert } from "react-native";
+import { StyleSheet, Text, YellowBox, Alert } from "react-native";
 import {
   ViroARScene,
   ViroText,
@@ -21,6 +21,7 @@ import {
 
 const initTargets = [
   { name: "targetOne", uri: `${localHost}/CoffeeCup/obj/coffee_cup.jpg` },
+  { name: "targetTwo", uri: `${localHost}/logo.jpeg` },
 ];
 
 import {
@@ -56,30 +57,29 @@ const ImageReaderScene = (props) => {
         setText("Hello World!");
       }}
     >
-      {targets &&
-        targets.map(({ name }) => {
-          return (
-            <ViroARImageMarker
-              target={name}
-              onAnchorFound={(anchor) => {
-                console.log(
-                  "Target",
-                  "22D8F0F0-72E2-6661-7B81-F190D1B4614E",
-                  name,
-                  anchor
-                );
-                Alert.alert(`Menu Found`, `Go to ${name}'s menu`, [
-                  {
-                    text: "Cancel",
-                    onPress: () => dispatch(setPage("home")),
-                    style: "cancel",
-                  },
-                  { text: "OK", onPress: () => dispatch(setPage("menu")) },
-                ]);
-              }}
-            />
-          );
-        })}
+      {targets.map(({ name }) => {
+        return (
+          <ViroARImageMarker
+            target={name}
+            onAnchorFound={(anchor) => {
+              console.log(
+                "Target",
+                "22D8F0F0-72E2-6661-7B81-F190D1B4614E",
+                name,
+                anchor
+              );
+              Alert.alert(`Menu Found`, `Go to ${name}'s menu`, [
+                {
+                  text: "Cancel",
+                  onPress: () => dispatch(setPage("home")),
+                  style: "cancel",
+                },
+                { text: "OK", onPress: () => dispatch(setPage("menu")) },
+              ]);
+            }}
+          />
+        );
+      })}
     </ViroARScene>
   );
 };
