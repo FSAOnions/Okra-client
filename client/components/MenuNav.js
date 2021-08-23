@@ -94,6 +94,7 @@ export default function MenuNav() {
         />
         {assets.map((asset) => {
           const { name, source } = asset;
+
           return (
             <Button
               key={source}
