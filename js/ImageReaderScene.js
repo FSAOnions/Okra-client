@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 "use strict";
 
-const localHost = "http://10.0.0.206:8080";
+const localHost = "http://192.168.1.153:8080";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { StyleSheet, View, YellowBox, Alert } from "react-native";

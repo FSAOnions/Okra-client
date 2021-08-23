@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-const localHost = "http://10.0.0.206:8080";
+const localHost = "http://192.168.1.153:8080";
 
 //Thunks
 /////////////////////////////////////////////////////////////
@@ -39,6 +39,22 @@ const menuSlice = createSlice({
         type: "OBJ",
         scale: 0.15,
       },
+    ],
+    menuAssets: [
+      { name: "burger", source: `${localHost}/burger.png` },
+      { name: "fries", source: `${localHost}/fries.png` },
+      { name: "burger", source: `${localHost}/burger.png` },
+      { name: "fries", source: `${localHost}/fries.png` },
+      { name: "burger", source: `${localHost}/burger.png` },
+      { name: "fries", source: `${localHost}/fries.png` },
+      { name: "burger", source: `${localHost}/burger.png` },
+      { name: "fries", source: `${localHost}/fries.png` },
+      { name: "burger", source: `${localHost}/burger.png` },
+      { name: "fries", source: `${localHost}/fries.png` },
+      { name: "burger", source: `${localHost}/burger.png` },
+      { name: "fries", source: `${localHost}/fries.png` },
+      { name: "burger", source: `${localHost}/burger.png` },
+      { name: "fries", source: `${localHost}/fries.png` },
     ],
     selected: [],
     item: { position: [0, -0.5, -0.5] },
