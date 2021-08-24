@@ -17,6 +17,7 @@ import {
   ViroBox,
   ViroARTrackingTargets,
   ViroARImageMarker,
+  ViroOmniLight,
 } from "react-viro";
 
 import {
@@ -70,45 +71,6 @@ const MenuARScene = (props) => {
         }
       }}
     >
-      {/* <ViroARPlaneSelector
-        minHeight={0.5}
-        minWidth={0.5}
-        onPlaneSelected={(e) => {
-          console.log(e);
-          let newItem = Object.assign({ position: e.position }, item);
-          item.name && dispatch(setSelected(newItem));
-        }}
-        onAnchorFound={(anchor) => {
-          console.log(anchor);
-          console.log(anchor.position);
-        }}
-        //   onClickState={(state, source) => {
-        //   let newItem = Object.assign({ position: [] }, item);
-
-        //   dispatch(setSelected(newItem));
-        //   if (!nodeFound && state === 1) {
-        //     dispatch(setSelected(newItem));
-        //   }
-        // }}
-      ></ViroARPlaneSelector> */}
-      {/* <ViroARPlane
-        minHeight={0.5}
-        minWidth={0.5}
-        alignment={"Horizontal"}
-        position={[0, 0, 0]}
-        rotation={[45, 0, 0]}
-        style={{ backgroundColor: "rgb(255, 255, 255)" }}
-      >
-        <ViroText
-          text={text}
-          height={1}
-          width={4}
-          position={[0, 0, -1]}
-          scale={[0.5, 0.5, 0.5]}
-          style={styles.textStyle}
-        />
-        {/* <ViroBox position={[0, 0, -1]} scale={[0.5, 0.5, 0.5]} /> */}
-      {/* </ViroARPlane> */}
       <ViroText
         text={text}
         scale={[0.1, 0.1, 0.1]}
@@ -117,7 +79,7 @@ const MenuARScene = (props) => {
         position={[0, 0.5, -1]}
         style={styles.textStyle}
       />
-      <ViroAmbientLight color={"#aaaaaa"} />
+      <ViroOmniLight color={"#aaaaaa"} />
       <ViroSpotLight
         innerAngle={5}
         outerAngle={90}
@@ -127,26 +89,29 @@ const MenuARScene = (props) => {
         castsShadow={true}
       />
 
-      {selected.map(({ source, mtl, type, scale, position }, idx) => (
-        <ViroNode
-          key={`${idx}-${source}`}
-          position={[0, -0.5, -0.5]}
-          dragType="FixedToWorld"
-          onDrag={() => {}}
-        >
-          <Viro3DObject
-            source={{
-              uri: source,
-            }}
-            lightReceivingBitMask={3}
-            resources={[{ uri: mtl }]}
-            scale={Array(3).fill(scale)}
-            type={type}
-            onRotate={handleRotate}
-            rotation={rotation}
-          />
-        </ViroNode>
-      ))}
+      {selected.map(
+        ({ source, mtl, resources, type, scale, position }, idx) => (
+          <ViroNode
+            key={`${idx}-${source}`}
+            position={[0, -0.5, -0.5]}
+            dragType="FixedToWorld"
+            onDrag={() => {}}
+          >
+            <Viro3DObject
+              source={{
+                uri: source,
+              }}
+              resources={resources}
+              lightReceivingBitMask={3}
+              resources={[{ uri: mtl }]}
+              scale={Array(3).fill(scale)}
+              type={type}
+              onRotate={handleRotate}
+              rotation={rotation}
+            />
+          </ViroNode>
+        )
+      )}
       {/* <ViroText
         text={"Go Back"}
         scale={[0.1, 0.1, 0.1]}

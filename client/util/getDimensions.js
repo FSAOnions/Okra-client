@@ -1,10 +1,9 @@
 import { Dimensions } from "react-native";
 
-export default function getDimensions() {
+export default function getDimensions(totalItems = 10) {
   const itemWidth = 75;
   const padding = 30;
   const itemPadding = padding / 2;
-  const totalItems = 10;
   let initTotal = totalItems * itemWidth + totalItems * padding;
   const itemOffset = itemWidth / 2 + itemPadding;
   const windowWidth = Dimensions.get("window").width;

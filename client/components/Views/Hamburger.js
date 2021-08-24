@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { StyleSheet, View, Button } from "react-native";
-import { selectUserPage, setPage } from "../redux/reducers/userPage";
+import { selectUserPage, setPage } from "../../redux/reducers/userPage";
 
 export default function Hamburger() {
   const dispatch = useDispatch();

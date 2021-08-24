@@ -23,6 +23,7 @@
     "qs": "^6.10.1",
     "react": "16.8.3",
     "react-native": "0.59.9",
+    "react-native-haptic-feedback": "^1.11.0",
     "react-native-network-info": "^5.2.1",
     "react-native-side-drawer": "^1.2.8",
     "react-native-snap-carousel": "^3.9.1",

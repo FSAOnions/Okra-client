@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-const localHost = "http://192.168.1.153:8080";
+const localHost = "http://10.0.0.206:8080";
 
 //Thunks
 /////////////////////////////////////////////////////////////
@@ -32,13 +32,33 @@ const menuSlice = createSlice({
         type: "OBJ",
         scale: 0.015,
       },
+      // {
+      //   name: "hand gun",
+      //   source: `${localHost}/GunObj/Handgun_obj.obj`,
+      //   mtl: `${localHost}/GunObj/Handgun_obj.mtl`,
+      //   type: "OBJ",
+      //   scale: 0.15,
+      // },
       {
-        name: "hand gun",
-        source: `${localHost}/GunObj/Handgun_obj.obj`,
-        mtl: `${localHost}/GunObj/Handgun_obj.mtl`,
+        name: "Pizza Baby",
+        source: `${localHost}/FoodObjects/040.obj`,
+        resources: [
+          { uri: `${localHost}/FoodObjects/AM150_040_specular.jpg` },
+          { uri: `${localHost}/FoodObjects/AM150_040_bump.jpg` },
+        ],
+        mtl: `${localHost}/FoodObjects/040.mtl`,
         type: "OBJ",
-        scale: 0.15,
+        scale: 0.008,
       },
+      // ...[...Array(8).fill()].map((_, idx) => {
+      //   return {
+      //     name: `00${idx + 1}`,
+      //     source: `${localHost}/FoodObjects/00${idx + 1}.obj`,
+      //     mtl: `${localHost}/FoodObjects/00${idx + 1}.mtl`,
+      //     type: "OBJ",
+      //     scale: 0.008,
+      //   };
+      // }),
     ],
     menuAssets: [
       { name: "burger", source: `${localHost}/burger.png` },
