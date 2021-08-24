@@ -5,9 +5,7 @@
   "scripts": {
     "prestart": "./node_modules/react-viro/bin/run_ngrok.sh",
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest",
-    "start:server": "node server/index.js",
-    "start:all": "npm run start:server & npm run start -- --reset-cache"
+    "test": "jest"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.6.1",
