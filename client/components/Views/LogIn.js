@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import {
@@ -9,43 +10,22 @@ import {
   Button,
   TouchableOpacity,
 } from "react-native";
-import { setPage } from "../redux/reducers/userPage";
+import { setPage } from "../../redux/reducers/userPage";
 export default function LogIn() {
   const dispatch = useDispatch();
   return (
     <View style={styles.container}>
-      <Image style={styles.image} source={require("../../public/logo.jpeg")} />
+      <Image
+        style={styles.image}
+        source={require("../../../public/logo.jpeg")}
+      />
       <TouchableOpacity style={styles.loginBtn}>
-        <Button title="LOGIN"  onPress={() => dispatch(setPage("home"))} style={styles.loginText} />
+        <Button
+          title="LOGIN"
+          onPress={() => dispatch(setPage("home"))}
+          style={styles.loginText}
+        />
       </TouchableOpacity>
-
-
-
-
-      {/* <View style={styles.inputView}>
-        <TextInput
-          style={styles.TextInput}
-          placeholder="Email."
-          placeholderTextColor="#003f5c"
-          onChangeText={(email) => setEmail(email)}
-        />
-      </View>
-
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.TextInput}
-          placeholder="Password."
-          placeholderTextColor="#003f5c"
-          secureTextEntry={true}
-          onChangeText={(password) => setPassword(password)}
-        />
-      </View> */}
-{/* 
-      <TouchableOpacity>
-        <Text style={styles.forgot_button}>Forgot Password?</Text>
-      </TouchableOpacity> */}
-
-      
     </View>
   );
 }

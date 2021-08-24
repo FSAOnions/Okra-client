@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -7,9 +8,10 @@ import {
   TouchableOpacity,
   Text,
   Dimensions,
+  Vibration,
+  ScrollView,
 } from "react-native";
-
-import { selectMenu, setSelected, setItem } from "../redux/reducers/menu";
+import { selectMenu, setItem } from "../../redux/reducers/menu";
 import SwiperMenu from "./SwiperMenu";
 
 export default function MenuNav() {
@@ -72,22 +74,28 @@ export default function MenuNav() {
         <View style={{ height: "100%", backgroundColor: "rgb(255, 255, 255)" }}>
           <Button
             title={"Menu"}
-            onPress={() => setOpen(!open)}
+            onPress={() => {
+              // ReactNativeHapticFeedback.trigger("impactLight", options);
+              Vibration.vibrate(10, true);
+              setOpen(!open);
+            }}
             accessibilityLabel="Learn more about this purple button"
           />
-          {assets.map((asset) => {
-            const { name, source } = asset;
-            return (
-              <Button
-                key={source}
-                title={name}
-                onPress={() => {
-                  dispatch(setItem(asset));
-                }}
-                accessibilityLabel="Learn more about this purple button"
-              />
-            );
-          })}
+          <ScrollView style={{ height: "100%", overflow: "hidden" }}>
+            {assets.map((asset) => {
+              const { name, source } = asset;
+              return (
+                <Button
+                  key={source}
+                  title={name}
+                  onPress={() => {
+                    dispatch(setItem(asset));
+                  }}
+                  accessibilityLabel="Learn more about this purple button"
+                />
+              );
+            })}
+          </ScrollView>
         </View>
       </View>
     </View>

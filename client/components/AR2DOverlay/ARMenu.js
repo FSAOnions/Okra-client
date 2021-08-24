@@ -1,16 +1,15 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+// import { useDispatch, useSelector } from "react-redux";
 import { StyleSheet, View, Button } from "react-native";
 import { ViroARSceneNavigator } from "react-viro";
-import { selectUserPage, setPage } from "../redux/reducers/userPage";
-import Hamburger from "./Hamburger";
-import MenuNav from "./MenuNav";
+// import { selectUserPage, setPage } from "../../redux/reducers/userPage";
+import Hamburger from "../Views/Hamburger";
+import MenuNav from "../Views/MenuNav";
 
-const sharedProps = {
-  apiKey: "API_KEY_HERE",
-};
-
-const InitialARScene = require("../../js/MenuARScene");
+// const sharedProps = {
+//   apiKey: "API_KEY_HERE",
+// };
 
 export default function ARMenu() {
   return (
@@ -27,8 +26,8 @@ export default function ARMenu() {
     >
       <Hamburger />
       <ViroARSceneNavigator
-        {...sharedProps}
-        initialScene={{ scene: InitialARScene }}
+        // {...sharedProps}
+        initialScene={{ scene: require("../../../js/MenuARScene") }}
       />
       <MenuNav />
     </View>

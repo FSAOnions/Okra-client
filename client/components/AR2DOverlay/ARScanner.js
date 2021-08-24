@@ -10,9 +10,7 @@ import {
   ImageBackground,
 } from "react-native";
 import { ViroARSceneNavigator } from "react-viro";
-import Hamburger from "./Hamburger";
-
-const InitialARScene = require("../../js/ImageReaderScene");
+import Hamburger from "../Views/Hamburger";
 
 export default function ARScanner() {
   return (
@@ -32,7 +30,9 @@ export default function ARScanner() {
           backgroundColor: "black",
         }}
       ></View>
-      <ViroARSceneNavigator initialScene={{ scene: InitialARScene }} />
+      <ViroARSceneNavigator
+        initialScene={{ scene: require("../../../js/ImageReaderScene") }}
+      />
       <Text style={styles.headline}>Point camera at Image</Text>
     </View>
   );

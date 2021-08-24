@@ -1,20 +1,22 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
-import FourOhFour from "../components/FourOhFour";
-import Home from "../components/Home";
-import LogIn from "../components/LogIn";
-import Menu from "../components/ARMenu";
-import ARScanner from "../components/ARScanner";
+import Home from "../components/Views/Home";
+import LogIn from "../components/Views/LogIn";
+import FourOhFour from "../components/Views/FourOhFour";
+
+import ARMenu from "../components/AR2DOverlay/ARMenu";
+import ARScanner from "../components/AR2DOverlay/ARScanner";
 
 export default function getPage(link) {
   switch (link) {
-    case "home":
-      return <Home />;
-    case "menu":
-      return <Menu />;
     case "login":
       return <LogIn />;
+    case "home":
+      return <Home />;
     case "scanner":
       return <ARScanner />;
+    case "menu":
+      return <ARMenu />;
     default:
       return <FourOhFour />;
   }

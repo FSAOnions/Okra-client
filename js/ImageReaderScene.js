@@ -1,37 +1,28 @@
 /* eslint-disable no-unused-vars */
 "use strict";
+//TODO Database
+///////////////////////////
 
-const localHost = "http://192.168.1.153:8080";
+////////////////////////////
+
+const localHost = "http://10.0.0.206:8080";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { StyleSheet, Text, YellowBox, Alert } from "react-native";
+import { StyleSheet, Alert } from "react-native";
 import {
   ViroARScene,
-  ViroText,
-  Viro3DObject,
-  ViroAmbientLight,
-  ViroSpotLight,
-  ViroNode,
-  ViroARPlaneSelector,
-  ViroARPlane,
-  ViroBox,
   ViroARTrackingTargets,
   ViroARImageMarker,
 } from "react-viro";
 
+import { selectMenu } from "../client/redux/reducers/menu";
+import { setPage } from "../client/redux/reducers/userPage";
+
 const initTargets = [
   { name: "targetOne", uri: `${localHost}/CoffeeCup/obj/coffee_cup.jpg` },
   { name: "targetTwo", uri: `${localHost}/logo.jpeg` },
+  { name: "Me", uri: `${localHost}/all_love.jpeg` },
 ];
-
-import {
-  proofOfThunk,
-  selectMenu,
-  setProof,
-} from "../client/redux/reducers/menu";
-import { setPage } from "../client/redux/reducers/userPage";
-import { setSelected } from "../client/redux/reducers/menu";
-
 const ImageReaderScene = (props) => {
   const dispatch = useDispatch();
   const { assets, proof, selected, item } = useSelector(selectMenu);
@@ -62,12 +53,6 @@ const ImageReaderScene = (props) => {
           <ViroARImageMarker
             target={name}
             onAnchorFound={(anchor) => {
-              console.log(
-                "Target",
-                "22D8F0F0-72E2-6661-7B81-F190D1B4614E",
-                name,
-                anchor
-              );
               Alert.alert(`Menu Found`, `Go to ${name}'s menu`, [
                 {
                   text: "Cancel",

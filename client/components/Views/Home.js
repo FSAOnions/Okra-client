@@ -1,8 +1,8 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
 import { StyleSheet, Text, View, Button } from "react-native";
 import { useDispatch } from "react-redux";
-import { setPage } from "../redux/reducers/userPage";
-import ScrollMenu from "./ScrollMenu";
+import { setPage } from "../../redux/reducers/userPage";
 import SwiperMenu from "./SwiperMenu";
 
 export default function Home() {
