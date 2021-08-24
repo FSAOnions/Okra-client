@@ -3,6 +3,10 @@ package com.virosample;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.hamidhadi.reactnativehapticview.HapticViewPackage;
+import com.pusherman.networkinfo.RNNetworkInfoPackage;
+import com.dapi.DapiConnectPackage;
+import com.mkuczera.RNReactNativeHapticFeedbackPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -22,7 +26,11 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
-          new MainReactPackage()
+          new MainReactPackage(),
+            new HapticViewPackage(),
+            new RNNetworkInfoPackage(),
+            new DapiConnectPackage(),
+            new RNReactNativeHapticFeedbackPackage()
       );
     }
 
