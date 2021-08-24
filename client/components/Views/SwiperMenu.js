@@ -1,51 +1,51 @@
 import * as React from "react";
-import { Text, View, SafeAreaView, Vibration } from "react-native";
+import {
+  View,
+  SafeAreaView,
+  Image,
+  TouchableOpacity,
+  Vibration,
+} from "react-native";
 import Carousel from "react-native-snap-carousel";
 import { connect } from "react-redux";
 import getDimensions from "../../util/getDimensions";
 
-const localHost = "http://10.0.0.206:8080";
+const DURATION = 1000;
+// const PATTERN = [1000, 2000, 3000];
 
 class SwiperMenu extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       activeIndex: 0,
-      products: [
-        {
-          name: `034`,
-          source: `${localHost}/FoodObjects/034.obj`,
-          mtl: `${localHost}/FoodObjects/034.mtl`,
-          type: "OBJ",
-          scale: 0.008,
-        },
-
-        // ...[...Array(8).fill()].map((_, idx) => {
-        //   return {
-        //     name: `00${idx + 1}`,
-        //     source: `${localHost}/FoodObjects/00${idx + 1}.obj`,
-        //     mtl: `${localHost}/FoodObjects/00${idx + 1}.mtl`,
-        //     type: "OBJ",
-        //     scale: 0.008,
-        //   };
-        // }),
-      ],
+      products: [],
     };
   }
 
+  componentDidMount() {
+    this.setState({ products: this.props.menu.menuAssets });
+  }
+
   _renderItem({ item }) {
-    const { itemPadding } = getDimensions();
+    const { itemPadding, windowWidth } = getDimensions();
+
     return (
       <View
         style={{
-          backgroundColor: "floralwhite",
+          backgroundColor: "transparent",
           borderRadius: 5,
           height: 75,
           marginLeft: itemPadding,
           marginRight: itemPadding,
+          alignItems: "center",
         }}
       >
-        <Text style={{ fontSize: 12 }}>{item.name}</Text>
+        <TouchableOpacity onPress={() => Vibration.vibrate(100, DURATION)}>
+          <Image
+            style={{ width: windowWidth * 0.25, height: windowWidth * 0.25 }}
+            source={{ uri: item.source }}
+          />
+        </TouchableOpacity>
       </View>
     );
   }

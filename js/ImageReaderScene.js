@@ -5,7 +5,7 @@
 
 ////////////////////////////
 
-const localHost = "http://10.0.0.206:8080";
+const localHost = "http://192.168.1.153:8080";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { StyleSheet, Alert } from "react-native";
@@ -21,7 +21,7 @@ import { setPage } from "../client/redux/reducers/userPage";
 const initTargets = [
   { name: "targetOne", uri: `${localHost}/CoffeeCup/obj/coffee_cup.jpg` },
   { name: "targetTwo", uri: `${localHost}/logo.jpeg` },
-  { name: "Me", uri: `${localHost}/all_love.jpeg` },
+  // { name: "Me", uri: `${localHost}/all_love.jpeg` },
 ];
 const ImageReaderScene = (props) => {
   const dispatch = useDispatch();
@@ -48,9 +48,10 @@ const ImageReaderScene = (props) => {
         setText("Hello World!");
       }}
     >
-      {targets.map(({ name }) => {
+      {targets.map(({ name }, idx) => {
         return (
           <ViroARImageMarker
+            key={idx}
             target={name}
             onAnchorFound={(anchor) => {
               Alert.alert(`Menu Found`, `Go to ${name}'s menu`, [
