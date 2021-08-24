@@ -5,7 +5,7 @@
 
 ////////////////////////////
 
-const localHost = "http://192.168.1.153:8080";
+const serverUrl = "https://okra-onions.herokuapp.com";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { StyleSheet, Alert } from "react-native";
@@ -19,9 +19,9 @@ import { selectMenu } from "../client/redux/reducers/menu";
 import { setPage } from "../client/redux/reducers/userPage";
 
 const initTargets = [
-  { name: "targetOne", uri: `${localHost}/CoffeeCup/obj/coffee_cup.jpg` },
-  { name: "targetTwo", uri: `${localHost}/logo.jpeg` },
-  // { name: "Me", uri: `${localHost}/all_love.jpeg` },
+  { name: "targetOne", uri: `${serverUrl}/CoffeeCup/obj/coffee_cup.jpg` },
+  { name: "targetTwo", uri: `${serverUrl}/logo.jpeg` },
+  // { name: "Me", uri: `${serverUrl}/all_love.jpeg` },
 ];
 const ImageReaderScene = (props) => {
   const dispatch = useDispatch();
