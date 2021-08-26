@@ -12,11 +12,20 @@ import React from "react";
 import { Provider } from "react-redux";
 import store from "./client/redux/store";
 import Routes from "./client/components/Routes";
+import * as eva from "@eva-design/eva";
+import { ApplicationProvider, Layout } from "@ui-kitten/components";
+import { default as theme } from "./client/util/custom-theme.json";
 
 export default function Main() {
   return (
     <Provider store={store}>
-      <Routes />
+      <ApplicationProvider {...eva} theme={{ ...eva.light, ...theme }}>
+        <Layout
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        >
+          <Routes />
+        </Layout>
+      </ApplicationProvider>
     </Provider>
   );
 }
