@@ -4,13 +4,15 @@ import { Layout, Input, Button, Text } from "@ui-kitten/components";
 import { setPage } from "../../redux/reducers/userPage";
 import { useDispatch } from "react-redux";
 
-export default function LogIn() {
+export default function Signup() {
   const dispatch = useDispatch();
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = () => {
-    let user = { email, password };
+    let user = { firstName, lastName, email, password };
     console.log(user);
     return user;
   };
@@ -23,6 +25,24 @@ export default function LogIn() {
         </Text>
       </View>
       <View style={styles.bottom}>
+        <Layout style={styles.container} level="1">
+          <Input
+            style={styles.input}
+            value={firstName}
+            placeholder="First Name"
+            autoCapitalize="none"
+            onChangeText={(nextValue) => setFirstName(nextValue)}
+          />
+        </Layout>
+        <Layout style={styles.container} level="1">
+          <Input
+            style={styles.input}
+            value={lastName}
+            placeholder="Last Name"
+            autoCapitalize="none"
+            onChangeText={(nextValue) => setLastName(nextValue)}
+          />
+        </Layout>
         <Layout style={styles.container} level="1">
           <Input
             style={styles.input}
@@ -47,7 +67,7 @@ export default function LogIn() {
             style={{ width: "50%", marginTop: 10 }}
             onPress={handleSubmit}
           >
-            Login
+            Sign Up
           </Button>
         </View>
         <View
@@ -59,8 +79,8 @@ export default function LogIn() {
           }}
         >
           <Text style={{ color: "lightgrey" }}>
-            Don't have an account?{" "}
-            <Text onPress={() => dispatch(setPage("signup"))}>Sign Up</Text>
+            Have an account?{" "}
+            <Text onPress={() => dispatch(setPage("login"))}>Login</Text>
           </Text>
         </View>
       </View>
