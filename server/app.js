@@ -1,21 +1,27 @@
 const path = require("path");
 const express = require("express");
+//const cors = require('cors')
 // const morgan = require('morgan')
 const app = express();
-// const cookieParser = require("cookie-parser");
+ const cookieParser = require("cookie-parser");
 
 module.exports = app;
 
 // logging middleware
 // app.use(morgan('dev'))
+// const corsOptions =  {
+//   origin: "https://okra-onions.herokuapp.com",
+//   optionSuccessStatus: 200
+// }
 
 // body parsing middleware
 app.use(express.json());
-// app.use(cookieParser());
+// app.use(cors(corsOptions));
+app.use(cookieParser());
 
 // auth and api routes
-// app.use("/auth", require("./auth"));
-// app.use("/api", require("./api"));
+app.use("/auth", require("./auth"));
+app.use("/api", require("./api"));
 
 // app.get("/", (req, res) =>
 //   res.sendFile(path.join(__dirname, "..", "public/index.html"))
