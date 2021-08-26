@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
 const serverUrl = "https://okra-onions.herokuapp.com";
 
@@ -23,7 +24,35 @@ export const fetchProducts = createAsyncThunk(
   async () => {
     const { data } = await axios.get(`${serverUrl}/api/products`);
 
+    console.log({ data });
+
     return data;
+  }
+);
+
+export const fetchSingleItem = createAsyncThunk(
+  "menu/fetchSingleItem",
+  async (id) => {
+    const { data } = await axios.get(`${serverUrl}/api/products/${id}`);
+
+    // console.log({ data });
+
+    return data;
+  }
+);
+
+export const deleteItemThunk = createAsyncThunk(
+  "menu/deleteItem",
+  async (id) => {
+    await axios.delete(`${serverUrl}/api/products/${id}`);
+  }
+);
+
+export const editItemThunk = createAsyncThunk(
+  "menu/editItem",
+  async (id, history) => {
+    await axios.put(`${serverUrl}/api/products/${id}`);
+    history.push("/");
   }
 );
 
@@ -33,31 +62,8 @@ const menuSlice = createSlice({
   name: "menu",
   initialState: {
     proof: { test: "Bad", message: "" },
-    assets: [
-      {
-        name: "coffee cup",
-        source: `${serverUrl}/CoffeeCup/obj/coffee_cup.obj`,
-        mtl: `${serverUrl}/CoffeeCup/obj/coffee_cup.mtl`,
-        type: "OBJ",
-        scale: 0.015,
-      },
-    ],
-    menuAssets: [
-      { name: "burger", source: `${serverUrl}/burger.png` },
-      { name: "fries", source: `${serverUrl}/fries.png` },
-      { name: "burger", source: `${serverUrl}/burger.png` },
-      { name: "fries", source: `${serverUrl}/fries.png` },
-      { name: "burger", source: `${serverUrl}/burger.png` },
-      { name: "fries", source: `${serverUrl}/fries.png` },
-      { name: "burger", source: `${serverUrl}/burger.png` },
-      { name: "fries", source: `${serverUrl}/fries.png` },
-      { name: "burger", source: `${serverUrl}/burger.png` },
-      { name: "fries", source: `${serverUrl}/fries.png` },
-      { name: "burger", source: `${serverUrl}/burger.png` },
-      { name: "fries", source: `${serverUrl}/fries.png` },
-      { name: "burger", source: `${serverUrl}/burger.png` },
-      { name: "fries", source: `${serverUrl}/fries.png` },
-    ],
+    assets: [],
+    menuAssets: [],
     selected: [],
     item: { position: [0, -0.5, -0.5] },
   },
@@ -72,6 +78,7 @@ const menuSlice = createSlice({
       return { ...state, item: action.payload };
     },
   },
+
   extraReducers: (builder) => {
     // Add reducers for additional action types here, and handle loading state as needed
     builder
@@ -86,7 +93,8 @@ const menuSlice = createSlice({
 
 //Actions
 /////////////////////////////////////////////////////////////
-export const { setProof, setSelected, setItem } = menuSlice.actions;
+export const { setProof, setSelected, setItem, setProducts } =
+  menuSlice.actions;
 
 //Reducer
 /////////////////////////////////////////////////////////////
