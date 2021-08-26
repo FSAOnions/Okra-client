@@ -1,6 +1,8 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+// import SyncStorage from 'sync-storage';
+//import AsyncStorage  from '@react-native-async-storage/async-storage';
 import {
   StyleSheet,
   Text,
@@ -10,16 +12,30 @@ import {
   Button,
   TouchableOpacity,
 } from "react-native";
-import {authenticate} from "../../redux/reducers/user"
+import {authenticate, getUser} from "../../redux/reducers/user"
+import { setPage } from "../../redux/reducers/userPage";
 // import { values } from "sequelize/types/lib/operators";
 export default function LogIn() {
   const dispatch = useDispatch();
+  const {user} = useSelector(getUser)
   const [email, onChangeEmail]=useState("")
   const [password, onChangePassword]=useState("")
-  handleSubmit=()=>{
-    console.log("HandleSubmit",email, password)
-    dispatch(authenticate({email, password}))
+
+  useEffect(() => {
+    console.log("User: ", user)
+    if (user && user.user){
+      dispatch(setPage("home"))
+    }
+  }, [user])
+
+  handleSubmit=  ()=>{
+    dispatch(authenticate({email, password}));
+
   }
+  // useEffect(async() => {
+  //   //const data = await AsyncStorage.init();
+  //   console.log("STORAGE!!!", data)
+  // }, [])
   return (
     <View style={styles.container}>
       <Image
