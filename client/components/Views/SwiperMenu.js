@@ -9,7 +9,10 @@ import {
 import Carousel from "react-native-snap-carousel";
 import { connect } from "react-redux";
 import getDimensions from "../../util/getDimensions";
+import { setSelected } from "../../redux/reducers/menu";
+import store from "../../redux/store";
 
+const serverUrl = "https://okra-onions.herokuapp.com";
 const DURATION = 1000;
 // const PATTERN = [1000, 2000, 3000];
 
@@ -23,9 +26,24 @@ class SwiperMenu extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({ products: this.props.menu.menuAssets });
+    this.setState({
+      products: this.props.menu.assets,
+    });
   }
 
+  componentDidUpdate() {
+    if (this.props.menu.assets !== this.state.products) {
+      this.setState({
+        products: this.props.menu.assets,
+      });
+    }
+  }
+
+  // _handleTouch(product) {
+  //   const dispatch = store.dispatch;
+  //   Vibration.vibrate(100, DURATION);
+  //   dispatch(setSelected(product));
+  // }
   _renderItem({ item }) {
     const { itemPadding, windowWidth } = getDimensions();
 
@@ -40,10 +58,16 @@ class SwiperMenu extends React.Component {
           alignItems: "center",
         }}
       >
-        <TouchableOpacity onPress={() => Vibration.vibrate(100, DURATION)}>
+        <TouchableOpacity
+          onPress={() => {
+            const dispatch = store.dispatch;
+            Vibration.vibrate(100, DURATION);
+            dispatch(setSelected(item));
+          }}
+        >
           <Image
             style={{ width: windowWidth * 0.25, height: windowWidth * 0.25 }}
-            source={{ uri: item.source }}
+            source={{ uri: item.product_imgUrl }}
           />
         </TouchableOpacity>
       </View>

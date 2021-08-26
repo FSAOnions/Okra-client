@@ -24,6 +24,7 @@ import {
   proofOfThunk,
   selectMenu,
   setProof,
+  fetchProducts,
 } from "../client/redux/reducers/menu";
 import { setPage } from "../client/redux/reducers/userPage";
 import { setSelected } from "../client/redux/reducers/menu";
@@ -37,11 +38,16 @@ const MenuARScene = (props) => {
 
   useEffect(() => {
     if (!proof.message) {
+      dispatch(fetchProducts());
       dispatch(proofOfThunk("this is proof"));
     } else {
       dispatch(setProof());
     }
   }, [proof.message]);
+
+  // useEffect(() => {
+  //   dispatch(fetchProducts());
+  // }, []);
 
   const handleRotate = (rotateState, rotationFactor) => {
     const factor = rotationFactor / 2;
@@ -88,30 +94,33 @@ const MenuARScene = (props) => {
         color="#ffffff"
         castsShadow={true}
       />
+      {/* <ViroARPlaneSelector
+        minHeight={0.5}
+        minWidth={0.5}
+        onPlaneSelected={() => console.log("I found a plane")}
+      /> */}
 
-      {selected.map(
-        ({ source, mtl, resources, type, scale, position }, idx) => (
-          <ViroNode
-            key={`${idx}-${source}`}
-            position={[0, -0.5, -0.5]}
-            dragType="FixedToWorld"
-            onDrag={() => {}}
-          >
-            <Viro3DObject
-              source={{
-                uri: source,
-              }}
-              resources={resources}
-              lightReceivingBitMask={3}
-              resources={[{ uri: mtl }]}
-              scale={Array(3).fill(scale)}
-              type={type}
-              onRotate={handleRotate}
-              rotation={rotation}
-            />
-          </ViroNode>
-        )
-      )}
+      {selected.map((product, idx) => (
+        <ViroNode
+          key={`${idx}-${product.assets.source}`}
+          position={[0, -0.5, -0.5]}
+          dragType="FixedToWorld"
+          onDrag={() => {}}
+        >
+          <Viro3DObject
+            source={{
+              uri: product.assets.source,
+            }}
+            // resources={resources}
+            lightReceivingBitMask={3}
+            resources={[{ uri: product.assets.mtl }]}
+            scale={Array(3).fill(product.assets.scale)}
+            type={product.assets.type}
+            onRotate={handleRotate}
+            rotation={rotation}
+          />
+        </ViroNode>
+      ))}
       {/* <ViroText
         text={"Go Back"}
         scale={[0.1, 0.1, 0.1]}
