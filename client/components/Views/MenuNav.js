@@ -18,12 +18,12 @@ export default function MenuNav(props) {
   const [open, setOpen] = useState(false);
   const { assets } = useSelector(selectMenu);
   const dispatch = useDispatch();
-  const { itemPadding, windowWidth, windowHeight} = getDimensions();
+  const { itemPadding, windowWidth, windowHeight } = getDimensions();
 
   const { arScene, menuBar } = open
     ? {
-        arScene: windowHeight*0.6,
-        menuBar:  windowHeight*0.4,
+        arScene: windowHeight * 0.6,
+        menuBar: windowHeight * 0.4,
       }
     : {
         arScene: "70%",
