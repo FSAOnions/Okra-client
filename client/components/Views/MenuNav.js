@@ -18,15 +18,16 @@ export default function MenuNav() {
   const [open, setOpen] = useState(false);
   const { assets } = useSelector(selectMenu);
   const dispatch = useDispatch();
+  const { itemPadding, windowWidth, windowHeight} = getDimensions();
 
   const { arScene, menuBar } = open
     ? {
-        arScene: "60%",
-        menuBar: "40%",
+        arScene: windowHeight*0.6,
+        menuBar:  windowHeight*0.4,
       }
     : {
-        arScene: "80%",
-        menuBar: "20%",
+        arScene: windowHeight*0.8,
+        menuBar: windowHeight*0.2,
       };
 
   return (
@@ -64,7 +65,7 @@ export default function MenuNav() {
         <View
           style={{
             marginBottom: 10,
-            height: 75,
+            height: windowHeight*0.25,
             width: "100%",
             backgroundColor: "none",
           }}

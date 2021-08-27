@@ -45,7 +45,7 @@ class SwiperMenu extends React.Component {
   //   dispatch(setSelected(product));
   // }
   _renderItem({ item }) {
-    const { itemPadding, windowWidth } = getDimensions();
+    const { itemPadding, windowWidth, windowHeight} = getDimensions();
 
     return (
       <View

@@ -1,25 +1,41 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, View, SafeAreaView } from "react-native";
 import { Layout, Input, Button, Text } from "@ui-kitten/components";
 import { setPage } from "../../redux/reducers/userPage";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { windowHeight } from "../../util/getDimensions";
+import {signup, getUser} from "../../redux/reducers/user"
 
 export default function Signup() {
   const dispatch = useDispatch();
+  const {user} = useSelector(getUser)
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  useEffect(() => {
+    if (user){
+      dispatch(setPage("home"))
+    }
+  }, [user])
+
   const handleSubmit = () => {
-    let user = { firstName, lastName, email, password };
-    console.log(user);
-    return user;
+    let createUser = { firstName, lastName, email, password };
+    console.log(createUser);
+    dispatch(signup(createUser))
   };
 
   return (
     <SafeAreaView style={styles.mainContainer}>
-      <View style={{ alignItems: "center", justifyContent: "center" }}>
+      <View
+        style={{
+          marginTop: 100,
+          marginBottom: 80,
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
         <Text style={styles.text} category="h1">
           OKRA
         </Text>
@@ -31,7 +47,7 @@ export default function Signup() {
             value={firstName}
             placeholder="First Name"
             autoCapitalize="none"
-            onChangeText={(nextValue) => setFirstName(nextValue)}
+            onChangeText={setFirstName}
           />
         </Layout>
         <Layout style={styles.container} level="1">
@@ -40,7 +56,7 @@ export default function Signup() {
             value={lastName}
             placeholder="Last Name"
             autoCapitalize="none"
-            onChangeText={(nextValue) => setLastName(nextValue)}
+            onChangeText={setLastName}
           />
         </Layout>
         <Layout style={styles.container} level="1">
@@ -49,7 +65,7 @@ export default function Signup() {
             value={email}
             placeholder="Email"
             autoCapitalize="none"
-            onChangeText={(nextValue) => setEmail(nextValue)}
+            onChangeText={setEmail}
           />
         </Layout>
         <Layout style={styles.container} level="1">
@@ -59,7 +75,7 @@ export default function Signup() {
             placeholder="Password"
             secureTextEntry={true}
             autoCapitalize="none"
-            onChangeText={(nextValue) => setPassword(nextValue)}
+            onChangeText={setPassword}
           />
         </Layout>
         <View style={{ marginTop: 5, alignItems: "center" }}>
@@ -72,15 +88,15 @@ export default function Signup() {
         </View>
         <View
           style={{
-            flex: 1,
+            display: "flex",
             flexDirection: "row",
             justifyContent: "space-evenly",
             marginTop: 15,
           }}
         >
           <Text style={{ color: "lightgrey" }}>
-            Have an account?{" "}
-            <Text onPress={() => dispatch(setPage("login"))}>Login</Text>
+            Have an account?
+            <Text onPress={handleSubmit}>Login</Text>
           </Text>
         </View>
       </View>
@@ -91,9 +107,9 @@ export default function Signup() {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    justifyContent: "space-evenly",
+    justifyContent: "flex-start",
     width: "100%",
-    height: "100%",
+    height: windowHeight,
   },
   container: {
     flexDirection: "row",

@@ -1,19 +1,30 @@
-import React, { useState } from "react";
-import { StyleSheet, View, SafeAreaView } from "react-native";
-import { Layout, Input, Button, Text } from "@ui-kitten/components";
+/* eslint-disable no-unused-vars */
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  StyleSheet,
+  View,
+  SafeAreaView
+} from "react-native";
+import {authenticate, getUser} from "../../redux/reducers/user"
 import { setPage } from "../../redux/reducers/userPage";
-import { useDispatch } from "react-redux";
+import { Layout, Input, Button, Text } from "@ui-kitten/components";
 
 export default function LogIn() {
   const dispatch = useDispatch();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const {user} = useSelector(getUser)
+  const [email, onChangeEmail] = useState("")
+  const [password, onChangePassword] = useState("")
 
-  const handleSubmit = () => {
-    let user = { email, password };
-    console.log(user);
-    return user;
-  };
+  useEffect(() => {
+    if (user){
+      dispatch(setPage("home"))
+    }
+  }, [user])
+
+  handleSubmit=()=>{
+    dispatch(authenticate({email, password}));
+  }
 
   return (
     <SafeAreaView style={styles.mainContainer}>
@@ -26,10 +37,9 @@ export default function LogIn() {
         <Layout style={styles.container} level="1">
           <Input
             style={styles.input}
-            value={email}
             placeholder="Email"
-            autoCapitalize="none"
-            onChangeText={(nextValue) => setEmail(nextValue)}
+            value={email}
+            onChangeText={onChangeEmail}
           />
         </Layout>
         <Layout style={styles.container} level="1">
@@ -37,9 +47,7 @@ export default function LogIn() {
             style={styles.input}
             value={password}
             placeholder="Password"
-            secureTextEntry={true}
-            autoCapitalize="none"
-            onChangeText={(nextValue) => setPassword(nextValue)}
+            onChangeText={onChangePassword}
           />
         </Layout>
         <View style={{ marginTop: 5, alignItems: "center" }}>
