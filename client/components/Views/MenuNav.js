@@ -83,14 +83,14 @@ export default function MenuNav() {
             accessibilityLabel="Learn more about this purple button"
           />
           <ScrollView style={{ height: "100%", overflow: "hidden" }}>
-            {assets.map((asset) => {
-              const { name, source } = asset;
+            {assets.map((product) => {
+              const { product_name, id } = product;
               return (
                 <Button
-                  key={source}
-                  title={name}
+                  key={id}
+                  title={product_name}
                   onPress={() => {
-                    dispatch(setItem(asset));
+                    dispatch(setItem(product));
                   }}
                   accessibilityLabel="Learn more about this purple button"
                 />
