@@ -5,6 +5,7 @@ import {
   Image,
   TouchableOpacity,
   Vibration,
+  ImageBackground,
 } from "react-native";
 import Carousel from "react-native-snap-carousel";
 
@@ -21,7 +22,7 @@ const SwiperMenu = ({ pFU }) => {
   const { assets } = useSelector(selectMenu);
   const dispatch = useDispatch();
   let carousel = useRef();
-  console.log(pFU);
+
   const _renderItem = ({ item }) => {
     const { itemPadding, windowWidth } = getDimensions();
     return (
@@ -29,7 +30,7 @@ const SwiperMenu = ({ pFU }) => {
         style={{
           backgroundColor: "transparent",
           borderRadius: 5,
-          height: 75,
+          height: 200,
           marginLeft: itemPadding,
           marginRight: itemPadding,
           alignItems: "center",
@@ -41,6 +42,11 @@ const SwiperMenu = ({ pFU }) => {
             dispatch(setSelected({ ...item, pFU }));
           }}
         >
+          {/* <ImageBackground
+            source={{ uri: item.product_imgUrl }}
+            resizeMode="cover"
+            style={{ width: windowWidth * 0.25, height: windowWidth * 0.25 }}
+          /> */}
           <Image
             style={{ width: windowWidth * 0.25, height: windowWidth * 0.25 }}
             source={{ uri: item.product_imgUrl }}
@@ -55,7 +61,6 @@ const SwiperMenu = ({ pFU }) => {
       style={{
         flex: 1,
         backgroundColor: "transparent",
-        paddingTop: 50,
       }}
     >
       <View

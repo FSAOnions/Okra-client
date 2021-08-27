@@ -25,8 +25,8 @@ export default function MenuNav(props) {
         menuBar: "40%",
       }
     : {
-        arScene: "80%",
-        menuBar: "20%",
+        arScene: "70%",
+        menuBar: "30%",
       };
 
   return (
@@ -63,8 +63,8 @@ export default function MenuNav(props) {
       >
         <View
           style={{
-            marginBottom: 10,
-            height: 75,
+            marginBottom: 0,
+            height: 100,
             width: "100%",
             backgroundColor: "none",
           }}

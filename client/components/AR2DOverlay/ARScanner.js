@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
-import React from "react";
+import React, { useEffect } from "react";
 ("react-redux");
+import { useDispatch } from "react-redux";
 import {
   StyleSheet,
   View,
@@ -10,9 +11,14 @@ import {
   ImageBackground,
 } from "react-native";
 import { ViroARSceneNavigator } from "react-viro";
+import { fetchProducts } from "../../redux/reducers/menu";
 import Hamburger from "../Views/Hamburger";
 
 export default function ARScanner() {
+  // const dispatch = useDispatch();
+  // useEffect(() => {
+  //   dispatch(fetchProducts());
+  // }, []);
   return (
     <View style={styles.scanner}>
       <Hamburger />
