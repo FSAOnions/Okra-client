@@ -14,7 +14,7 @@ import {
 import { selectMenu, setItem } from "../../redux/reducers/menu";
 import SwiperMenu from "./SwiperMenu";
 
-export default function MenuNav() {
+export default function MenuNav(props) {
   const [open, setOpen] = useState(false);
   const { assets } = useSelector(selectMenu);
   const dispatch = useDispatch();
@@ -69,7 +69,7 @@ export default function MenuNav() {
             backgroundColor: "none",
           }}
         >
-          <SwiperMenu />
+          <SwiperMenu {...props} />
         </View>
         <View style={{ height: "100%", backgroundColor: "rgb(255, 255, 255)" }}>
           <Button

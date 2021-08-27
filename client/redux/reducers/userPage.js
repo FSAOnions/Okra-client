@@ -20,13 +20,21 @@ import { createSlice } from "@reduxjs/toolkit";
 const userPageSlice = createSlice({
   name: "page",
   initialState: {
-    link: "login",
+    link: "menu",
+    scene: () => null,
   },
   reducers: {
     setPage(state, action) {
       console.log("REDUX ACTION: ", action);
       return {
+        ...state,
         link: action.payload,
+      };
+    },
+    setScene(state, action) {
+      return {
+        ...state,
+        scene: action.payload,
       };
     },
   },
@@ -49,7 +57,7 @@ const userPageSlice = createSlice({
 
 //Actions
 /////////////////////////////////////////////////////////////
-export const { setPage } = userPageSlice.actions;
+export const { setPage, setScene } = userPageSlice.actions;
 
 //Reducer
 /////////////////////////////////////////////////////////////
@@ -58,3 +66,5 @@ export default userPageSlice.reducer;
 //Selectors
 /////////////////////////////////////////////////////////////
 export const selectLink = (state) => state.userPage.link;
+
+export const selectScene = (state) => state.userPage.scene;

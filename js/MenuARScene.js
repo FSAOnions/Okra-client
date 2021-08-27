@@ -2,21 +2,15 @@
 "use strict";
 
 const localHost = "http://10.0.0.206:8080";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { StyleSheet, View, YellowBox } from "react-native";
 import {
   ViroARScene,
   ViroText,
   Viro3DObject,
-  ViroAmbientLight,
   ViroSpotLight,
   ViroNode,
-  ViroARPlaneSelector,
-  ViroARPlane,
-  ViroBox,
-  ViroARTrackingTargets,
-  ViroARImageMarker,
   ViroOmniLight,
 } from "react-viro";
 
@@ -26,28 +20,12 @@ import {
   setProof,
   fetchProducts,
 } from "../client/redux/reducers/menu";
-import { setPage } from "../client/redux/reducers/userPage";
-import { setSelected } from "../client/redux/reducers/menu";
 
-const MenuARScene = (props) => {
-  const dispatch = useDispatch();
-  const { assets, proof, selected, item } = useSelector(selectMenu);
-
+const MenuARScene = ({ pFU, setPFU }) => {
+  const { selected } = useSelector(selectMenu);
   const [text, setText] = useState("Initializing AR...");
   const [rotation, setRotation] = useState([0, 0, 0]);
-
-  useEffect(() => {
-    if (!proof.message) {
-      dispatch(fetchProducts());
-      dispatch(proofOfThunk("this is proof"));
-    } else {
-      dispatch(setProof());
-    }
-  }, [proof.message]);
-
-  // useEffect(() => {
-  //   dispatch(fetchProducts());
-  // }, []);
+  let sceneRef = useRef();
 
   const handleRotate = (rotateState, rotationFactor) => {
     const factor = rotationFactor / 2;
@@ -66,15 +44,13 @@ const MenuARScene = (props) => {
       onTrackingUpdated={() => {
         setText("Hello World!");
       }}
-      onClickState={(state, position, source) => {
-        let newItem = Object.assign({ position }, item);
-        let nodeFound = position.length === 3;
-        if (nodeFound) {
-          newItem.position = position;
-        }
-        if (!nodeFound && state === 1) {
-          item.name && dispatch(setSelected(newItem));
-        }
+      ref={(scene) => (sceneRef = scene)}
+      onCameraTransformUpdate={async () => {
+        const { position, forward, up } =
+          await sceneRef.getCameraOrientationAsync();
+        const [x, y, z] = position;
+        0, -0.5, -0.5;
+        setPFU({ position: [x, -0.5 + y, -0.5 + z], forward, up });
       }}
     >
       <ViroText
@@ -94,16 +70,12 @@ const MenuARScene = (props) => {
         color="#ffffff"
         castsShadow={true}
       />
-      {/* <ViroARPlaneSelector
-        minHeight={0.5}
-        minWidth={0.5}
-        onPlaneSelected={() => console.log("I found a plane")}
-      /> */}
-
       {selected.map((product, idx) => (
         <ViroNode
           key={`${idx}-${product.assets.source}`}
-          position={[0, -0.5, -0.5]}
+          position={product.pFU.position}
+          foward={product.pFU.foward}
+          up={product.pFU.up}
           dragType="FixedToWorld"
           onDrag={() => {}}
         >
@@ -111,7 +83,6 @@ const MenuARScene = (props) => {
             source={{
               uri: product.assets.source,
             }}
-            // resources={resources}
             lightReceivingBitMask={3}
             resources={[{ uri: product.assets.mtl }]}
             scale={Array(3).fill(product.assets.scale)}
@@ -121,15 +92,6 @@ const MenuARScene = (props) => {
           />
         </ViroNode>
       ))}
-      {/* <ViroText
-        text={"Go Back"}
-        scale={[0.1, 0.1, 0.1]}
-        height={1}
-        width={4}
-        position={[0, 0, 0]}
-        style={styles.textStyle}
-        onClick={() => dispatch(setPage("home"))}
-      /> */}
     </ViroARScene>
   );
 };
