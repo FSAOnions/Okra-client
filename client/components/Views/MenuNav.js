@@ -13,6 +13,7 @@ import {
 } from "react-native";
 import { selectMenu, setItem } from "../../redux/reducers/menu";
 import SwiperMenu from "./SwiperMenu";
+import getDimensions from "../../util/getDimensions";
 
 export default function MenuNav(props) {
   const [open, setOpen] = useState(false);
