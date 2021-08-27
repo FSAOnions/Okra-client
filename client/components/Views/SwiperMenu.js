@@ -1,58 +1,38 @@
-import * as React from "react";
+import React, { useState, useRef } from "react";
 import {
   View,
   SafeAreaView,
   Image,
   TouchableOpacity,
   Vibration,
+  ImageBackground,
 } from "react-native";
 import Carousel from "react-native-snap-carousel";
-import { connect } from "react-redux";
-import getDimensions from "../../util/getDimensions";
-import { setSelected } from "../../redux/reducers/menu";
-import store from "../../redux/store";
 
-const serverUrl = "https://okra-onions.herokuapp.com";
+import getDimensions from "../../util/getDimensions";
+import { selectMenu, setSelected } from "../../redux/reducers/menu";
+
+import { useSelector, useDispatch } from "react-redux";
+
 const DURATION = 1000;
 // const PATTERN = [1000, 2000, 3000];
 
-class SwiperMenu extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      activeIndex: 0,
-      products: [],
-    };
-  }
+const SwiperMenu = ({ pFU }) => {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const { assets } = useSelector(selectMenu);
+  const dispatch = useDispatch();
+  let carousel = useRef();
 
-  componentDidMount() {
-    this.setState({
-      products: this.props.menu.assets,
-    });
-  }
 
-  componentDidUpdate() {
-    if (this.props.menu.assets !== this.state.products) {
-      this.setState({
-        products: this.props.menu.assets,
-      });
-    }
-  }
-
-  // _handleTouch(product) {
-  //   const dispatch = store.dispatch;
-  //   Vibration.vibrate(100, DURATION);
-  //   dispatch(setSelected(product));
-  // }
-  _renderItem({ item }) {
-    const { itemPadding, windowWidth, windowHeight} = getDimensions();
+  const _renderItem = ({ item }) => {
+    const { itemPadding, windowWidth } = getDimensions();
 
     return (
       <View
         style={{
           backgroundColor: "transparent",
           borderRadius: 5,
-          height: 75,
+          height: 200,
           marginLeft: itemPadding,
           marginRight: itemPadding,
           alignItems: "center",
@@ -60,11 +40,15 @@ class SwiperMenu extends React.Component {
       >
         <TouchableOpacity
           onPress={() => {
-            const dispatch = store.dispatch;
             Vibration.vibrate(100, DURATION);
-            dispatch(setSelected(item));
+            dispatch(setSelected({ ...item, pFU }));
           }}
         >
+          {/* <ImageBackground
+            source={{ uri: item.product_imgUrl }}
+            resizeMode="cover"
+            style={{ width: windowWidth * 0.25, height: windowWidth * 0.25 }}
+          /> */}
           <Image
             style={{ width: windowWidth * 0.25, height: windowWidth * 0.25 }}
             source={{ uri: item.product_imgUrl }}
@@ -72,46 +56,36 @@ class SwiperMenu extends React.Component {
         </TouchableOpacity>
       </View>
     );
-  }
-
-  render() {
-    const { itemWidth, windowWidth } = getDimensions();
-    return (
-      <SafeAreaView
+  };
+  const { windowWidth, itemWidth } = getDimensions();
+  return (
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: "transparent",
+      }}
+    >
+      <View
         style={{
           flex: 1,
-          backgroundColor: "transparent",
-          paddingTop: 50,
+          flexDirection: "row",
+          justifyContent: "center",
         }}
       >
-        <View
-          style={{
-            flex: 1,
-            flexDirection: "row",
-            justifyContent: "center",
-          }}
-        >
-          <Carousel
-            layout={"default"}
-            ref={(ref) => (this.carousel = ref)}
-            data={this.state.products}
-            sliderWidth={windowWidth}
-            itemWidth={itemWidth}
-            renderItem={this._renderItem}
-            onSnapToItem={(index) => this.setState({ activeIndex: index })}
-            inactiveSlideScale={0.5}
-            inactiveSlideOpacity={0.7}
-            activeAnimationType={"decay"}
-          />
-        </View>
-      </SafeAreaView>
-    );
-  }
-}
-
-export default connect(
-  (state) => ({
-    menu: state.menu,
-  }),
-  null
-)(SwiperMenu);
+        <Carousel
+          layout={"default"}
+          ref={(ref) => (carousel = ref)}
+          data={assets}
+          sliderWidth={windowWidth}
+          itemWidth={itemWidth}
+          renderItem={_renderItem}
+          onSnapToItem={(index) => setActiveIndex(index)}
+          inactiveSlideScale={0.5}
+          inactiveSlideOpacity={0.7}
+          activeAnimationType={"decay"}
+        />
+      </View>
+    </SafeAreaView>
+  );
+};
+export default SwiperMenu;

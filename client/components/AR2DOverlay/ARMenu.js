@@ -1,17 +1,30 @@
 /* eslint-disable no-unused-vars */
-import React from "react";
+import React, { useEffect, useState } from "react";
 // import { useDispatch, useSelector } from "react-redux";
 import { StyleSheet, View, Button } from "react-native";
-import { ViroARSceneNavigator } from "react-viro";
+import { useDispatch } from "react-redux";
+import { ViroARSceneNavigator, ViroARScene } from "react-viro";
+import { fetchProducts } from "../../redux/reducers/menu";
+import { setScene } from "../../redux/reducers/userPage";
 // import { selectUserPage, setPage } from "../../redux/reducers/userPage";
 import Hamburger from "../Views/Hamburger";
 import MenuNav from "../Views/MenuNav";
-
-// const sharedProps = {
-//   apiKey: "API_KEY_HERE",
-// };
+const initScene = require("../../../js/MenuARScene");
 
 export default function ARMenu() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    //dispatch(fetchProducts());
+  }, []);
+  const [pFU, setPFU] = useState({
+    position: [0, -0.5, -0.5],
+    forward: [0, 0, 0],
+    up: [0, 0, 0],
+  });
+  const props = {
+    pFU,
+    setPFU,
+  };
   return (
     <View
       style={{
@@ -26,10 +39,9 @@ export default function ARMenu() {
     >
       <Hamburger />
       <ViroARSceneNavigator
-        // {...sharedProps}
-        initialScene={{ scene: require("../../../js/MenuARScene") }}
+        initialScene={{ scene: initScene, passProps: { ...props } }}
       />
-      <MenuNav />
+      <MenuNav {...props} />
     </View>
   );
 }

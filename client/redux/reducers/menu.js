@@ -2,7 +2,10 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const serverUrl = "https://okra-onions.herokuapp.com";
-
+const local = "http://10.0.0.206:8080";
+const loadAsset = (path) => {
+  return `${local}${path}`;
+};
 //Thunks
 /////////////////////////////////////////////////////////////
 export const proofOfThunk = createAsyncThunk(
@@ -62,7 +65,56 @@ const menuSlice = createSlice({
   name: "menu",
   initialState: {
     proof: { test: "Bad", message: "" },
-    assets: [],
+    assets: [
+      {
+        product_name: "Coffee",
+        product_imgUrl: loadAsset("/CoffeeCup/obj/Red.png"), //img from Sung
+        threeD_imgUrl: "", //img with mtl and obj
+        price: 5.99,
+        description: "Cappuccino",
+        product_type: "Drink",
+        assets: {
+          name: "coffee cup",
+          source: loadAsset(`/CoffeeCup/obj/coffee_cup.obj`),
+          mtl: loadAsset(`/CoffeeCup/obj/coffee_cup.mtl`),
+          type: "OBJ",
+          scale: 0.015,
+        },
+        restaurantId: 1,
+      },
+      {
+        product_name: "Coffee",
+        product_imgUrl: loadAsset("/CoffeeCup/obj/Green.png"), //img from Sung
+        threeD_imgUrl: "", //img with mtl and obj
+        price: 5.99,
+        description: "Cappuccino",
+        product_type: "Drink",
+        assets: {
+          name: "coffee cup",
+          source: loadAsset(`/CoffeeCup/obj/coffee_cup.obj`),
+          mtl: loadAsset(`/CoffeeCup/obj/coffee_cup.mtl`),
+          type: "OBJ",
+          scale: 0.015,
+        },
+        restaurantId: 1,
+      },
+      {
+        product_name: "Coffee",
+        product_imgUrl: loadAsset("/CoffeeCup/obj/Blue.png"), //img from Sung
+        threeD_imgUrl: "", //img with mtl and obj
+        price: 5.99,
+        description: "Cappuccino",
+        product_type: "Drink",
+        assets: {
+          name: "coffee cup",
+          source: loadAsset(`/CoffeeCup/obj/coffee_cup.obj`),
+          mtl: loadAsset(`/CoffeeCup/obj/coffee_cup.mtl`),
+          type: "OBJ",
+          scale: 0.015,
+        },
+        restaurantId: 1,
+      },
+    ],
     menuAssets: [],
     selected: [],
     item: { position: [0, -0.5, -0.5] },
