@@ -23,8 +23,10 @@ const SwiperMenu = ({ pFU }) => {
   const dispatch = useDispatch();
   let carousel = useRef();
 
+
   const _renderItem = ({ item }) => {
     const { itemPadding, windowWidth } = getDimensions();
+
     return (
       <View
         style={{

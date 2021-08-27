@@ -1,78 +1,101 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   StyleSheet,
-  Text,
   View,
-  Image,
-  TextInput,
-  Button,
-  TouchableOpacity,
+  SafeAreaView
 } from "react-native";
+import {authenticate, getUser} from "../../redux/reducers/user"
 import { setPage } from "../../redux/reducers/userPage";
+import { Layout, Input, Button, Text } from "@ui-kitten/components";
+
 export default function LogIn() {
   const dispatch = useDispatch();
+  const {user} = useSelector(getUser)
+  const [email, onChangeEmail] = useState("")
+  const [password, onChangePassword] = useState("")
+
+  useEffect(() => {
+    if (user){
+      dispatch(setPage("home"))
+    }
+  }, [user])
+
+  handleSubmit=()=>{
+    dispatch(authenticate({email, password}));
+  }
+
   return (
-    <View style={styles.container}>
-      <Image
-        style={styles.image}
-        source={require("../../../public/logo.jpeg")}
-      />
-      <TouchableOpacity style={styles.loginBtn}>
-        <Button
-          title="LOGIN"
-          onPress={() => dispatch(setPage("home"))}
-          style={styles.loginText}
-        />
-      </TouchableOpacity>
-    </View>
+    <SafeAreaView style={styles.mainContainer}>
+      <View style={{ alignItems: "center", justifyContent: "center" }}>
+        <Text style={styles.text} category="h1">
+          OKRA
+        </Text>
+      </View>
+      <View style={styles.bottom}>
+        <Layout style={styles.container} level="1">
+          <Input
+            style={styles.input}
+            placeholder="Email"
+            value={email}
+            onChangeText={onChangeEmail}
+          />
+        </Layout>
+        <Layout style={styles.container} level="1">
+          <Input
+            style={styles.input}
+            value={password}
+            placeholder="Password"
+            onChangeText={onChangePassword}
+          />
+        </Layout>
+        <View style={{ marginTop: 5, alignItems: "center" }}>
+          <Button
+            style={{ width: "50%", marginTop: 10 }}
+            onPress={handleSubmit}
+          >
+            Login
+          </Button>
+        </View>
+        <View
+          style={{
+            flex: 1,
+            flexDirection: "row",
+            justifyContent: "space-evenly",
+            marginTop: 15,
+          }}
+        >
+          <Text style={{ color: "lightgrey" }}>
+            Don't have an account?{" "}
+            <Text onPress={() => dispatch(setPage("signup"))}>Sign Up</Text>
+          </Text>
+        </View>
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    flex: 1,
+    justifyContent: "space-evenly",
+    width: "100%",
+    height: "100%",
+  },
   container: {
+    flexDirection: "row",
+    margin: 10,
+  },
+  input: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+    margin: 2,
   },
-
-  image: {
-    marginBottom: 40,
-    width: "40%",
-    height: "20%",
-  },
-
-  inputView: {
-    backgroundColor: "#38b000",
-    borderRadius: 30,
-    width: "70%",
-    height: 45,
-    marginBottom: 20,
-
-    alignItems: "center",
-  },
-
-  TextInput: {
-    height: 50,
-    flex: 1,
-    padding: 10,
-    marginLeft: 20,
-  },
-
-  forgot_button: {
-    height: 30,
-    marginBottom: 30,
-  },
-
-  loginBtn: {
-    width: "80%",
-    borderRadius: 25,
-    height: 50,
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 40,
-    backgroundColor: "#38b000",
+  bottom: {
+    flex: 0.5,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    marginLeft: 30,
+    marginRight: 30,
   },
 });
