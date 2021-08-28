@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   StyleSheet,
   View,
-  SafeAreaView
+  SafeAreaView,
+  Alert
 } from "react-native";
 import {authenticate, getUser} from "../../redux/reducers/user"
 import { setPage } from "../../redux/reducers/userPage";
@@ -14,16 +15,31 @@ export default function LogIn() {
   const dispatch = useDispatch();
   const {user} = useSelector(getUser)
   const [email, onChangeEmail] = useState("")
-  const [password, onChangePassword] = useState("")
-
+  const [password, onChangePassword] = useState("");
   useEffect(() => {
     if (user){
       dispatch(setPage("home"))
     }
   }, [user])
 
-  handleSubmit=()=>{
-    dispatch(authenticate({email, password}));
+  handleSubmit=async()=>{
+    // const email =emailLow.toLowerCase() 
+    const auth = await dispatch(authenticate({email, password}));
+    if (auth.type==="auth/rejected"){
+      Alert.alert(
+        "Login failed",
+        "Your email or password is incorrect. Please try again",
+        [
+          {
+            text: "OK",
+            onPress: () => {onChangeEmail("");
+            onChangePassword("");},
+          },
+        ]
+      );
+      
+  }
+   
   }
 
   return (

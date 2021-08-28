@@ -3,16 +3,17 @@ import { StyleSheet, View, SafeAreaView } from "react-native";
 import { Layout, Input, Button, Text } from "@ui-kitten/components";
 import { setPage } from "../../redux/reducers/userPage";
 import { useDispatch, useSelector } from "react-redux";
-import { windowHeight } from "../../util/getDimensions";
-import {signup, getUser} from "../../redux/reducers/user"
+import {authenticate, getUser} from "../../redux/reducers/user"
+import getDimensions from "../../util/getDimensions"
 
 export default function Signup() {
   const dispatch = useDispatch();
   const {user} = useSelector(getUser)
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
+  const [emailLow, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
 
   useEffect(() => {
     if (user){
@@ -21,9 +22,9 @@ export default function Signup() {
   }, [user])
 
   const handleSubmit = () => {
-    let createUser = { firstName, lastName, email, password };
-    console.log(createUser);
-    dispatch(signup(createUser))
+    const email = emailLow.toLowerCase();
+    let createUser = { firstName, lastName, email, password  };
+    dispatch(authenticate(createUser))
   };
 
   return (
@@ -62,7 +63,7 @@ export default function Signup() {
         <Layout style={styles.container} level="1">
           <Input
             style={styles.input}
-            value={email}
+            value={emailLow}
             placeholder="Email"
             autoCapitalize="none"
             onChangeText={setEmail}
@@ -109,7 +110,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-start",
     width: "100%",
-    height: windowHeight,
+    height: "100%",
   },
   container: {
     flexDirection: "row",
