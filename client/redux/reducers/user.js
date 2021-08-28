@@ -13,11 +13,14 @@ export const me = createAsyncThunk("auth/me", async()=>{
 function select(state){
 return state.userPage.link
 }
+
 export const authenticate = createAsyncThunk(
   "auth",
   async (user) => {
-  await axios.post(`${serverUrl}/auth/${select(store.getState())}`, user)
-  me();
+  await axios.post(`${serverUrl}/auth/${select(store.getState())}`, user);
+  const {data} = await axios.get(`${serverUrl}/auth/me`, { credentials: "include" });
+  console.log("Res", data)
+  return data;
   }
 );
 
@@ -37,9 +40,9 @@ const userAuthSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-    .addCase(authenticate.fulfilled, (state, action) => {
-     console.log(action.payload)
-    })
+      .addCase(authenticate.fulfilled, (state, action) => {
+        state = action.payload;
+      })
       .addCase(me.fulfilled, (state, action) => {
         state.user = action.payload;
       })
