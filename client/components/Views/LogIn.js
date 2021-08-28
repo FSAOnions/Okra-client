@@ -16,15 +16,10 @@ export default function LogIn() {
   const {user} = useSelector(getUser)
   const [email, onChangeEmail] = useState("")
   const [password, onChangePassword] = useState("");
-  useEffect(() => {
-    if (user){
-      dispatch(setPage("home"))
-    }
-  }, [user])
-
-  handleSubmit=async()=>{
+  const handleSubmit=async()=>{
     // const email =emailLow.toLowerCase() 
     const auth = await dispatch(authenticate({email, password}));
+
     if (auth.type==="auth/rejected"){
       Alert.alert(
         "Login failed",
@@ -39,9 +34,10 @@ export default function LogIn() {
       );
       
   }
-   
+  if (auth.type==="auth/fulfilled"){
+    dispatch(setPage("home"))
   }
-
+  }
   return (
     <SafeAreaView style={styles.mainContainer}>
       <View style={{ alignItems: "center", justifyContent: "center" }}>
