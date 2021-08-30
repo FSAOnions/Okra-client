@@ -58,7 +58,7 @@ const userCartSlice = createSlice({
         ),
       };
     },
-    checkoutCart(state, action) {
+    clearUserCart(state, action) {
       return { ...state, cartItems: [] };
     },
   },
@@ -94,7 +94,8 @@ const userCartSlice = createSlice({
 
 //Actions
 /////////////////////////////////////////////////////////////
-export const { setCartItems, setItem } = userCartSlice.actions;
+export const { setCartItems, setItem, deleteItem, clearUserCart } =
+  userCartSlice.actions;
 
 //Reducer
 /////////////////////////////////////////////////////////////
