@@ -6,6 +6,7 @@ const local = "http://10.0.0.206:8080";
 const loadAsset = (path) => {
   return `${local}${path}`;
 };
+
 //Thunks
 /////////////////////////////////////////////////////////////
 export const proofOfThunk = createAsyncThunk(
@@ -24,11 +25,8 @@ export const proofOfThunk = createAsyncThunk(
 
 export const fetchProducts = createAsyncThunk(
   "menu/fetchProducts",
-  async () => {
+  async (menuOption) => {
     const { data } = await axios.get(`${serverUrl}/api/products`);
-
-    console.log({ data });
-
     return data;
   }
 );
@@ -37,8 +35,6 @@ export const fetchSingleItem = createAsyncThunk(
   "menu/fetchSingleItem",
   async (id) => {
     const { data } = await axios.get(`${serverUrl}/api/products/${id}`);
-
-    // console.log({ data });
 
     return data;
   }
@@ -51,13 +47,36 @@ export const deleteItemThunk = createAsyncThunk(
   }
 );
 
-export const editItemThunk = createAsyncThunk(
-  "menu/editItem",
-  async (id, history) => {
-    await axios.put(`${serverUrl}/api/products/${id}`);
-    history.push("/");
-  }
-);
+export const editItemThunk = createAsyncThunk("menu/editItem", async (id) => {
+  await axios.put(`${serverUrl}/api/products/${id}`);
+  history.push("/");
+});
+
+//Category Thunks
+/////////////////////////////////////////////////////////////
+export const fetchMenu = createAsyncThunk("menu", async (restaurantId) => {
+  const { data } = await axios.get(`${serverUrl}/api/products/${restaurantId}`);
+  return data;
+  // return data.filter((product) => {
+  //   return product.product_type === "Drink";
+  // });
+});
+
+// export const fetchEntrees = createAsyncThunk("menu/entrees", async () => {
+//   const { data } = await axios.get(`${serverUrl}/api/products`);
+
+//   return data.filter((product) => {
+//     return product.product_type === "Entree";
+//   });
+// });
+
+// export const fetchAppetizers = createAsyncThunk("menu/appetizers", async () => {
+//   const { data } = await axios.get(`${serverUrl}/api/products`);
+
+//   return data.filter((product) => {
+//     return product.product_type === "Appetizer";
+//   });
+// });
 
 //Slice
 /////////////////////////////////////////////////////////////
@@ -66,54 +85,22 @@ const menuSlice = createSlice({
   initialState: {
     proof: { test: "Bad", message: "" },
     assets: [
-      {
-        product_name: "Coffee",
-        product_imgUrl: loadAsset("/CoffeeCup/obj/Red.png"), //img from Sung
-        threeD_imgUrl: "", //img with mtl and obj
-        price: 5.99,
-        description: "Cappuccino",
-        product_type: "Drink",
-        assets: {
-          name: "coffee cup",
-          source: loadAsset(`/CoffeeCup/obj/coffee_cup.obj`),
-          mtl: loadAsset(`/CoffeeCup/obj/coffee_cup.mtl`),
-          type: "OBJ",
-          scale: 0.015,
-        },
-        restaurantId: 1,
-      },
-      {
-        product_name: "Coffee",
-        product_imgUrl: loadAsset("/CoffeeCup/obj/Green.png"), //img from Sung
-        threeD_imgUrl: "", //img with mtl and obj
-        price: 5.99,
-        description: "Cappuccino",
-        product_type: "Drink",
-        assets: {
-          name: "coffee cup",
-          source: loadAsset(`/CoffeeCup/obj/coffee_cup.obj`),
-          mtl: loadAsset(`/CoffeeCup/obj/coffee_cup.mtl`),
-          type: "OBJ",
-          scale: 0.015,
-        },
-        restaurantId: 1,
-      },
-      {
-        product_name: "Coffee",
-        product_imgUrl: loadAsset("/CoffeeCup/obj/Blue.png"), //img from Sung
-        threeD_imgUrl: "", //img with mtl and obj
-        price: 5.99,
-        description: "Cappuccino",
-        product_type: "Drink",
-        assets: {
-          name: "coffee cup",
-          source: loadAsset(`/CoffeeCup/obj/coffee_cup.obj`),
-          mtl: loadAsset(`/CoffeeCup/obj/coffee_cup.mtl`),
-          type: "OBJ",
-          scale: 0.015,
-        },
-        restaurantId: 1,
-      },
+      // {
+      //   product_name: "Coffee",
+      //   product_imgUrl: loadAsset("/CoffeeCup/obj/Red.png"), //img from Sung
+      //   threeD_imgUrl: "", //img with mtl and obj
+      //   price: 5.99,
+      //   description: "Cappuccino",
+      //   product_type: "Drink",
+      //   assets: {
+      //     name: "coffee cup",
+      //     source: loadAsset(`/CoffeeCup/obj/coffee_cup.obj`),
+      //     mtl: loadAsset(`/CoffeeCup/obj/coffee_cup.mtl`),
+      //     type: "OBJ",
+      //     scale: 0.015,
+      //   },
+      //   restaurantId: 1,
+      // },
     ],
     menuAssets: [],
     selected: [],
@@ -139,6 +126,9 @@ const menuSlice = createSlice({
       })
       .addCase(fetchProducts.rejected, (state, action) => {
         console.log(action.payload);
+      })
+      .addCase(fetchMenu.fulfilled, (state, action) => {
+        state.assets = action.payload;
       });
   },
 });
