@@ -1,9 +1,10 @@
 const Sequelize = require("sequelize");
 const db = require("../db");
-const Bill = require("./Bill");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-
+const axios = require("axios");
+const Cart = require("./Cart");
+const Product = require("./Product");
 const SALT_ROUNDS = 5;
 
 const User = db.define("user", {
@@ -36,6 +37,7 @@ const User = db.define("user", {
 
 User.authenticate = async function ({ email, password }) {
   const user = await this.findOne({ where: { email } });
+  console.log("user", user);
   if (!user || !(await user.correctPassword(password))) {
     const error = Error("Incorrect email/password");
     error.status = 401;
@@ -44,6 +46,7 @@ User.authenticate = async function ({ email, password }) {
   return user.generateToken();
 };
 User.prototype.correctPassword = function (candidatePwd) {
+  console.log("BCr", bcrypt.compare(candidatePwd, this.password));
   //we need to compare the plain version to an encrypted version of the password
   return bcrypt.compare(candidatePwd, this.password);
 };
@@ -56,7 +59,7 @@ User.findByToken = async function (token) {
   try {
     const { id } = await jwt.verify(token, process.env.JWT);
     const user = User.findByPk(id, {
-      include: { model: Bill },
+      include: [{ model: Cart, include: Product }],
     });
     if (!user) {
       throw "nooo";
@@ -70,8 +73,6 @@ User.findByToken = async function (token) {
 };
 
 const hashPassword = async (user) => {
-  console.log(user);
-  console.log("hashPassword", user.changed("password"));
   //in case the password has been changed, we want to encrypt it with bcrypt
   if (user.changed("password")) {
     user.password = await bcrypt.hash(user.password, SALT_ROUNDS);
