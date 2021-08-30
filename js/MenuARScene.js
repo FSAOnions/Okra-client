@@ -74,7 +74,7 @@ const MenuARScene = ({ pFU, setPFU }) => {
         <ViroNode
           key={`${idx}-${product.assets.source}`}
           position={product.pFU.position}
-          foward={product.pFU.foward}
+          forward={product.pFU.forward}
           up={product.pFU.up}
           dragType="FixedToWorld"
           onDrag={() => {}}

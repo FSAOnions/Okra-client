@@ -15,6 +15,7 @@ export default function MenuNav(props) {
   const [open, setOpen] = useState(false);
   const { assets } = useSelector(selectMenu);
   const dispatch = useDispatch();
+
   const { itemPadding, windowHeight} = getDimensions();
 
   const { arScene, menuBar } = open

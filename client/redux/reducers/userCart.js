@@ -5,9 +5,7 @@ const serverUrl = "https://okra-onions.herokuapp.com";
 
 //Thunks
 export const fetchUserCart = createAsyncThunk("userCart", async (id) => {
-  const { data } = await axios.get(`${serverUrl}/api/userCart/${id}`);
-
-  console.log({ data });
+  const { data } = await axios.get(`${serverUrl}/api/cart/${id}`);
 
   return data;
 });
@@ -16,7 +14,7 @@ export const setToCart = createAsyncThunk(
   "setToCart",
   async (itemId, quantity) => {
     const { data } = await axios.post(
-      `${serverUrl}/api/userCart/${itemId}?quantity=${quantity}`
+      `${serverUrl}/api/cart/${itemId}?quantity=${quantity}`
     );
 
     return data;
@@ -26,17 +24,15 @@ export const setToCart = createAsyncThunk(
 export const removeCartItem = createAsyncThunk(
   "userCart/removeItem",
   async (cartItem) => {
-    await axios.delete(`${serverUrl}/api/userCart/${cartItem.id}`);
+    const { data } = await axios.delete(`${serverUrl}/api/cart/${cartItem.id}`);
+
+    return data;
   }
 );
 
-export const editCartItem = createAsyncThunk(
-  "userCart/editItem",
-  async (cartItem, history) => {
-    await axios.put(`${serverUrl}/api/userCart/${cartItem.id}`);
-    history.push("/");
-  }
-);
+export const checkoutCart = createAsyncThunk("userCart/checkout", async () => {
+  await axios.put(`${serverUrl}/api/cart/checkout`);
+});
 
 //Slice
 /////////////////////////////////////////////////////////////
@@ -44,7 +40,6 @@ const userCartSlice = createSlice({
   name: "userCart",
   initialState: {
     cartItems: [],
-
     item: { position: [0, -0.5, -0.5] },
   },
   reducers: {
@@ -53,6 +48,18 @@ const userCartSlice = createSlice({
     },
     setItem(state, action) {
       return { ...state, item: action.payload };
+    },
+    deleteItem(state, action) {
+      // check payload ID and hook it up correctly
+      return {
+        ...state,
+        cartItems: state.cartItems.filter(
+          (item) => item.id != action.payload.id
+        ),
+      };
+    },
+    clearUserCart(state, action) {
+      return { ...state, cartItems: [] };
     },
   },
 
@@ -71,9 +78,15 @@ const userCartSlice = createSlice({
         console.log(action.payload);
       })
       .addCase(removeCartItem.fulfilled, (state, action) => {
-        // state.cartItems = action.payload;
+        state.cartItems = action.payload;
       })
       .addCase(removeCartItem.rejected, (state, action) => {
+        console.log(action.payload);
+      })
+      .addCase(checkoutCart.fulfilled, (state, action) => {
+        console.log(action.payload);
+      })
+      .addCase(checkoutCart.rejected, (state, action) => {
         console.log(action.payload);
       });
   },
@@ -81,7 +94,8 @@ const userCartSlice = createSlice({
 
 //Actions
 /////////////////////////////////////////////////////////////
-export const { setCartItems, setItem } = userCartSlice.actions;
+export const { setCartItems, setItem, deleteItem, clearUserCart } =
+  userCartSlice.actions;
 
 //Reducer
 /////////////////////////////////////////////////////////////

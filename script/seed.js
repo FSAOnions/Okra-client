@@ -9,7 +9,6 @@ const {
   db,
 } = require("../server/db/models");
 
-
 async function seed() {
   await db.sync({ force: true }); // clears db and matches models to tables
   console.log("db synced!");
@@ -56,26 +55,25 @@ async function seed() {
     },
     restaurantId: 1,
   });
-  
 
   await User.create({
     firstName: "Andrew",
     lastName: "Bloodworth",
-    email: "AndrewB@okra.com",
-    password: "12345678",
+    email: "andrewb@okra.com",
+    password: "1234",
   });
   await User.create({
-    firstName: "Andrew",
-    lastName: "Bloodworth",
-    email: "A@okra.com",
+    firstName: "Sung",
+    lastName: "Paik",
+    email: "a@okra.com",
     password: "1234",
   });
 
   await User.create({
     firstName: "Mohamed",
     lastName: "ADAM",
-    email: "MohamedA@okra.com",
-    password: "12345678",
+    email: "mohamedA@okra.com",
+    password: "1234",
   });
   await Cart.create({
     status: "Purchased",
