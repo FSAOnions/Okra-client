@@ -1,53 +1,28 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-
+import { Alert } from "react-native";
+import store from "../store";
 const serverUrl = "https://okra-onions.herokuapp.com";
 
-//
-// export const me = createAsyncThunk("auth/me", async (token) => {
-//   // const token =  await AsyncStorage.getItem("token");
-//   console.log("tokenME",token)
-//   if (token) {
+export const me = createAsyncThunk("auth/me", async()=>{
+  console.log("ME")
+  const { res } = await axios.get(`${serverUrl}/auth/me`, { credentials: "include" });
+  return res;
+})
 
-//     const { data } = await axios.get(`https://okra-onions.herokuapp.com/auth/me`, {
-//       headers: {
-//         authorization: token,
-//       },
-//     });
-//     console.log("ME", data)
-//     return data;
-//   }
-// });
+function select(state){
+return state.userPage.link
+}
 
 export const authenticate = createAsyncThunk(
-  "auth/login",
-  async ({ email, password }) => {
-    const { data } = await axios.post(`${serverUrl}/auth/login`, {
-      email,
-      password,
-    });
-    if (data.token) {
-      const { data: user } = await axios.get(`${serverUrl}/auth/me`, {
-        headers: {
-          authorization: data.token,
-        },
-      });
-      return user;
-    }
+  "auth",
+  async (user) => {
+  await axios.post(`${serverUrl}/auth/${select(store.getState())}`, user);
+  const {data} = await axios.get(`${serverUrl}/auth/me`, { credentials: "include" });
+  console.log("Res", data)
+  return data;
   }
 );
-
-export const signup = createAsyncThunk("auth/signup", async (user) => {
-  const { data } = await axios.post(`${serverUrl}/auth/signup`, user);
-  if (data.token) {
-    const { data: user } = await axios.get(`${serverUrl}/auth/me`, {
-      headers: {
-        authorization: data.token,
-      },
-    });
-    return user;
-  }
-});
 
 export const logout = () => {
   return {
@@ -66,13 +41,10 @@ const userAuthSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(authenticate.fulfilled, (state, action) => {
-        state.user = action.payload;
+        state = action.payload;
       })
-      .addCase(signup.fulfilled, (state, action) => {
+      .addCase(me.fulfilled, (state, action) => {
         state.user = action.payload;
-      })
-      .addCase(authenticate.rejected, (state, action) => {
-        console.log("ALERT");
       })
   },
 });

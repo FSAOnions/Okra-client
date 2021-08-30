@@ -14,7 +14,7 @@ const initScene = require("../../../js/MenuARScene");
 export default function ARMenu() {
   const dispatch = useDispatch();
   useEffect(() => {
-    //dispatch(fetchProducts());
+    dispatch(fetchProducts());
   }, []);
   const [pFU, setPFU] = useState({
     position: [0, -0.5, -0.5],
