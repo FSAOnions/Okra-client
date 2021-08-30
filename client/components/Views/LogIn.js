@@ -1,43 +1,39 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  StyleSheet,
-  View,
-  SafeAreaView,
-  Alert
-} from "react-native";
-import {authenticate, getUser} from "../../redux/reducers/user"
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { StyleSheet, View, SafeAreaView, Alert } from "react-native";
+import { authenticate } from "../../redux/reducers/user";
 import { setPage } from "../../redux/reducers/userPage";
 import { Layout, Input, Button, Text } from "@ui-kitten/components";
 
 export default function LogIn() {
   const dispatch = useDispatch();
-  const {user} = useSelector(getUser)
-  const [email, onChangeEmail] = useState("")
+  const [emailLow, onChangeEmail] = useState("");
   const [password, onChangePassword] = useState("");
-  const handleSubmit=async()=>{
-    // const email =emailLow.toLowerCase() 
-    const auth = await dispatch(authenticate({email, password}));
 
-    if (auth.type==="auth/rejected"){
+  const handleSubmit = async () => {
+    const email = emailLow.toLowerCase();
+    const auth = await dispatch(authenticate({ email, password }));
+
+    if (auth.type === "auth/rejected") {
       Alert.alert(
         "Login failed",
         "Your email or password is incorrect. Please try again",
         [
           {
             text: "OK",
-            onPress: () => {onChangeEmail("");
-            onChangePassword("");},
+            onPress: () => {
+              onChangeEmail("");
+              onChangePassword("");
+            },
           },
         ]
       );
-      
-  }
-  if (auth.type==="auth/fulfilled"){
-    dispatch(setPage("home"))
-  }
-  }
+    }
+    if (auth.type === "auth/fulfilled") {
+      dispatch(setPage("home"));
+    }
+  };
   return (
     <SafeAreaView style={styles.mainContainer}>
       <View style={{ alignItems: "center", justifyContent: "center" }}>
@@ -50,7 +46,7 @@ export default function LogIn() {
           <Input
             style={styles.input}
             placeholder="Email"
-            value={email}
+            value={emailLow}
             onChangeText={onChangeEmail}
           />
         </Layout>
