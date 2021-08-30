@@ -15,32 +15,40 @@ import {
   ViroARImageMarker,
 } from "react-viro";
 
-import { selectMenu } from "../client/redux/reducers/menu";
+import {
+  selectMenu,
+  fetchMenu,
+  fetchAllRestaurants,
+} from "../client/redux/reducers/menu";
 import { setPage } from "../client/redux/reducers/userPage";
 
-const initTargets = [
-  { name: "targetOne", uri: `${serverUrl}/CoffeeCup/obj/coffee_cup.jpg` },
-  { name: "targetTwo", uri: `${serverUrl}/logo.jpeg` },
-  // { name: "Me", uri: `${serverUrl}/all_love.jpeg` },
-];
 const ImageReaderScene = (props) => {
   const dispatch = useDispatch();
-  const { assets, proof, selected, item } = useSelector(selectMenu);
-
+  const { restaurants } = useSelector(selectMenu);
   const [text, setText] = useState("Initializing AR...");
-  const [targets, setTargets] = useState(initTargets);
 
   useEffect(() => {
-    initTargets.forEach(({ name, uri }) => {
+    console.log("UseEffect", restaurants);
+    restaurants.forEach(({ name, imgUrl }) => {
+      const uri = `${serverUrl}/${imgUrl}`;
       ViroARTrackingTargets.createTargets({
         [name]: {
           source: { uri },
           orientation: "Up",
           physicalWidth: 0.1,
         },
+        // .addCase(fetchMenu.fulfilled, (state, action) => {
+        //   state.assets = action.payload;
+        // }),
       });
     });
   }, []);
+
+  const mappedRestaurants = restaurants.map((rest) => {
+    return `${rest.name} ${rest.id}`;
+  });
+
+  console.log({ mappedRestaurants });
 
   return (
     <ViroARScene
@@ -48,13 +56,14 @@ const ImageReaderScene = (props) => {
         setText("Hello World!");
       }}
     >
-      {targets.map(({ name }, idx) => {
+      {restaurants.map((restaurant) => {
         return (
           <ViroARImageMarker
-            key={idx}
-            target={name}
+            key={restaurant.id}
+            target={restaurant.name}
             onAnchorFound={(anchor) => {
-              Alert.alert(`Menu Found`, `Go to ${name}'s menu`, [
+              console.log("this is restaurant.id => ", restaurant.id);
+              Alert.alert(`Menu Found`, `Go to ${restaurant.name}'s menu`, [
                 {
                   text: "Cancel",
                   onPress: () => dispatch(setPage("home")),

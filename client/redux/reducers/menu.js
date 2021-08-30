@@ -55,28 +55,21 @@ export const editItemThunk = createAsyncThunk("menu/editItem", async (id) => {
 //Category Thunks
 /////////////////////////////////////////////////////////////
 export const fetchMenu = createAsyncThunk("menu", async (restaurantId) => {
-  const { data } = await axios.get(`${serverUrl}/api/products/${restaurantId}`);
+  const { data } = await axios.get(
+    `${serverUrl}/api/products/restaurants/${restaurantId}`
+  );
+
   return data;
   // return data.filter((product) => {
   //   return product.product_type === "Drink";
   // });
 });
 
-// export const fetchEntrees = createAsyncThunk("menu/entrees", async () => {
-//   const { data } = await axios.get(`${serverUrl}/api/products`);
+export const fetchAllRestaurants = createAsyncThunk("restaurants", async () => {
+  const { data } = await axios.get(`${serverUrl}/api/products/restaurants`);
 
-//   return data.filter((product) => {
-//     return product.product_type === "Entree";
-//   });
-// });
-
-// export const fetchAppetizers = createAsyncThunk("menu/appetizers", async () => {
-//   const { data } = await axios.get(`${serverUrl}/api/products`);
-
-//   return data.filter((product) => {
-//     return product.product_type === "Appetizer";
-//   });
-// });
+  return data;
+});
 
 //Slice
 /////////////////////////////////////////////////////////////
@@ -84,26 +77,10 @@ const menuSlice = createSlice({
   name: "menu",
   initialState: {
     proof: { test: "Bad", message: "" },
-    assets: [
-      // {
-      //   product_name: "Coffee",
-      //   product_imgUrl: loadAsset("/CoffeeCup/obj/Red.png"), //img from Sung
-      //   threeD_imgUrl: "", //img with mtl and obj
-      //   price: 5.99,
-      //   description: "Cappuccino",
-      //   product_type: "Drink",
-      //   assets: {
-      //     name: "coffee cup",
-      //     source: loadAsset(`/CoffeeCup/obj/coffee_cup.obj`),
-      //     mtl: loadAsset(`/CoffeeCup/obj/coffee_cup.mtl`),
-      //     type: "OBJ",
-      //     scale: 0.015,
-      //   },
-      //   restaurantId: 1,
-      // },
-    ],
+    assets: [],
     menuAssets: [],
     selected: [],
+    restaurants: [],
     item: { position: [0, -0.5, -0.5] },
   },
   reducers: {
@@ -129,6 +106,9 @@ const menuSlice = createSlice({
       })
       .addCase(fetchMenu.fulfilled, (state, action) => {
         state.assets = action.payload;
+      })
+      .addCase(fetchAllRestaurants.fulfilled, (state, action) => {
+        state.restaurants = action.payload;
       });
   },
 });

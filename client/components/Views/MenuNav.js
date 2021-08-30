@@ -2,14 +2,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { View, Button, Vibration, ScrollView, Text } from "react-native";
-import {
-  selectMenu,
-  setItem,
-  fetchDrinks,
-  fetchEntrees,
-  fetchAppetizers,
-  fetchMenu,
-} from "../../redux/reducers/menu";
+import { selectMenu, setItem, fetchMenu } from "../../redux/reducers/menu";
 import SwiperMenu from "./SwiperMenu";
 import getDimensions from "../../util/getDimensions";
 
@@ -97,21 +90,21 @@ export default function MenuNav(props) {
             <Button
               title={"Appetizers"}
               onPress={() => {
-                dispatch(fetchMenu());
+                // dispatch(fetchAppetizers());
                 Vibration.vibrate(10, true);
               }}
             />
             <Button
               title={"Entrees"}
               onPress={() => {
-                dispatch(fetchMenu());
+                // dispatch(fetchEntrees());
                 Vibration.vibrate(10, true);
               }}
             />
             <Button
               title={"Drinks"}
               onPress={() => {
-                dispatch(fetchMenu());
+                // dispatch(fetchDrinks());
                 Vibration.vibrate(10, true);
               }}
             />

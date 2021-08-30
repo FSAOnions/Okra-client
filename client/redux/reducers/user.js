@@ -4,25 +4,30 @@ import { Alert } from "react-native";
 import store from "../store";
 const serverUrl = "https://okra-onions.herokuapp.com";
 
-export const me = createAsyncThunk("auth/me", async()=>{
-  console.log("ME")
-  const { res } = await axios.get(`${serverUrl}/auth/me`, { credentials: "include" });
+export const me = createAsyncThunk("auth/me", async () => {
+  console.log("ME");
+  const { res } = await axios.get(`${serverUrl}/auth/me`, {
+    credentials: "include",
+  });
   return res;
-})
+});
 
-function select(state){
-return state.userPage.link
+function select(state) {
+  return state.userPage.link;
 }
 
-export const authenticate = createAsyncThunk(
-  "auth",
-  async (user) => {
+export const authenticate = createAsyncThunk("auth", async (user) => {
   await axios.post(`${serverUrl}/auth/${select(store.getState())}`, user);
-  const {data} = await axios.get(`${serverUrl}/auth/me`, { credentials: "include" });
-  console.log("Res", data)
+  const { data } = await axios.get(`${serverUrl}/auth/me`, {
+    credentials: "include",
+  });
   return data;
-  }
-);
+});
+
+export const update = createAsyncThunk("update", async (user) => {
+  const { data } = await axios.put(`${serverUrl}/auth/${id}}`, user);
+  return data;
+});
 
 export const logout = () => {
   return {
@@ -41,11 +46,14 @@ const userAuthSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(authenticate.fulfilled, (state, action) => {
-        state = action.payload;
+        return action.payload;
+      })
+      .addCase(update.fulfilled, (state, action) => {
+        return action.payload;
       })
       .addCase(me.fulfilled, (state, action) => {
-        state.user = action.payload;
-      })
+        return action.payload;
+      });
   },
 });
 
