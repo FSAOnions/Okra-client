@@ -24,7 +24,8 @@ import { setPage } from "../client/redux/reducers/userPage";
 
 const ImageReaderScene = (props) => {
   const dispatch = useDispatch();
-  const { restaurants, menu, currentRestaurant } = useSelector(selectMenu);
+  const { restaurants, currentRestaurant } = useSelector(selectMenu);
+  const { id, name } = currentRestaurant;
   const [text, setText] = useState("Initializing AR...");
   const fetchOnce = (() => {
     let ran;
@@ -56,7 +57,7 @@ const ImageReaderScene = (props) => {
         setText("Hello World!");
       }}
     >
-      {currentRestaurant.id
+      {id
         ? Alert.alert(`Menu Found`, `Go to ${currentRestaurant.name}'s menu`, [
             {
               text: "Cancel",

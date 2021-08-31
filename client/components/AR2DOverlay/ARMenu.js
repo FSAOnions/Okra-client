@@ -11,13 +11,18 @@ import Hamburger from "../Views/Hamburger";
 import MenuNav from "../Views/MenuNav";
 const initScene = require("../../../js/MenuARScene");
 import { selectMenu } from "../../redux/reducers/menu";
+import { selectUser } from "../../redux/reducers/user";
 
 export default function ARMenu() {
   const dispatch = useDispatch();
+  const user = useSelector(selectUser);
   const { currentRestaurant } = useSelector(selectMenu);
   useEffect(() => {
-    dispatch(createBill(currentRestaurant.id));
+    if (!user.currentRestaurantId) {
+      dispatch(createBill(currentRestaurant.id));
+    }
   }, [currentRestaurant.id]);
+
   const [pFU, setPFU] = useState({
     position: [0, -0.5, -0.5],
     forward: [0, 0, 0],
