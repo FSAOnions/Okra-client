@@ -67,6 +67,7 @@ const INIT_STATE = {
   restaurants: [],
   orders: [],
   singleProduct: {},
+  filteredProducts: []
 };
 //Slice
 /////////////////////////////////////////////////////////////
@@ -74,9 +75,6 @@ const menuSlice = createSlice({
   name: "menu",
   initialState: INIT_STATE,
   reducers: {
-    setProof(state, action) {
-      return { ...state, proof: { test: "true", message: "Action" } };
-    },
     setSelected(state, action) {
       return { ...state, selected: [...state.selected, action.payload] };
     },
@@ -85,6 +83,9 @@ const menuSlice = createSlice({
     },
     setSingleProduct(state, action) {
       return { ...state, singleProduct: action.payload };
+    },
+    setFilteredProducts(state, action) {
+      return { ...state, filteredProducts: action.payload };
     },
     emptySelected(state, action) {
       return { ...state, selected: [] };
@@ -96,7 +97,7 @@ const menuSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchMenu.fulfilled, (state, action) => {
-        state.menu = { assets: action.payload };
+        state.assets = action.payload;
       })
       .addCase(fetchAllRestaurants.fulfilled, (state, action) => {
         state.restaurants = action.payload;
@@ -118,6 +119,7 @@ export const {
   setItem,
   setProducts,
   setSingleProduct,
+  setFilteredProducts,
   emptySelected,
   setRestaurant,
   emptyAll,
