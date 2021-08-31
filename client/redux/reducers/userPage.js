@@ -21,7 +21,6 @@ const userPageSlice = createSlice({
   name: "page",
   initialState: {
     link: "start",
-    scene: () => null,
   },
   reducers: {
     setPage(state, action) {

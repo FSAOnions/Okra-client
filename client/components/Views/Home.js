@@ -12,20 +12,30 @@ import {
 import { Button, Text } from "@ui-kitten/components";
 import { selectUser, me } from "../../redux/reducers/user";
 const { windowHeight } = getDimensions();
-
+import { setRestaurant } from "../../redux/reducers/menu";
 export default function Home() {
   const dispatch = useDispatch();
-  const { orders, currentRestaurant } = useSelector(selectMenu);
+  const { orders, restaurants, currentRestaurant } = useSelector(selectMenu);
   const user = useSelector(selectUser);
 
   useEffect(() => {
     if (!user) {
       dispatch(me());
     } else {
-      dispatch(fetchAllRestaurants());
-      dispatch(fetchOrders());
+      if (!restaurants.length) {
+        dispatch(fetchAllRestaurants(user.currentRestaurantId));
+      } else if (restaurants.length) {
+        const t = restaurants.find((restaurant) => {
+          console.log("r", restaurant, user.currentRestaurantId);
+          return restaurant.id === 1;
+        });
+        console.log("hello", t);
+        dispatch(setRestaurant(t));
+      }
     }
-  }, [user]);
+
+    dispatch(fetchOrders());
+  }, [user, restaurants]);
 
   return (
     <SafeAreaView style={styles.mainContainer}>
