@@ -1,31 +1,54 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  View,
-  Button,
-  Vibration,
-  ScrollView,
-} from "react-native";
-import { selectMenu, setItem } from "../../redux/reducers/menu";
+import { View, Button, Vibration, ScrollView } from "react-native";
+import { selectMenu, setItem, emptySelected } from "../../redux/reducers/menu";
 import SwiperMenu from "./SwiperMenu";
 import getDimensions from "../../util/getDimensions";
+import {
+  addOrderItems,
+  selectBill,
+  createBill,
+} from "../../redux/reducers/bill";
+import { setPage } from "../../redux/reducers/userPage";
 
 export default function MenuNav(props) {
   const [open, setOpen] = useState(false);
-  const { assets } = useSelector(selectMenu);
+  const { assets, selected } = useSelector(selectMenu);
+  const { loading } = useSelector(selectBill);
   const dispatch = useDispatch();
 
-  const { itemPadding, windowHeight} = getDimensions();
+  useEffect(() => {
+    if (loading === false) {
+      dispatch(emptySelected());
+      dispatch(setPage("home"));
+    }
+  }, [loading]);
+
+  const handleOrderClick = () => {
+    const cleanedUpArr = selected.map(({ price, id }) => ({ price, id }));
+    const payload = {};
+
+    cleanedUpArr.forEach(({ id, price }) => {
+      if (id in payload) {
+        payload[id].quantity++;
+      } else {
+        payload[id] = { quantity: 1, price };
+      }
+    });
+    console.log(payload);
+    dispatch(addOrderItems(payload));
+  };
+  const { itemPadding, windowHeight } = getDimensions();
 
   const { arScene, menuBar } = open
     ? {
-      arScene: windowHeight*0.6,
-      menuBar:  windowHeight*0.4,
+        arScene: windowHeight * 0.6,
+        menuBar: windowHeight * 0.4,
       }
     : {
-        arScene: windowHeight*0.82,
-        menuBar: windowHeight*0.18
+        arScene: windowHeight * 0.82,
+        menuBar: windowHeight * 0.18,
       };
 
   return (
@@ -81,7 +104,12 @@ export default function MenuNav(props) {
             }}
             accessibilityLabel="Learn more about this purple button"
           />
-          <ScrollView style={{ height: "100%", overflow: "hidden" }}>
+          <Button
+            title={"Order"}
+            onPress={handleOrderClick}
+            accessibilityLabel="Learn more about this purple button"
+          />
+          {/* <ScrollView style={{ height: "100%", overflow: "hidden" }}>
             {assets.map((product) => {
               const { product_name, id } = product;
               return (
@@ -95,7 +123,7 @@ export default function MenuNav(props) {
                 />
               );
             })}
-          </ScrollView>
+          </ScrollView> */}
         </View>
       </View>
     </View>

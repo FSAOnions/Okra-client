@@ -59,6 +59,12 @@ export const editItemThunk = createAsyncThunk(
   }
 );
 
+export const fetchOrders = createAsyncThunk("fetchOrders", async () => {
+  const { data } = await axios.get(`${serverUrl}/api/order`);
+
+  return data;
+});
+
 //Slice
 /////////////////////////////////////////////////////////////
 const menuSlice = createSlice({
@@ -117,6 +123,7 @@ const menuSlice = createSlice({
     ],
     menuAssets: [],
     selected: [],
+    orders: [],
     item: { position: [0, -0.5, -0.5] },
   },
   reducers: {
@@ -129,6 +136,9 @@ const menuSlice = createSlice({
     setItem(state, action) {
       return { ...state, item: action.payload };
     },
+    emptySelected(state, action) {
+      return { ...state, selected: [] };
+    },
   },
 
   extraReducers: (builder) => {
@@ -139,13 +149,19 @@ const menuSlice = createSlice({
       })
       .addCase(fetchProducts.rejected, (state, action) => {
         console.log(action.payload);
+      })
+      .addCase(fetchOrders.fulfilled, (state, action) => {
+        state.orders = action.payload;
+      })
+      .addCase(fetchOrders.rejected, (state, action) => {
+        console.log(action.payload);
       });
   },
 });
 
 //Actions
 /////////////////////////////////////////////////////////////
-export const { setProof, setSelected, setItem, setProducts } =
+export const { setProof, setSelected, setItem, setProducts, emptySelected } =
   menuSlice.actions;
 
 //Reducer
