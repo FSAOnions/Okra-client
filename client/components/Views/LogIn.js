@@ -47,6 +47,7 @@ export default function LogIn() {
             style={styles.input}
             placeholder="Email"
             value={emailLow}
+            autoCapitalize="none"
             onChangeText={onChangeEmail}
           />
         </Layout>
@@ -55,6 +56,7 @@ export default function LogIn() {
             style={styles.input}
             value={password}
             placeholder="Password"
+            autoCapitalize="none"
             onChangeText={onChangePassword}
           />
         </Layout>
