@@ -3,16 +3,18 @@ import { StyleSheet, View, SafeAreaView, Image } from "react-native";
 import { useDispatch } from "react-redux";
 import getDimensions from "../../util/getDimensions";
 import { setPage } from "../../redux/reducers/userPage";
+import { me } from "../../redux/reducers/user";
 
 const { windowWidth } = getDimensions();
 
 export default function Pending() {
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
+    dispatch(me());
     setTimeout(() => {
       dispatch(setPage("settings"));
-    }, 2000);
+    }, 4000);
   }, []);
   return (
     <SafeAreaView style={styles.mainContainer}>
