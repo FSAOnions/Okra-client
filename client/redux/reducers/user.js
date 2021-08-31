@@ -26,7 +26,7 @@ export const authenticate = createAsyncThunk("auth", async (user) => {
 });
 
 export const update = createAsyncThunk("update", async (user) => {
-  const { data } = await axios.put(`${serverUrl}/auth/${user.id}`, user);
+  const { data } = await axios.put(`${serverUrl}/auth/update`, user);
   return data;
 });
 
@@ -37,7 +37,6 @@ export const updateUserRestaurant = createAsyncThunk(
     const { data } = await axios.put(
       `${serverUrl}/auth/currentRestaurant/${id}`
     );
-
     return data;
   }
 );
@@ -62,6 +61,7 @@ const userAuthSlice = createSlice({
         state.user = action.payload;
       })
       .addCase(update.fulfilled, (state, action) => {
+      
         state.user = action.payload;
       })
       .addCase(me.fulfilled, (state, action) => {

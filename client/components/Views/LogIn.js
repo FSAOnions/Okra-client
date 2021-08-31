@@ -55,6 +55,7 @@ export default function LogIn() {
           <Input
             style={styles.input}
             value={password}
+            secureTextEntry={true}
             placeholder="Password"
             autoCapitalize="none"
             onChangeText={onChangePassword}

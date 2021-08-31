@@ -6,6 +6,7 @@ import {
   selectMenu,
   emptySelected,
   setFilteredProducts,
+  setSingleProduct,
 } from "../../redux/reducers/menu";
 import SwiperMenu from "./SwiperMenu";
 import getDimensions from "../../util/getDimensions";
@@ -71,6 +72,7 @@ export default function MenuNav(props) {
           )
         )
       : dispatch(setFilteredProducts(currentRestaurant.products));
+      dispatch(setSingleProduct(currentRestaurant.products[0]))
   };
 
   return (

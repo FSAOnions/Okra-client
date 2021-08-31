@@ -26,10 +26,8 @@ export default function Home() {
         dispatch(fetchAllRestaurants(user.currentRestaurantId));
       } else if (restaurants.length && user.currentRestaurantId) {
         const t = restaurants.find((restaurant) => {
-          console.log("r", restaurant, user.currentRestaurantId);
           return restaurant.id == user.currentRestaurantId;
         });
-        console.log("hello", t);
         dispatch(setRestaurant(t));
         // dispatch(fetchOrders());
       }
@@ -114,7 +112,6 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     height: "100%",
-    backgroundColor: "#C2E1C2",
   },
   container: {
     flex: 1,

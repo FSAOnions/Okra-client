@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import getDimensions from "../../util/getDimensions";
 import { setPage } from "../../redux/reducers/userPage";
 
+const serverUrl = "https://okra-onions.herokuapp.com";
 const { windowWidth } = getDimensions();
 
 export default function Pending() {
@@ -18,7 +19,7 @@ export default function Pending() {
     <SafeAreaView style={styles.mainContainer}>
       <View>
         <Image
-          source={require("../../../public/okraAnimated.gif")}
+          source={{uri:`${serverUrl}/okraAnimated.gif`}}
           style={styles.logo}
         />
       </View>

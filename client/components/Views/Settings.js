@@ -16,10 +16,22 @@ export default function Settings() {
   const [emailLow, setEmail] = useState(email);
   const [passwordS, setPassword] = useState("");
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    let passw;
     const email = emailLow.toLowerCase();
-    const userUpdated = dispatch(
-      update({ id, firstName, lastName, email, password })
+    if (passwordS === "") {
+      passw = password;
+    } else {
+      passw = passwordS;
+    }
+    const userUpdated = await dispatch(
+      update({
+        id,
+        firstName: firstNameS,
+        lastName: lastNameS,
+        email,
+        password: passw,
+      })
     );
     if (userUpdated) {
       dispatch(setPage("home"));
@@ -90,6 +102,14 @@ export default function Settings() {
             Apply changes
           </Button>
         </View>
+        <View
+          style={{
+            marginTop: 25,
+            alignItems: "center"
+          }}
+        >
+          <Text onPress={() => dispatch(setPage("signup"))}>Go Back</Text>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -102,10 +122,12 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     width: windowWidth,
     height: windowHeight,
+    backgroundColor: "white"
   },
   container: {
     display: "flex",
     flexDirection: "column",
+    backgroundColor: "white",
     margin: 5,
   },
   bottom: {
