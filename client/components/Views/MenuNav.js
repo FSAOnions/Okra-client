@@ -104,6 +104,35 @@ export default function MenuNav(props) {
             }}
             accessibilityLabel="Learn more about this purple button"
           />
+          <View style={{ flexDirection: "row", justifyContent: "center" }}>
+            <Button
+              title={"Appetizers"}
+              onPress={() => {
+                // assets.filter(
+                //   (product) => product.product_type === "Appetizer"
+                // );
+                Vibration.vibrate(10, true);
+              }}
+            />
+            <Button
+              title={"Entrees"}
+              onPress={() => {
+                assets.filter((product) => product.product_type === "Entree");
+                Vibration.vibrate(10, true);
+              }}
+            />
+            <Button
+              title={"Drinks"}
+              onPress={() => {
+                assets.filter((product) => product.product_type === "Drink");
+                Vibration.vibrate(10, true);
+              }}
+            />
+          </View>
+          {/* <ScrollView style={{ height: "100%", overflow: "hidden" }}>
+            {assets.map((product, index) => {
+              console.log("assets from scrollview", assets);
+              const { id, description } = product; */}
           <Button
             title={"Order"}
             onPress={handleOrderClick}
@@ -113,14 +142,16 @@ export default function MenuNav(props) {
             {assets.map((product) => {
               const { product_name, id } = product;
               return (
-                <Button
-                  key={id}
-                  title={product_name}
-                  onPress={() => {
-                    dispatch(setItem(product));
-                  }}
-                  accessibilityLabel="Learn more about this purple button"
-                />
+                <View>
+                  <Button
+                    key={id}
+                    title={""}
+                    onPress={() => {
+                      dispatch(setItem(product));
+                    }}
+                    accessibilityLabel="Learn more about this purple button"
+                  />
+                </View>
               );
             })}
           </ScrollView> */}

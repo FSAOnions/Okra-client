@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Vibration,
   ImageBackground,
+  Text,
 } from "react-native";
 import Carousel from "react-native-snap-carousel";
 
@@ -22,7 +23,6 @@ const SwiperMenu = ({ pFU }) => {
   const { assets } = useSelector(selectMenu);
   const dispatch = useDispatch();
   let carousel = useRef();
-
 
   const _renderItem = ({ item }) => {
     const { itemPadding, windowWidth } = getDimensions();

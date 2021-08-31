@@ -15,32 +15,36 @@ import {
   ViroARImageMarker,
 } from "react-viro";
 
-import { selectMenu } from "../client/redux/reducers/menu";
+import { selectMenu, fetchMenu } from "../client/redux/reducers/menu";
 import { setPage } from "../client/redux/reducers/userPage";
 
-const initTargets = [
-  { name: "targetOne", uri: `${serverUrl}/CoffeeCup/obj/coffee_cup.jpg` },
-  { name: "targetTwo", uri: `${serverUrl}/logo.jpeg` },
-  // { name: "Me", uri: `${serverUrl}/all_love.jpeg` },
-];
 const ImageReaderScene = (props) => {
   const dispatch = useDispatch();
-  const { assets, proof, selected, item } = useSelector(selectMenu);
-
+  const { restaurants, menu } = useSelector(selectMenu);
   const [text, setText] = useState("Initializing AR...");
-  const [targets, setTargets] = useState(initTargets);
+  const fetchOnce = (() => {
+    let ran;
+    return (id) => {
+      if (!ran) {
+        dispatch(fetchMenu(id));
+        ran = !ran;
+      }
+    };
+  })();
 
   useEffect(() => {
-    initTargets.forEach(({ name, uri }) => {
-      ViroARTrackingTargets.createTargets({
-        [name]: {
-          source: { uri },
-          orientation: "Up",
-          physicalWidth: 0.1,
-        },
+    restaurants.length &&
+      restaurants.forEach(({ name, imgUrl }) => {
+        const uri = `${serverUrl}/${imgUrl}`;
+        ViroARTrackingTargets.createTargets({
+          [name]: {
+            source: { uri },
+            orientation: "Up",
+            physicalWidth: 0.1,
+          },
+        });
       });
-    });
-  }, []);
+  }, [restaurants.length]);
 
   return (
     <ViroARScene
@@ -48,24 +52,30 @@ const ImageReaderScene = (props) => {
         setText("Hello World!");
       }}
     >
-      {targets.map(({ name }, idx) => {
-        return (
-          <ViroARImageMarker
-            key={idx}
-            target={name}
-            onAnchorFound={(anchor) => {
-              Alert.alert(`Menu Found`, `Go to ${name}'s menu`, [
-                {
-                  text: "Cancel",
-                  onPress: () => dispatch(setPage("home")),
-                  style: "cancel",
-                },
-                { text: "OK", onPress: () => dispatch(setPage("menu")) },
-              ]);
-            }}
-          />
-        );
-      })}
+      {menu.assets
+        ? restaurants.map((restaurant) => {
+            const { name, id } = restaurant;
+            return (
+              <ViroARImageMarker
+                key={id}
+                target={name}
+                onAnchorFound={(anchor) => {
+                  fetchOnce(id);
+                }}
+              />
+            );
+          })
+        : Alert.alert(`Menu Found`, `Go to ${name}'s menu`, [
+            {
+              text: "Cancel",
+              onPress: () => dispatch(setPage("home")),
+              style: "cancel",
+            },
+            {
+              text: "OK",
+              onPress: () => dispatch(setPage("menu")),
+            },
+          ])}
     </ViroARScene>
   );
 };

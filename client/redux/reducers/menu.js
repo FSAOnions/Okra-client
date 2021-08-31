@@ -6,6 +6,7 @@ const local = "http://10.0.0.206:8080";
 const loadAsset = (path) => {
   return `${local}${path}`;
 };
+
 //Thunks
 /////////////////////////////////////////////////////////////
 export const proofOfThunk = createAsyncThunk(
@@ -22,23 +23,18 @@ export const proofOfThunk = createAsyncThunk(
   }
 );
 
-export const fetchProducts = createAsyncThunk(
-  "menu/fetchProducts",
-  async () => {
-    const { data } = await axios.get(`${serverUrl}/api/products`);
-
-    console.log({ data });
-
-    return data;
-  }
-);
+// export const fetchProducts = createAsyncThunk(
+//   "menu/fetchProducts",
+//   async (menuOption) => {
+//     const { data } = await axios.get(`${serverUrl}/api/products`);
+//     return data;
+//   }
+// );
 
 export const fetchSingleItem = createAsyncThunk(
   "menu/fetchSingleItem",
   async (id) => {
     const { data } = await axios.get(`${serverUrl}/api/products/${id}`);
-
-    // console.log({ data });
 
     return data;
   }
@@ -51,13 +47,29 @@ export const deleteItemThunk = createAsyncThunk(
   }
 );
 
-export const editItemThunk = createAsyncThunk(
-  "menu/editItem",
-  async (id, history) => {
-    await axios.put(`${serverUrl}/api/products/${id}`);
-    history.push("/");
-  }
-);
+export const editItemThunk = createAsyncThunk("menu/editItem", async (id) => {
+  await axios.put(`${serverUrl}/api/products/${id}`);
+  history.push("/");
+});
+
+//Category Thunks
+/////////////////////////////////////////////////////////////
+export const fetchMenu = createAsyncThunk("menu", async (restaurantId) => {
+  const { data } = await axios.get(
+    `${serverUrl}/api/products/restaurants/${restaurantId}`
+  );
+
+  return data;
+  // return data.filter((product) => {
+  //   return product.product_type === "Drink";
+  // });
+});
+
+export const fetchAllRestaurants = createAsyncThunk("restaurants", async () => {
+  const { data } = await axios.get(`${serverUrl}/api/products/restaurants`);
+
+  return data;
+});
 
 export const fetchOrders = createAsyncThunk("fetchOrders", async () => {
   const { data } = await axios.get(`${serverUrl}/api/order`);
@@ -71,58 +83,11 @@ const menuSlice = createSlice({
   name: "menu",
   initialState: {
     proof: { test: "Bad", message: "" },
-    assets: [
-      {
-        product_name: "Coffee",
-        product_imgUrl: loadAsset("/CoffeeCup/obj/Red.png"), //img from Sung
-        threeD_imgUrl: "", //img with mtl and obj
-        price: 5.99,
-        description: "Cappuccino",
-        product_type: "Drink",
-        assets: {
-          name: "coffee cup",
-          source: loadAsset(`/CoffeeCup/obj/coffee_cup.obj`),
-          mtl: loadAsset(`/CoffeeCup/obj/coffee_cup.mtl`),
-          type: "OBJ",
-          scale: 0.015,
-        },
-        restaurantId: 1,
-      },
-      {
-        product_name: "Coffee",
-        product_imgUrl: loadAsset("/CoffeeCup/obj/Green.png"), //img from Sung
-        threeD_imgUrl: "", //img with mtl and obj
-        price: 5.99,
-        description: "Cappuccino",
-        product_type: "Drink",
-        assets: {
-          name: "coffee cup",
-          source: loadAsset(`/CoffeeCup/obj/coffee_cup.obj`),
-          mtl: loadAsset(`/CoffeeCup/obj/coffee_cup.mtl`),
-          type: "OBJ",
-          scale: 0.015,
-        },
-        restaurantId: 1,
-      },
-      {
-        product_name: "Coffee",
-        product_imgUrl: loadAsset("/CoffeeCup/obj/Blue.png"), //img from Sung
-        threeD_imgUrl: "", //img with mtl and obj
-        price: 5.99,
-        description: "Cappuccino",
-        product_type: "Drink",
-        assets: {
-          name: "coffee cup",
-          source: loadAsset(`/CoffeeCup/obj/coffee_cup.obj`),
-          mtl: loadAsset(`/CoffeeCup/obj/coffee_cup.mtl`),
-          type: "OBJ",
-          scale: 0.015,
-        },
-        restaurantId: 1,
-      },
-    ],
+    assets: [],
     menuAssets: [],
     selected: [],
+    menu: {},
+    restaurants: [],
     orders: [],
     item: { position: [0, -0.5, -0.5] },
   },
@@ -140,15 +105,13 @@ const menuSlice = createSlice({
       return { ...state, selected: [] };
     },
   },
-
   extraReducers: (builder) => {
-    // Add reducers for additional action types here, and handle loading state as needed
     builder
-      .addCase(fetchProducts.fulfilled, (state, action) => {
-        state.assets = action.payload;
+      .addCase(fetchMenu.fulfilled, (state, action) => {
+        state.menu = { assets: action.payload };
       })
-      .addCase(fetchProducts.rejected, (state, action) => {
-        console.log(action.payload);
+      .addCase(fetchAllRestaurants.fulfilled, (state, action) => {
+        state.restaurants = action.payload;
       })
       .addCase(fetchOrders.fulfilled, (state, action) => {
         state.orders = action.payload;

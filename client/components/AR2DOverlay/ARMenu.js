@@ -4,9 +4,9 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Button } from "react-native";
 import { useDispatch } from "react-redux";
 import { ViroARSceneNavigator, ViroARScene } from "react-viro";
-import { fetchProducts } from "../../redux/reducers/menu";
 import { setScene } from "../../redux/reducers/userPage";
 import { createBill } from "../../redux/reducers/bill";
+import { fetchProducts } from "../../redux/reducers/menu";
 // import { selectUserPage, setPage } from "../../redux/reducers/userPage";
 import Hamburger from "../Views/Hamburger";
 import MenuNav from "../Views/MenuNav";
@@ -15,7 +15,7 @@ const initScene = require("../../../js/MenuARScene");
 export default function ARMenu() {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchProducts());
+    //dispatch(fetchProducts());
     dispatch(createBill(1));
   }, []);
   const [pFU, setPFU] = useState({

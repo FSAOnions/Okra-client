@@ -4,7 +4,11 @@ import { StyleSheet, View, SafeAreaView, Image } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { setPage } from "../../redux/reducers/userPage";
 import getDimensions from "../../util/getDimensions";
-import { selectMenu, fetchOrders } from "../../redux/reducers/menu";
+import {
+  selectMenu,
+  fetchOrders,
+  fetchAllRestaurants,
+} from "../../redux/reducers/menu";
 import { Button, Text } from "@ui-kitten/components";
 import { selectUser, me } from "../../redux/reducers/user";
 const { windowHeight } = getDimensions();
@@ -74,7 +78,10 @@ export default function Home() {
           >
             <Button
               style={{ width: 250, marginTop: 10 }}
-              onPress={() => dispatch(setPage("scanner"))}
+              onPress={async () => {
+                await dispatch(fetchAllRestaurants());
+                dispatch(setPage("scanner"));
+              }}
             >
               Scan a restaurant logo
             </Button>
