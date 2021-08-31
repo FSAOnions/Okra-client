@@ -4,24 +4,8 @@ import axios from "axios";
 const serverUrl = "https://okra-onions.herokuapp.com";
 const local = "http://10.0.0.206:8080";
 const loadAsset = (path) => {
-  return `${local}${path}`;
+  return `${serverUrl}${path}`;
 };
-
-//Thunks
-/////////////////////////////////////////////////////////////
-export const proofOfThunk = createAsyncThunk(
-  "menu/proofOfThunk",
-  async (message) => {
-    const getFakeData = () =>
-      new Promise((resolve) => {
-        setTimeout(() => {
-          resolve(`GotData: ${message}`);
-        }, 3000);
-      });
-    const data = await getFakeData();
-    return data;
-  }
-);
 
 // export const fetchProducts = createAsyncThunk(
 //   "menu/fetchProducts",
@@ -77,20 +61,18 @@ export const fetchOrders = createAsyncThunk("fetchOrders", async () => {
   return data;
 });
 
+const INIT_STATE = {
+  selected: [],
+  currentRestaurant: {},
+  restaurants: [],
+  orders: [],
+  singleProduct: {},
+};
 //Slice
 /////////////////////////////////////////////////////////////
 const menuSlice = createSlice({
   name: "menu",
-  initialState: {
-    proof: { test: "Bad", message: "" },
-    assets: [],
-    menuAssets: [],
-    selected: [],
-    menu: {},
-    restaurants: [],
-    orders: [],
-    item: { position: [0, -0.5, -0.5] },
-  },
+  initialState: INIT_STATE,
   reducers: {
     setProof(state, action) {
       return { ...state, proof: { test: "true", message: "Action" } };
@@ -98,11 +80,17 @@ const menuSlice = createSlice({
     setSelected(state, action) {
       return { ...state, selected: [...state.selected, action.payload] };
     },
-    setItem(state, action) {
-      return { ...state, item: action.payload };
+    setRestaurant(state, action) {
+      return { ...state, currentRestaurant: action.payload };
+    },
+    setSingleProduct(state, action) {
+      return { ...state, singleProduct: action.payload };
     },
     emptySelected(state, action) {
       return { ...state, selected: [] };
+    },
+    emptyAll(state, action) {
+      return INIT_STATE;
     },
   },
   extraReducers: (builder) => {
@@ -124,8 +112,16 @@ const menuSlice = createSlice({
 
 //Actions
 /////////////////////////////////////////////////////////////
-export const { setProof, setSelected, setItem, setProducts, emptySelected } =
-  menuSlice.actions;
+export const {
+  setProof,
+  setSelected,
+  setItem,
+  setProducts,
+  setSingleProduct,
+  emptySelected,
+  setRestaurant,
+  emptyAll,
+} = menuSlice.actions;
 
 //Reducer
 /////////////////////////////////////////////////////////////

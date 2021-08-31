@@ -15,18 +15,22 @@ import {
   ViroARImageMarker,
 } from "react-viro";
 
-import { selectMenu, fetchMenu } from "../client/redux/reducers/menu";
+import {
+  selectMenu,
+  fetchMenu,
+  setRestaurant,
+} from "../client/redux/reducers/menu";
 import { setPage } from "../client/redux/reducers/userPage";
 
 const ImageReaderScene = (props) => {
   const dispatch = useDispatch();
-  const { restaurants, menu } = useSelector(selectMenu);
+  const { restaurants, menu, currentRestaurant } = useSelector(selectMenu);
   const [text, setText] = useState("Initializing AR...");
   const fetchOnce = (() => {
     let ran;
-    return (id) => {
+    return (idx) => {
       if (!ran) {
-        dispatch(fetchMenu(id));
+        dispatch(setRestaurant(restaurants[idx]));
         ran = !ran;
       }
     };
@@ -52,20 +56,8 @@ const ImageReaderScene = (props) => {
         setText("Hello World!");
       }}
     >
-      {menu.assets
-        ? restaurants.map((restaurant) => {
-            const { name, id } = restaurant;
-            return (
-              <ViroARImageMarker
-                key={id}
-                target={name}
-                onAnchorFound={(anchor) => {
-                  fetchOnce(id);
-                }}
-              />
-            );
-          })
-        : Alert.alert(`Menu Found`, `Go to ${name}'s menu`, [
+      {currentRestaurant.id
+        ? Alert.alert(`Menu Found`, `Go to ${name}'s menu`, [
             {
               text: "Cancel",
               onPress: () => dispatch(setPage("home")),
@@ -75,7 +67,19 @@ const ImageReaderScene = (props) => {
               text: "OK",
               onPress: () => dispatch(setPage("menu")),
             },
-          ])}
+          ])
+        : restaurants.map((restaurant, idx) => {
+            const { name, id } = restaurant;
+            return (
+              <ViroARImageMarker
+                key={id}
+                target={name}
+                onAnchorFound={(anchor) => {
+                  fetchOnce(idx);
+                }}
+              />
+            );
+          })}
     </ViroARScene>
   );
 };

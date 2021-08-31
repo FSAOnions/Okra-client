@@ -38,6 +38,7 @@ export const payBill = createAsyncThunk("payBill", async () => {
   await axios.put(`${serverUrl}/api/bill/payBill`);
 });
 
+const INIT_STATE = {};
 //Slice
 /////////////////////////////////////////////////////////////
 const billSlice = createSlice({

@@ -2,22 +2,22 @@
 import React, { useEffect, useState } from "react";
 // import { useDispatch, useSelector } from "react-redux";
 import { StyleSheet, View, Button } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ViroARSceneNavigator, ViroARScene } from "react-viro";
 import { setScene } from "../../redux/reducers/userPage";
 import { createBill } from "../../redux/reducers/bill";
-import { fetchProducts } from "../../redux/reducers/menu";
 // import { selectUserPage, setPage } from "../../redux/reducers/userPage";
 import Hamburger from "../Views/Hamburger";
 import MenuNav from "../Views/MenuNav";
 const initScene = require("../../../js/MenuARScene");
+import { selectMenu } from "../../redux/reducers/menu";
 
 export default function ARMenu() {
   const dispatch = useDispatch();
+  const { currentRestaurant } = useSelector(selectMenu);
   useEffect(() => {
-    //dispatch(fetchProducts());
-    dispatch(createBill(1));
-  }, []);
+    dispatch(createBill(currentRestaurant.id));
+  }, [currentRestaurant.id]);
   const [pFU, setPFU] = useState({
     position: [0, -0.5, -0.5],
     forward: [0, 0, 0],

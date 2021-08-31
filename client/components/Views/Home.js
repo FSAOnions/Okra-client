@@ -15,13 +15,14 @@ const { windowHeight } = getDimensions();
 
 export default function Home() {
   const dispatch = useDispatch();
-  const { orders } = useSelector(selectMenu);
+  const { orders, currentRestaurant } = useSelector(selectMenu);
   const user = useSelector(selectUser);
 
   useEffect(() => {
     if (!user) {
       dispatch(me());
     } else {
+      dispatch(fetchAllRestaurants());
       dispatch(fetchOrders());
     }
   }, [user]);
@@ -45,7 +46,7 @@ export default function Home() {
           </Text>
         </View>
 
-        {user ? (
+        {currentRestaurant.id ? (
           <View>
             <View style={{ marginTop: 5, alignItems: "center" }}>
               <Button
@@ -78,8 +79,7 @@ export default function Home() {
           >
             <Button
               style={{ width: 250, marginTop: 10 }}
-              onPress={async () => {
-                await dispatch(fetchAllRestaurants());
+              onPress={() => {
                 dispatch(setPage("scanner"));
               }}
             >
