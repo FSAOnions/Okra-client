@@ -24,8 +24,19 @@ import { setPage } from "../client/redux/reducers/userPage";
 
 const ImageReaderScene = (props) => {
   const dispatch = useDispatch();
-  const { restaurants } = useSelector(selectMenu);
+  const { restaurants, assets } = useSelector(selectMenu);
   const [text, setText] = useState("Initializing AR...");
+  const [seen, setSeen] = useState(false);
+  const once = () => {
+    let run = true;
+    return (id) => {
+      if (run) {
+        dispatch(fetchMenu(id));
+        run = false;
+      }
+    };
+  };
+  const [run, setRun] = useState(once());
 
   useEffect(() => {
     console.log("UseEffect", restaurants);
@@ -42,13 +53,8 @@ const ImageReaderScene = (props) => {
         // }),
       });
     });
+    setSeen(true);
   }, []);
-
-  const mappedRestaurants = restaurants.map((rest) => {
-    return `${rest.name} ${rest.id}`;
-  });
-
-  console.log({ mappedRestaurants });
 
   return (
     <ViroARScene
@@ -56,25 +62,34 @@ const ImageReaderScene = (props) => {
         setText("Hello World!");
       }}
     >
-      {restaurants.map((restaurant) => {
-        return (
-          <ViroARImageMarker
-            key={restaurant.id}
-            target={restaurant.name}
-            onAnchorFound={(anchor) => {
-              console.log("this is restaurant.id => ", restaurant.id);
-              Alert.alert(`Menu Found`, `Go to ${restaurant.name}'s menu`, [
-                {
-                  text: "Cancel",
-                  onPress: () => dispatch(setPage("home")),
-                  style: "cancel",
-                },
-                { text: "OK", onPress: () => dispatch(setPage("menu")) },
-              ]);
-            }}
-          />
-        );
-      })}
+      {seen &&
+        restaurants.map((restaurant) => {
+          const { name, id } = restaurant;
+          console.log({ name }, { id });
+          return (
+            <ViroARImageMarker
+              key={id}
+              target={name}
+              onAnchorFound={(anchor) => {
+                const inside = once();
+                inside(id);
+                Alert.alert(`Menu Found`, `Go to ${name}'s menu`, [
+                  {
+                    text: "Cancel",
+                    onPress: () => dispatch(setPage("home")),
+                    style: "cancel",
+                  },
+                  {
+                    text: "OK",
+                    onPress: () => {
+                      dispatch(setPage("menu"));
+                    },
+                  },
+                ]);
+              }}
+            />
+          );
+        })}
     </ViroARScene>
   );
 };

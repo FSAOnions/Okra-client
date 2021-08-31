@@ -18,7 +18,7 @@ import { useSelector, useDispatch } from "react-redux";
 const DURATION = 1000;
 // const PATTERN = [1000, 2000, 3000];
 
-const SwiperMenu = ({ pFU, onSnap }) => {
+const SwiperMenu = ({ pFU }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const { assets } = useSelector(selectMenu);
   const dispatch = useDispatch();
@@ -79,8 +79,7 @@ const SwiperMenu = ({ pFU, onSnap }) => {
           sliderWidth={windowWidth}
           itemWidth={itemWidth}
           renderItem={_renderItem}
-          // onSnapToItem={(index) => setActiveIndex(index)}
-          onSnapToItem={(index) => onSnap(index)}
+          onSnapToItem={(index) => setActiveIndex(index)}
           inactiveSlideScale={0.5}
           inactiveSlideOpacity={0.7}
           activeAnimationType={"decay"}

@@ -56,8 +56,8 @@ export default function Home() {
           >
             <Button
               style={{ width: 250, marginTop: 10 }}
-              onPress={() => {
-                dispatch(fetchAllRestaurants());
+              onPress={async () => {
+                await dispatch(fetchAllRestaurants());
                 dispatch(setPage("scanner"));
               }}
             >

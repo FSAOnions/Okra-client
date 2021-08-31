@@ -12,17 +12,6 @@ export default function MenuNav(props) {
   const dispatch = useDispatch();
   const { itemPadding, windowHeight, windowWidth, itemWidth } = getDimensions();
 
-  const onSnap = (index) => {
-    assets.filter((asset, i) => {
-      if (index === i) {
-        console.log(
-          `asset-Description =>: ${asset.description} || index =>: ${index} || i =>: ${i}`
-        );
-        return asset.description;
-      }
-    });
-  };
-
   const { arScene, menuBar } = open
     ? {
         arScene: windowHeight * 0.6,
@@ -74,7 +63,7 @@ export default function MenuNav(props) {
             backgroundColor: "none",
           }}
         >
-          <SwiperMenu {...props} onSnap={onSnap} />
+          <SwiperMenu {...props} />
         </View>
         <View style={{ height: "100%", backgroundColor: "rgb(255, 255, 255)" }}>
           <Button
@@ -90,27 +79,30 @@ export default function MenuNav(props) {
             <Button
               title={"Appetizers"}
               onPress={() => {
-                // dispatch(fetchAppetizers());
+                // assets.filter(
+                //   (product) => product.product_type === "Appetizer"
+                // );
                 Vibration.vibrate(10, true);
               }}
             />
             <Button
               title={"Entrees"}
               onPress={() => {
-                // dispatch(fetchEntrees());
+                assets.filter((product) => product.product_type === "Entree");
                 Vibration.vibrate(10, true);
               }}
             />
             <Button
               title={"Drinks"}
               onPress={() => {
-                // dispatch(fetchDrinks());
+                assets.filter((product) => product.product_type === "Drink");
                 Vibration.vibrate(10, true);
               }}
             />
           </View>
           <ScrollView style={{ height: "100%", overflow: "hidden" }}>
             {assets.map((product, index) => {
+              console.log("assets from scrollview", assets);
               const { id, description } = product;
               return (
                 <View>
