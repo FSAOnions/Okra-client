@@ -15,9 +15,11 @@ const Cart = db.define("cart", {
   dollars: {
     type: Sequelize.VIRTUAL,
     get() {
-      const rawValue = this.getDataValue("totalprice");
-      const dollar = (rawValue / 100).toFixed(2);
-      return `$${dollar}`;
+      const rawValue = this.getDataValue("total_price");
+
+      const dollars = (rawValue / 100).toFixed(2);
+
+      return `$${dollars}`;
     },
   },
 });

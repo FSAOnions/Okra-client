@@ -1,29 +1,51 @@
 /* eslint-disable no-unused-vars */
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, View, SafeAreaView, Image } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { setPage } from "../../redux/reducers/userPage";
 import getDimensions from "../../util/getDimensions";
-import { selectCart } from "../../redux/reducers/userCart";
+import {
+  selectMenu,
+  fetchOrders,
+  fetchAllRestaurants,
+} from "../../redux/reducers/menu";
 import { Button, Text } from "@ui-kitten/components";
-import { getUser } from "../../redux/reducers/user";
+import { selectUser, me } from "../../redux/reducers/user";
 const { windowHeight } = getDimensions();
-import { fetchAllRestaurants } from "../../redux/reducers/menu";
 
 export default function Home() {
   const dispatch = useDispatch();
-  const { cartItems } = useSelector(selectCart);
-  const user = useSelector(getUser);
+  const { orders } = useSelector(selectMenu);
+  const user = useSelector(selectUser);
+
+  useEffect(() => {
+    if (!user) {
+      dispatch(me());
+    } else {
+      dispatch(fetchOrders());
+    }
+  }, [user]);
+
   return (
     <SafeAreaView style={styles.mainContainer}>
+      <View>
+        {orders.map((order) => (
+          <View>
+            <Text>{order.total_price}</Text>
+            {order.products.map((product) => (
+              <Text>{product.product_name}</Text>
+            ))}
+          </View>
+        ))}
+      </View>
       <View style={styles.container}>
         <View style={{ alignItems: "center", justifyContent: "center" }}>
           <Text style={styles.text} category="h2">
-            {`Welcome\n${user.firstName} ${user.lastName}`}
+            {user && `Welcome\n${user.firstName} ${user.lastName}`}
           </Text>
         </View>
 
-        {cartItems.length !== 0 ? (
+        {user ? (
           <View>
             <View style={{ marginTop: 5, alignItems: "center" }}>
               <Button

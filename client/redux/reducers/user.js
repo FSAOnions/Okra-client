@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { State } from "@ui-kitten/components";
 import axios from "axios";
 import { Alert } from "react-native";
 import store from "../store";
@@ -6,10 +7,10 @@ const serverUrl = "https://okra-onions.herokuapp.com";
 
 export const me = createAsyncThunk("auth/me", async () => {
   console.log("ME");
-  const { res } = await axios.get(`${serverUrl}/auth/me`, {
+  const { data } = await axios.get(`${serverUrl}/auth/me`, {
     credentials: "include",
   });
-  return res;
+  return data;
 });
 
 function select(state) {
@@ -46,13 +47,13 @@ const userAuthSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(authenticate.fulfilled, (state, action) => {
-        return action.payload;
+        state.user = action.payload;
       })
       .addCase(update.fulfilled, (state, action) => {
-        return action.payload;
+        state.user = action.payload;
       })
       .addCase(me.fulfilled, (state, action) => {
-        return action.payload;
+        state.user = action.payload;
       });
   },
 });
@@ -68,3 +69,4 @@ export default userAuthSlice.reducer;
 //Selectors
 /////////////////////////////////////////////////////////////
 export const getUser = (state) => state.user;
+export const selectUser = (state) => state.user.user;

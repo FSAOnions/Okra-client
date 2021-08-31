@@ -71,6 +71,12 @@ export const fetchAllRestaurants = createAsyncThunk("restaurants", async () => {
   return data;
 });
 
+export const fetchOrders = createAsyncThunk("fetchOrders", async () => {
+  const { data } = await axios.get(`${serverUrl}/api/order`);
+
+  return data;
+});
+
 //Slice
 /////////////////////////////////////////////////////////////
 const menuSlice = createSlice({
@@ -80,8 +86,9 @@ const menuSlice = createSlice({
     assets: [],
     menuAssets: [],
     selected: [],
+    menu: {},
     restaurants: [],
-    menuFound: false,
+    orders: [],
     item: { position: [0, -0.5, -0.5] },
   },
   reducers: {
@@ -94,29 +101,30 @@ const menuSlice = createSlice({
     setItem(state, action) {
       return { ...state, item: action.payload };
     },
+    emptySelected(state, action) {
+      return { ...state, selected: [] };
+    },
   },
-
   extraReducers: (builder) => {
-    // Add reducers for additional action types here, and handle loading state as needed
     builder
       .addCase(fetchMenu.fulfilled, (state, action) => {
-        state.assets = action.payload;
+        state.menu = { assets: action.payload };
       })
       .addCase(fetchAllRestaurants.fulfilled, (state, action) => {
         state.restaurants = action.payload;
+      })
+      .addCase(fetchOrders.fulfilled, (state, action) => {
+        state.orders = action.payload;
+      })
+      .addCase(fetchOrders.rejected, (state, action) => {
+        console.log(action.payload);
       });
-    // .addCase(fetchProducts.fulfilled, (state, action) => {
-    //   state.assets = action.payload;
-    // })
-    // .addCase(fetchProducts.rejected, (state, action) => {
-    //   console.log(action.payload);
-    // });
   },
 });
 
 //Actions
 /////////////////////////////////////////////////////////////
-export const { setProof, setSelected, setItem, setProducts } =
+export const { setProof, setSelected, setItem, setProducts, emptySelected } =
   menuSlice.actions;
 
 //Reducer
