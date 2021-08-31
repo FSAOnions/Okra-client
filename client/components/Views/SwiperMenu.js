@@ -20,7 +20,7 @@ const DURATION = 1000;
 
 const SwiperMenu = ({ pFU }) => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const { assets } = useSelector(selectMenu);
+  const { currentRestaurant } = useSelector(selectMenu);
   const dispatch = useDispatch();
   let carousel = useRef();
 
@@ -75,7 +75,7 @@ const SwiperMenu = ({ pFU }) => {
         <Carousel
           layout={"default"}
           ref={(ref) => (carousel = ref)}
-          data={assets}
+          data={currentRestaurant.products}
           sliderWidth={windowWidth}
           itemWidth={itemWidth}
           renderItem={_renderItem}

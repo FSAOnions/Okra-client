@@ -6,9 +6,9 @@ const {
   CartItem,
   User,
   Product,
-} = require("../server123/db/models");
+} = require("../server/db/models");
 
-const db = require("../server123/db/db");
+const db = require("../server/db/db");
 
 const serverUrl = "https://okra-onions.herokuapp.com";
 
