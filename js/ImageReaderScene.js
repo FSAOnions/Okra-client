@@ -29,7 +29,7 @@ const ImageReaderScene = (props) => {
   const [text, setText] = useState("Initializing AR...");
   const fetchOnce = (() => {
     let ran;
-    return (idx) => {
+    return (idx, id) => {
       if (!ran) {
         dispatch(setRestaurant(restaurants[idx]));
         ran = !ran;
@@ -58,7 +58,7 @@ const ImageReaderScene = (props) => {
       }}
     >
       {id
-        ? Alert.alert(`Menu Found`, `Go to ${name}'s menu`, [
+        ? Alert.alert(`Menu Found`, `Go to ${currentRestaurant.name}'s menu`, [
             {
               text: "Cancel",
               onPress: () => dispatch(setPage("home")),
@@ -76,7 +76,7 @@ const ImageReaderScene = (props) => {
                 key={id}
                 target={name}
                 onAnchorFound={(anchor) => {
-                  fetchOnce(idx);
+                  fetchOnce(idx, id);
                 }}
               />
             );

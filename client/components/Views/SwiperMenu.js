@@ -11,7 +11,7 @@ import {
 import Carousel from "react-native-snap-carousel";
 
 import getDimensions from "../../util/getDimensions";
-import { selectMenu, setSelected } from "../../redux/reducers/menu";
+import { selectMenu, setSelected, setSingleProduct } from "../../redux/reducers/menu";
 
 import { useSelector, useDispatch } from "react-redux";
 
@@ -23,6 +23,7 @@ const SwiperMenu = ({ pFU }) => {
   const { currentRestaurant } = useSelector(selectMenu);
   const dispatch = useDispatch();
   let carousel = useRef();
+  const { filteredProducts } = useSelector(selectMenu);
 
   const _renderItem = ({ item }) => {
     const { itemPadding, windowWidth } = getDimensions();
@@ -75,11 +76,11 @@ const SwiperMenu = ({ pFU }) => {
         <Carousel
           layout={"default"}
           ref={(ref) => (carousel = ref)}
-          data={currentRestaurant.products}
+          data={filteredProducts}
           sliderWidth={windowWidth}
           itemWidth={itemWidth}
           renderItem={_renderItem}
-          onSnapToItem={(index) => setActiveIndex(index)}
+          onSnapToItem={(index) => {setActiveIndex(index); console.log(index); dispatch(setSingleProduct(filteredProducts[index]))}}
           inactiveSlideScale={0.5}
           inactiveSlideOpacity={0.7}
           activeAnimationType={"decay"}

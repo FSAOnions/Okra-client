@@ -1,23 +1,23 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { View, Button, Vibration, ScrollView } from "react-native";
-import { selectMenu, setItem, emptySelected } from "../../redux/reducers/menu";
+import { View, Button, Vibration, Text } from "react-native";
+import { selectMenu, emptySelected, setFilteredProducts } from "../../redux/reducers/menu";
 import SwiperMenu from "./SwiperMenu";
 import getDimensions from "../../util/getDimensions";
 import {
   addOrderItems,
   selectBill,
   createBill,
+  
 } from "../../redux/reducers/bill";
 import { setPage } from "../../redux/reducers/userPage";
 
 export default function MenuNav(props) {
   const [open, setOpen] = useState(false);
-  const { assets, selected } = useSelector(selectMenu);
+  const { currentRestaurant, selected, singleProduct,filteredProducts } = useSelector(selectMenu);
   const { loading } = useSelector(selectBill);
   const dispatch = useDispatch();
-
   useEffect(() => {
     if (loading === false) {
       dispatch(emptySelected());
@@ -36,10 +36,10 @@ export default function MenuNav(props) {
         payload[id] = { quantity: 1, price };
       }
     });
-    console.log(payload);
     dispatch(addOrderItems(payload));
   };
-  const { itemPadding, windowHeight } = getDimensions();
+
+  const { windowHeight } = getDimensions();
 
   const { arScene, menuBar } = open
     ? {
@@ -50,6 +50,10 @@ export default function MenuNav(props) {
         arScene: windowHeight * 0.82,
         menuBar: windowHeight * 0.18,
       };
+
+  const Filtering=(type)=>{
+    dispatch(setFilteredProducts(currentRestaurant.products.filter((product) => product.product_type === type)));
+  }
 
   return (
     <View
@@ -108,27 +112,26 @@ export default function MenuNav(props) {
             <Button
               title={"Appetizers"}
               onPress={() => {
-                // assets.filter(
-                //   (product) => product.product_type === "Appetizer"
-                // );
+                Filtering("Appetizer")
                 Vibration.vibrate(10, true);
               }}
             />
             <Button
               title={"Entrees"}
               onPress={() => {
-                assets.filter((product) => product.product_type === "Entree");
+                Filtering("Entree")
                 Vibration.vibrate(10, true);
               }}
             />
             <Button
               title={"Drinks"}
               onPress={() => {
-                assets.filter((product) => product.product_type === "Drink");
+                Filtering("Drink")
                 Vibration.vibrate(10, true);
               }}
             />
           </View>
+          
           {/* <ScrollView style={{ height: "100%", overflow: "hidden" }}>
             {assets.map((product, index) => {
               console.log("assets from scrollview", assets);
@@ -138,6 +141,7 @@ export default function MenuNav(props) {
             onPress={handleOrderClick}
             accessibilityLabel="Learn more about this purple button"
           />
+          {(singleProduct && singleProduct.id) ? <Text style={{margin: 10, fontSize: 25, color: "green", textAlign:"center"}}>{singleProduct.description}</Text> : <></>}
           {/* <ScrollView style={{ height: "100%", overflow: "hidden" }}>
             {assets.map((product) => {
               const { product_name, id } = product;
