@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { View, Button, Vibration, Text } from "react-native";
+import { View, Button, Alert, Text } from "react-native";
 import {
   selectMenu,
   emptySelected,
@@ -29,24 +29,36 @@ export default function MenuNav(props) {
     Filtering();
   }, []);
 
-  const handleOrderClick = async () => {
-    await dispatch(createBill(currentRestaurant.id));
-    const cleanedUpArr = selected.map(({ price, id }) => ({ price, id }));
-    const payload = {};
+  const handleOrderClick = () => {
+    Alert.alert("Confirm Order", "Are you sure?", [
+      {
+        text: "Cancel",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel",
+      },
+      {
+        text: "Order",
+        onPress: async () => {
+          await dispatch(createBill(currentRestaurant.id));
+          const cleanedUpArr = selected.map(({ price, id }) => ({ price, id }));
+          const payload = {};
 
-    cleanedUpArr.forEach(({ id, price }) => {
-      if (id in payload) {
-        payload[id].quantity++;
-      } else {
-        payload[id] = { quantity: 1, price };
-      }
-    });
-    const order = await dispatch(addOrderItems(payload));
+          cleanedUpArr.forEach(({ id, price }) => {
+            if (id in payload) {
+              payload[id].quantity++;
+            } else {
+              payload[id] = { quantity: 1, price };
+            }
+          });
+          const order = await dispatch(addOrderItems(payload));
 
-    if (order.type === "addOrderItems/fulfilled") {
-      await dispatch(emptySelected());
-      await dispatch(setPage("home"));
-    }
+          if (order.type === "addOrderItems/fulfilled") {
+            await dispatch(emptySelected());
+            await dispatch(setPage("home"));
+          }
+        },
+      },
+    ]);
   };
 
   const { windowHeight } = getDimensions();
@@ -109,7 +121,6 @@ export default function MenuNav(props) {
           style={{
             marginBottom: 0,
             height: 100,
-
             width: "100%",
             backgroundColor: "none",
           }}
@@ -121,7 +132,6 @@ export default function MenuNav(props) {
             title={"Menu"}
             onPress={() => {
               // ReactNativeHapticFeedback.trigger("impactLight", options);
-              Vibration.vibrate(10, true);
               setOpen(!open);
             }}
             accessibilityLabel="Learn more about this purple button"
@@ -131,21 +141,18 @@ export default function MenuNav(props) {
               title={"Appetizers"}
               onPress={() => {
                 Filtering("Appetizer");
-                Vibration.vibrate(10, true);
               }}
             />
             <Button
               title={"Entrees"}
               onPress={() => {
                 Filtering("Entree");
-                Vibration.vibrate(10, true);
               }}
             />
             <Button
               title={"Drinks"}
               onPress={() => {
                 Filtering("Drink");
-                Vibration.vibrate(10, true);
               }}
             />
           </View>
