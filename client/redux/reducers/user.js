@@ -26,9 +26,21 @@ export const authenticate = createAsyncThunk("auth", async (user) => {
 });
 
 export const update = createAsyncThunk("update", async (user) => {
-  const { data } = await axios.put(`${serverUrl}/auth/${id}}`, user);
+  const { data } = await axios.put(`${serverUrl}/auth/${user.id}`, user);
   return data;
 });
+
+export const updateUserRestaurant = createAsyncThunk(
+  "updateUserRestaurant",
+  async (id) => {
+    console.log(id, typeof id);
+    const { data } = await axios.put(
+      `${serverUrl}/auth/currentRestaurant/${id}`
+    );
+
+    return data;
+  }
+);
 
 export const logout = () => {
   return {
@@ -54,6 +66,12 @@ const userAuthSlice = createSlice({
       })
       .addCase(me.fulfilled, (state, action) => {
         state.user = action.payload;
+      })
+      .addCase(updateUserRestaurant.fulfilled, (state, action) => {
+        state.user = action.payload;
+      })
+      .addCase(updateUserRestaurant.rejected, (state, action) => {
+        console.log(action.payload);
       });
   },
 });

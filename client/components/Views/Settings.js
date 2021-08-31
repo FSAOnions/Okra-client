@@ -3,22 +3,22 @@ import { StyleSheet, View, SafeAreaView } from "react-native";
 import { Layout, Input, Button, Text } from "@ui-kitten/components";
 import { setPage } from "../../redux/reducers/userPage";
 import { useDispatch, useSelector } from "react-redux";
-import { update, getUser } from "../../redux/reducers/user";
+import { update, selectUser } from "../../redux/reducers/user";
 import getDimensions from "../../util/getDimensions";
 
 const { windowWidth, windowHeight } = getDimensions();
 
 export default function Settings() {
   const dispatch = useDispatch();
-  const { id, firstName, lastName, email, password } = useSelector(getUser);
+  const { id, firstName, lastName, email, password } = useSelector(selectUser);
   const [firstNameS, setFirstName] = useState(firstName);
   const [lastNameS, setLastName] = useState(lastName);
   const [emailLow, setEmail] = useState(email);
   const [passwordS, setPassword] = useState("");
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     const email = emailLow.toLowerCase();
-    const userUpdated = await dispatch(
+    const userUpdated = dispatch(
       update({ id, firstName, lastName, email, password })
     );
     if (userUpdated) {
