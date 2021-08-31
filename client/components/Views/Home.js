@@ -11,8 +11,10 @@ import {
 } from "../../redux/reducers/menu";
 import { Button, Text } from "@ui-kitten/components";
 import { selectUser, me } from "../../redux/reducers/user";
-const { windowHeight } = getDimensions();
+const { windowHeight, windowWidth } = getDimensions();
 import { setRestaurant } from "../../redux/reducers/menu";
+const serverUrl = "https://okra-onions.herokuapp.com";
+
 export default function Home() {
   const dispatch = useDispatch();
   const { orders, restaurants, currentRestaurant } = useSelector(selectMenu);
@@ -36,23 +38,13 @@ export default function Home() {
 
   return (
     <SafeAreaView style={styles.mainContainer}>
-      <View>
-        {orders.map((order) => (
-          <View>
-            <Text>{order.total_price}</Text>
-            {order.products.map((product) => (
-              <Text>{product.product_name}</Text>
-            ))}
-          </View>
-        ))}
-      </View>
       <View style={styles.container}>
         <View style={{ alignItems: "center", justifyContent: "center" }}>
-          <Text style={styles.text} category="h2">
-            {user && `Welcome\n${user.firstName} ${user.lastName}`}
-          </Text>
+          <Image
+            source={{ uri: `${serverUrl}/logo.png` }}
+            style={styles.logo}
+          />
         </View>
-
         {user.currentRestaurantId ? (
           <View>
             <View style={{ marginTop: 5, alignItems: "center" }}>
@@ -99,7 +91,11 @@ export default function Home() {
             style={{ width: 250, marginTop: 10 }}
             onPress={() => dispatch(setPage("pending"))}
           >
-            Settings
+            {user &&
+              `${
+                user.firstName.slice(0, 1).toUpperCase() +
+                user.firstName.slice(1)
+              }'s Profile`}
           </Button>
         </View>
       </View>
@@ -112,6 +108,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     height: "100%",
+    backgroundColor: "#FFFFFF",
   },
   container: {
     flex: 1,
@@ -119,7 +116,7 @@ const styles = StyleSheet.create({
     width: "100%",
     fontSize: 120,
     flexDirection: "column",
-    justifyContent: "flex-start",
+    justifyContent: "center",
     alignItems: "center",
   },
   text: {
@@ -132,5 +129,9 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     backgroundColor: "transparent",
+  },
+  logo: {
+    width: windowWidth * 0.4,
+    height: windowWidth * 0.4,
   },
 });

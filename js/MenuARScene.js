@@ -24,17 +24,13 @@ import {
 const MenuARScene = ({ pFU, setPFU }) => {
   const { selected } = useSelector(selectMenu);
   const [text, setText] = useState("Initializing AR...");
-  const [rotation, setRotation] = useState([0, 0, 0]);
+  const [rotation, setRotation] = useState(0);
   let sceneRef = useRef();
 
   const handleRotate = (rotateState, rotationFactor) => {
     const factor = rotationFactor / 2;
     if (rotateState == 2) {
-      setRotation([
-        rotation[0],
-        rotation[1] + Math.max(Math.min(factor, 10), -10),
-        rotation[2],
-      ]);
+      setRotation(rotation + Math.max(Math.min(factor, 10), -10));
       return;
     }
   };
@@ -84,11 +80,11 @@ const MenuARScene = ({ pFU, setPFU }) => {
               uri: product.assets.source,
             }}
             lightReceivingBitMask={3}
-            resources={[{ uri: product.assets.mtl }]}
+            //resources={[{ uri: product.assets.mtl }]}
             scale={Array(3).fill(product.assets.scale)}
             type={product.assets.type}
             onRotate={handleRotate}
-            rotation={rotation}
+            rotation={[product.assets.rotate, rotation, 0]}
           />
         </ViroNode>
       ))}

@@ -3,28 +3,27 @@ import { StyleSheet, View, SafeAreaView } from "react-native";
 import { Layout, Input, Button, Text } from "@ui-kitten/components";
 import { setPage } from "../../redux/reducers/userPage";
 import { useDispatch, useSelector } from "react-redux";
-import {authenticate, getUser} from "../../redux/reducers/user"
-import getDimensions from "../../util/getDimensions"
+import { authenticate, getUser } from "../../redux/reducers/user";
+import getDimensions from "../../util/getDimensions";
 
 export default function Signup() {
   const dispatch = useDispatch();
-  const {user} = useSelector(getUser)
+  const { user } = useSelector(getUser);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [emailLow, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-
   useEffect(() => {
-    if (user){
-      dispatch(setPage("home"))
+    if (user) {
+      dispatch(setPage("home"));
     }
-  }, [user])
+  }, [user]);
 
   const handleSubmit = () => {
     const email = emailLow.toLowerCase();
-    let createUser = { firstName, lastName, email, password  };
-    dispatch(authenticate(createUser))
+    let createUser = { firstName, lastName, email, password };
+    dispatch(authenticate(createUser));
   };
 
   return (
@@ -96,8 +95,8 @@ export default function Signup() {
           }}
         >
           <Text style={{ color: "lightgrey" }}>
-            Have an account?
-            <Text onPress={handleSubmit}>Login</Text>
+            Have an account?{" "}
+            <Text onPress={() => dispatch(setPage("login"))}>Login</Text>
           </Text>
         </View>
       </View>
@@ -111,6 +110,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     width: "100%",
     height: "100%",
+    backgroundColor: "#FFFFFF",
   },
   container: {
     flexDirection: "row",

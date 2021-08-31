@@ -93,6 +93,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
     width: "100%",
     height: "100%",
+    backgroundColor: "#FFFFFF",
   },
   container: {
     flexDirection: "row",
