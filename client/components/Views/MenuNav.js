@@ -2,30 +2,35 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { View, Button, Vibration, Text } from "react-native";
-import { selectMenu, emptySelected, setFilteredProducts } from "../../redux/reducers/menu";
+import {
+  selectMenu,
+  emptySelected,
+  setFilteredProducts,
+} from "../../redux/reducers/menu";
 import SwiperMenu from "./SwiperMenu";
 import getDimensions from "../../util/getDimensions";
 import {
   addOrderItems,
   selectBill,
   createBill,
-  
 } from "../../redux/reducers/bill";
 import { setPage } from "../../redux/reducers/userPage";
+import { selectUser } from "../../redux/reducers/user";
 
 export default function MenuNav(props) {
   const [open, setOpen] = useState(false);
-  const { currentRestaurant, selected, singleProduct,filteredProducts } = useSelector(selectMenu);
+  const { currentRestaurant, selected, singleProduct, filteredProducts } =
+    useSelector(selectMenu);
   const { loading } = useSelector(selectBill);
+  const user = useSelector(selectUser);
   const dispatch = useDispatch();
-  useEffect(() => {
-    if (loading === false) {
-      dispatch(emptySelected());
-      dispatch(setPage("home"));
-    }
-  }, [loading]);
 
-  const handleOrderClick = () => {
+  useEffect(() => {
+    Filtering();
+  }, []);
+
+  const handleOrderClick = async () => {
+    await dispatch(createBill(currentRestaurant.id));
     const cleanedUpArr = selected.map(({ price, id }) => ({ price, id }));
     const payload = {};
 
@@ -36,7 +41,12 @@ export default function MenuNav(props) {
         payload[id] = { quantity: 1, price };
       }
     });
-    dispatch(addOrderItems(payload));
+    const order = await dispatch(addOrderItems(payload));
+
+    if (order.type === "addOrderItems/fulfilled") {
+      await dispatch(emptySelected());
+      await dispatch(setPage("home"));
+    }
   };
 
   const { windowHeight } = getDimensions();
@@ -51,9 +61,17 @@ export default function MenuNav(props) {
         menuBar: windowHeight * 0.18,
       };
 
-  const Filtering=(type)=>{
-    dispatch(setFilteredProducts(currentRestaurant.products.filter((product) => product.product_type === type)));
-  }
+  const Filtering = (type = null) => {
+    type
+      ? dispatch(
+          setFilteredProducts(
+            currentRestaurant.products.filter(
+              (product) => product.product_type === type
+            )
+          )
+        )
+      : dispatch(setFilteredProducts(currentRestaurant.products));
+  };
 
   return (
     <View
@@ -112,26 +130,26 @@ export default function MenuNav(props) {
             <Button
               title={"Appetizers"}
               onPress={() => {
-                Filtering("Appetizer")
+                Filtering("Appetizer");
                 Vibration.vibrate(10, true);
               }}
             />
             <Button
               title={"Entrees"}
               onPress={() => {
-                Filtering("Entree")
+                Filtering("Entree");
                 Vibration.vibrate(10, true);
               }}
             />
             <Button
               title={"Drinks"}
               onPress={() => {
-                Filtering("Drink")
+                Filtering("Drink");
                 Vibration.vibrate(10, true);
               }}
             />
           </View>
-          
+
           {/* <ScrollView style={{ height: "100%", overflow: "hidden" }}>
             {assets.map((product, index) => {
               console.log("assets from scrollview", assets);
@@ -141,7 +159,20 @@ export default function MenuNav(props) {
             onPress={handleOrderClick}
             accessibilityLabel="Learn more about this purple button"
           />
-          {(singleProduct && singleProduct.id) ? <Text style={{margin: 10, fontSize: 25, color: "green", textAlign:"center"}}>{singleProduct.description}</Text> : <></>}
+          {singleProduct && singleProduct.id ? (
+            <Text
+              style={{
+                margin: 10,
+                fontSize: 25,
+                color: "green",
+                textAlign: "center",
+              }}
+            >
+              {singleProduct.description}
+            </Text>
+          ) : (
+            <></>
+          )}
           {/* <ScrollView style={{ height: "100%", overflow: "hidden" }}>
             {assets.map((product) => {
               const { product_name, id } = product;

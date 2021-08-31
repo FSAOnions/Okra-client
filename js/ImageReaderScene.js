@@ -20,17 +20,20 @@ import {
   fetchMenu,
   setRestaurant,
 } from "../client/redux/reducers/menu";
+import { updateUserRestaurant } from "../client/redux/reducers/user";
 import { setPage } from "../client/redux/reducers/userPage";
 
 const ImageReaderScene = (props) => {
   const dispatch = useDispatch();
   const { restaurants, currentRestaurant } = useSelector(selectMenu);
   const { id, name } = currentRestaurant;
+
   const [text, setText] = useState("Initializing AR...");
   const fetchOnce = (() => {
     let ran;
     return (idx, id) => {
       if (!ran) {
+        dispatch(updateUserRestaurant(restaurants[idx].id));
         dispatch(setRestaurant(restaurants[idx]));
         ran = !ran;
       }

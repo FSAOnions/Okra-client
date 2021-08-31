@@ -24,17 +24,16 @@ export default function Home() {
     } else {
       if (!restaurants.length) {
         dispatch(fetchAllRestaurants(user.currentRestaurantId));
-      } else if (restaurants.length) {
+      } else if (restaurants.length && user.currentRestaurantId) {
         const t = restaurants.find((restaurant) => {
           console.log("r", restaurant, user.currentRestaurantId);
-          return restaurant.id === 1;
+          return restaurant.id == user.currentRestaurantId;
         });
         console.log("hello", t);
         dispatch(setRestaurant(t));
+        // dispatch(fetchOrders());
       }
     }
-
-    dispatch(fetchOrders());
   }, [user, restaurants]);
 
   return (
@@ -56,7 +55,7 @@ export default function Home() {
           </Text>
         </View>
 
-        {currentRestaurant.id ? (
+        {user.currentRestaurantId ? (
           <View>
             <View style={{ marginTop: 5, alignItems: "center" }}>
               <Button

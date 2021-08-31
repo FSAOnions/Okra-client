@@ -14,15 +14,6 @@ import { selectMenu } from "../../redux/reducers/menu";
 import { selectUser } from "../../redux/reducers/user";
 
 export default function ARMenu() {
-  const dispatch = useDispatch();
-  const user = useSelector(selectUser);
-  const { currentRestaurant } = useSelector(selectMenu);
-  useEffect(() => {
-    if (!user.currentRestaurantId) {
-      dispatch(createBill(currentRestaurant.id));
-    }
-  }, [currentRestaurant.id]);
-
   const [pFU, setPFU] = useState({
     position: [0, -0.5, -0.5],
     forward: [0, 0, 0],
