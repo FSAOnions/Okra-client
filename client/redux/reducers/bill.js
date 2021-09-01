@@ -35,7 +35,9 @@ export const addOrderItems = createAsyncThunk(
 // );
 
 export const payBill = createAsyncThunk("payBill", async () => {
-  await axios.put(`${serverUrl}/api/bill/payBill`);
+  const { data } = await axios.put(`${serverUrl}/api/bill/payBill`);
+
+  return data;
 });
 
 const INIT_STATE = {};

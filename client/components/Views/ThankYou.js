@@ -24,7 +24,10 @@ export default function ThankYou() {
     <SafeAreaView style={styles.mainContainer}>
       <View>
         <Text style={styles.text}>Thank You for your Order!</Text>
-        <Image source={loadAsset("/greenloading2.gif")} style={styles.logo} />
+        <Image
+          source={{ uri: loadAsset("/greenloading2.gif") }}
+          style={styles.logo}
+        />
         <Text style={styles.text}>The Kitchen is on it!</Text>
       </View>
     </SafeAreaView>
