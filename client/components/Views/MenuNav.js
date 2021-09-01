@@ -61,7 +61,7 @@ export default function MenuNav(props) {
 
           if (order.type === "addOrderItems/fulfilled") {
             await dispatch(emptySelected());
-            await dispatch(setPage("home"));
+            await dispatch(setPage("thankyou"));
           }
         },
       },
