@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   View,
-  Button,
   Alert,
   Text,
   StyleSheet,
@@ -27,7 +26,8 @@ import { setPage } from "../../redux/reducers/userPage";
 import { selectUser } from "../../redux/reducers/user";
 import { setFilter } from "../../redux/reducers/menu";
 import ScrollType from "./ScrollType";
-const types = ["Appetizer", "Drink", "Entree", "Dessert"];
+import { Button } from "@ui-kitten/components";
+
 export default function MenuNav(props) {
   const [open, setOpen] = useState(false);
   const { currentRestaurant, selected, singleProduct, filteredAssets } =
@@ -80,14 +80,11 @@ export default function MenuNav(props) {
         menuBar: windowHeight * 0.25,
       };
 
-  const filter = (type = null) => {
-    dispatch(setFilter(type));
-  };
-  const local = "http://10.0.0.206:8080";
+  const serverUrl = "https://okra-onions.herokuapp.com";
   const loadAsset = (path) => {
-    return `${local}${path}`;
+    return `${serverUrl}${path}`;
   };
-  const { windowWidth } = getDimensions();
+
   return (
     <View
       pointerEvents="box-none"
@@ -153,6 +150,9 @@ export default function MenuNav(props) {
             backgroundColor: "rgb(255, 255, 255)",
           }}
         >
+          <Button style={{ margin: 2 }} onPress={handleOrderClick}>
+            Order
+          </Button>
           <ScrollView style={{ height: "100%", overflow: "hidden" }}>
             <Text
               style={{
