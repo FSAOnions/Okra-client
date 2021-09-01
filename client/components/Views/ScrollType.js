@@ -7,12 +7,16 @@ import {
   Vibration,
   ImageBackground,
   Text,
+  Button,
+  FlatList,
+  StyleSheet,
 } from "react-native";
 import Carousel from "react-native-snap-carousel";
 
 import getDimensions from "../../util/getDimensions";
 import {
   selectMenu,
+  setFilter,
   setSelected,
   setSingleProduct,
 } from "../../redux/reducers/menu";
@@ -21,19 +25,20 @@ import { useSelector, useDispatch } from "react-redux";
 
 const DURATION = 1000;
 // const PATTERN = [1000, 2000, 3000];
-
-const SwiperMenu = ({ pFU }) => {
+const types = ["All", "Appetizer", "Drink", "Entree", "Dessert"];
+const ScrollType = ({ pFU }) => {
   //const [activeIndex, setActiveIndex] = useState(0);
   const { currentRestaurant, filteredAssets } = useSelector(selectMenu);
   const dispatch = useDispatch();
-  const handleSnap = (index) => {
-    dispatch(setSingleProduct(filteredAssets[index]));
-  };
-  useEffect(() => {
-    handleSnap(0);
-  }, []);
+
   // eslint-disable-next-line no-unused-vars
   let carousel = useRef();
+  const filter = (type = null) => {
+    dispatch(setFilter(type));
+  };
+  const handleSnap = (index) => {
+    dispatch(setFilter(types[index] === "All" ? null : types[index]));
+  };
 
   const _renderItem = ({ item }) => {
     const { itemPadding, windowWidth } = getDimensions();
@@ -41,31 +46,21 @@ const SwiperMenu = ({ pFU }) => {
     return (
       <View
         style={{
-          backgroundColor: "transparent",
-          borderRadius: 5,
-          height: 200,
-          marginBottom: 100,
+          width: "100%",
           marginLeft: itemPadding,
           marginRight: itemPadding,
           alignItems: "center",
         }}
       >
-        <TouchableOpacity
-          onPress={() => {
-            Vibration.vibrate(100, DURATION);
-            dispatch(setSelected({ ...item, pFU }));
-          }}
-        >
-          {/* <ImageBackground
-            source={{ uri: item.product_imgUrl }}
-            resizeMode="cover"
-            style={{ width: windowWidth * 0.25, height: windowWidth * 0.25 }}
-          /> */}
-          <Image
-            style={{ width: windowWidth * 0.25, height: windowWidth * 0.25 }}
-            source={{ uri: item.product_imgUrl }}
+        <View style={{ width: "100%" }}>
+          <Button
+            title={`${item}`}
+            style={{ width: "100%" }}
+            onPress={() => {
+              filter(item);
+            }}
           />
-        </TouchableOpacity>
+        </View>
       </View>
     );
   };
@@ -74,7 +69,8 @@ const SwiperMenu = ({ pFU }) => {
     <SafeAreaView
       style={{
         flex: 1,
-        backgroundColor: "transparent",
+        backgroundColor: "rgb(255,255,255)",
+        height: 30,
       }}
     >
       <View
@@ -87,18 +83,45 @@ const SwiperMenu = ({ pFU }) => {
         <Carousel
           layout={"default"}
           ref={(ref) => (carousel = ref)}
-          data={filteredAssets}
+          data={types}
           sliderWidth={windowWidth}
-          itemWidth={itemWidth}
+          itemWidth={110}
           renderItem={_renderItem}
-          // enableSnap={true}
+          enableSnap={true}
           onSnapToItem={handleSnap}
-          inactiveSlideScale={0.5}
+          inactiveSlideScale={0.8}
           inactiveSlideOpacity={0.7}
           activeAnimationType={"decay"}
         />
       </View>
     </SafeAreaView>
   );
+  // const { windowWidth } = getDimensions();
+  // return (
+  //   <FlatList
+  //     data={["Appetizer", "Drink", "Entree", "Dessert"]}
+  //     horizontal={true}
+  //     style={{
+  //       overflow: "hidden",
+  //       width: windowWidth,
+  //     }}
+  //     renderItem={_renderItem}
+  //   />
+  // );
 };
-export default SwiperMenu;
+export default ScrollType;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: "row",
+    overflow: "hidden",
+    // marginLeft: "40%",
+    width: "100%",
+  },
+  bold: {
+    fontWeight: "bold",
+  },
+  normal: {
+    fontWeight: "normal",
+  },
+});

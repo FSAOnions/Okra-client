@@ -26,7 +26,8 @@ import {
 import { setPage } from "../../redux/reducers/userPage";
 import { selectUser } from "../../redux/reducers/user";
 import { setFilter } from "../../redux/reducers/menu";
-
+import ScrollType from "./ScrollType";
+const types = ["Appetizer", "Drink", "Entree", "Dessert"];
 export default function MenuNav(props) {
   const [open, setOpen] = useState(false);
   const { currentRestaurant, selected, singleProduct, filteredAssets } =
@@ -75,8 +76,8 @@ export default function MenuNav(props) {
         menuBar: windowHeight * 0.5,
       }
     : {
-        arScene: windowHeight * 0.7,
-        menuBar: windowHeight * 0.3,
+        arScene: windowHeight * 0.75,
+        menuBar: windowHeight * 0.25,
       };
 
   const filter = (type = null) => {
@@ -86,7 +87,7 @@ export default function MenuNav(props) {
   const loadAsset = (path) => {
     return `${local}${path}`;
   };
-
+  const { windowWidth } = getDimensions();
   return (
     <View
       pointerEvents="box-none"
@@ -124,8 +125,8 @@ export default function MenuNav(props) {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            marginBottom: 0,
-            height: 130,
+            marginBottom: -75,
+            height: 275,
             width: "100%",
             backgroundColor: "none",
           }}
@@ -142,42 +143,30 @@ export default function MenuNav(props) {
               style={open ? styles.flip : styles.image}
             />
           </TouchableOpacity>
+          <ScrollType />
         </View>
         <View
           style={{
             display: "flex",
-            justifyContent: "flex-start",
+            justifyContent: "center",
             alignItems: "center",
-            height: menuBar,
+            // height: menuBar,
 
             backgroundColor: "rgb(255, 255, 255)",
           }}
         >
-          <View style={{ flexDirection: "row", justifyContent: "center" }}>
-            <Button
-              title={"Appetizers"}
-              onPress={() => {
-                filter("Appetizer");
-              }}
-            />
-            <Button
-              title={"Entrees"}
-              onPress={() => {
-                filter("Entree");
-              }}
-            />
-            <Button
-              title={"Drinks"}
-              onPress={() => {
-                filter("Drink");
-              }}
-            />
-          </View>
-          {/* <Button
-            title={"Order"}
-            onPress={handleOrderClick}
-            accessibilityLabel="Learn more about this purple button"
-          /> */}
+          {/* <ScrollType /> */}
+          {/* <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
+              // width: windowWidth,
+            }}
+          >
+            <ScrollType />
+          </View> */}
+
           <ScrollView style={{ height: "100%", overflow: "hidden" }}>
             <Text
               style={{
@@ -211,6 +200,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     height: 30,
     width: 60,
-    backgroundColor: "rgba(255, 255, 255, 0.3)",
+    marginBottom: 15,
+    borderRadius: 15,
   },
 });

@@ -97,7 +97,7 @@ const menuSlice = createSlice({
       const filtered = !type
         ? products
         : products.filter((product) => product.product_type === type);
-      return { ...state, filteredAssets: filtered };
+      return { ...state, filteredAssets: filtered, singleProduct: filtered[0] };
     },
     setRestaurant(state, action) {
       const assets = action.payload.products;
