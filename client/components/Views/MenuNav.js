@@ -83,9 +83,9 @@ export default function MenuNav(props) {
   const filter = (type = null) => {
     dispatch(setFilter(type));
   };
-  const local = "http://10.0.0.206:8080";
+  const serverUrl = "https://okra-onions.herokuapp.com";
   const loadAsset = (path) => {
-    return `${local}${path}`;
+    return `${serverUrl}${path}`;
   };
   const { windowWidth } = getDimensions();
   return (
