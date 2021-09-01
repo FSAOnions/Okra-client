@@ -18,11 +18,7 @@ const { windowWidth } = getDimensions();
 export default function Start() {
   const animatedValue = useRef(new Animated.Value(0)).current;
   const dispatch = useDispatch();
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     dispatch(setPage("login"));
-  //   }, 2000);
-  // }, []);
+
   const handleAnimation = () => {
     Animated.timing(animatedValue, {
       toValue: 1,
