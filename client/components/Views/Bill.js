@@ -15,12 +15,8 @@ import { Button, Text } from "@ui-kitten/components";
 const { windowHeight, windowWidth } = getDimensions();
 import { emptyAll } from "../../redux/reducers/menu";
 import { payBill } from "../../redux/reducers/bill";
-import { resetCurrentRestaurant } from "../../redux/reducers/user";
-
-const serverUrl = "https://okra-onions.herokuapp.com";
-const loadAsset = (path) => {
-  return `${serverUrl}${path}`;
-};
+import { reset } from "../../redux/reducers/user";
+import loadAsset from "../../util/loadAsset";
 
 export default function Bill() {
   const dispatch = useDispatch();
@@ -50,10 +46,9 @@ export default function Bill() {
     const bill = await dispatch(payBill());
 
     if (bill.type === "payBill/fulfilled") {
-      // update user rest
       dispatch(emptyAll());
-      console.log(resetCurrentRestaurant);
-      dispatch(resetCurrentRestaurant());
+      dispatch(reset());
+      dispatch(setPage("home"));
     }
   };
 

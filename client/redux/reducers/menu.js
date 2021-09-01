@@ -1,11 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import data from "../../util/data";
-const serverUrl = "https://okra-onions.herokuapp.com";
-const local = "http://10.0.0.206:8080";
-const loadAsset = (path) => {
-  return `${serverUrl}${path}`;
-};
+import path from "../../util/loadAsset";
 
 // export const fetchProducts = createAsyncThunk(
 //   "menu/fetchProducts",
@@ -18,7 +14,7 @@ const loadAsset = (path) => {
 export const fetchSingleItem = createAsyncThunk(
   "menu/fetchSingleItem",
   async (id) => {
-    const { data } = await axios.get(`${serverUrl}/api/products/${id}`);
+    const { data } = await axios.get(path(`/api/products/${id}`));
 
     return data;
   }
@@ -27,60 +23,42 @@ export const fetchSingleItem = createAsyncThunk(
 export const deleteItemThunk = createAsyncThunk(
   "menu/deleteItem",
   async (id) => {
-    await axios.delete(`${serverUrl}/api/products/${id}`);
+    await axios.delete(path(`/api/products/${id}`));
   }
 );
 
 export const editItemThunk = createAsyncThunk("menu/editItem", async (id) => {
-  await axios.put(`${serverUrl}/api/products/${id}`);
-  history.push("/");
+  await axios.put(path(`/api/products/${id}`));
 });
 
 //Category Thunks
 /////////////////////////////////////////////////////////////
 export const fetchMenu = createAsyncThunk("menu", async (restaurantId) => {
   const { data } = await axios.get(
-    `${serverUrl}/api/products/restaurants/${restaurantId}`
+    path(`/api/products/restaurants/${restaurantId}`)
   );
-
   return data;
-  // return data.filter((product) => {
-  //   return product.product_type === "Drink";
-  // });
 });
 
 export const fetchAllRestaurants = createAsyncThunk("restaurants", async () => {
-  const { data } = await axios.get(`${serverUrl}/api/products/restaurants`);
+  const { data } = await axios.get(path(`/api/products/restaurants`));
 
   return data;
 });
 
 export const fetchOrders = createAsyncThunk("fetchOrders", async () => {
-  const { data } = await axios.get(`${serverUrl}/api/order`);
-
+  const { data } = await axios.get(path(`/api/order`));
   return data;
 });
-const types = ["Appetizer", "Drink", "Entree", "Dessert"];
+
 const INIT_STATE = {
   selected: [],
-  currentRestaurant: {
-    // products: [
-    //   ...data.filter((product) => product.product_type === types[0]),
-    //   ...data.filter((product) => product.product_type === types[1]),
-    //   ...data.filter((product) => product.product_type === types[2]),
-    //   ...data.filter((product) => product.product_type === types[3]),
-    // ],
-  },
+  currentRestaurant: {},
   restaurants: [],
   orders: [],
   singleProduct: {},
   filteredProducts: [],
-  filteredAssets: [
-    // ...data.filter((product) => product.product_type === types[0]),
-    // ...data.filter((product) => product.product_type === types[1]),
-    // ...data.filter((product) => product.product_type === types[2]),
-    // ...data.filter((product) => product.product_type === types[3]),
-  ],
+  filteredAssets: [],
 };
 //Slice
 /////////////////////////////////////////////////////////////
