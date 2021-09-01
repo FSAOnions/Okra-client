@@ -3,11 +3,7 @@ import { StyleSheet, View, SafeAreaView, Image, Text } from "react-native";
 import { useDispatch } from "react-redux";
 import getDimensions from "../../util/getDimensions";
 import { setPage } from "../../redux/reducers/userPage";
-
-const serverUrl = "https://okra-onions.herokuapp.com";
-const loadAsset = (path) => {
-  return `${serverUrl}${path}`;
-};
+import loadAsset from "../../util/loadAsset";
 
 const { windowWidth, windowHeight } = getDimensions();
 

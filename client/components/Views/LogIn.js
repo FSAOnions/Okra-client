@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { StyleSheet, View, SafeAreaView, Alert } from "react-native";
-import { authenticate } from "../../redux/reducers/user";
+import { authenticate, me } from "../../redux/reducers/user";
 import { setPage } from "../../redux/reducers/userPage";
 import { Layout, Input, Button, Text } from "@ui-kitten/components";
 
@@ -10,7 +10,15 @@ export default function LogIn() {
   const dispatch = useDispatch();
   const [emailLow, onChangeEmail] = useState("");
   const [password, onChangePassword] = useState("");
-
+  useEffect(() => {
+    attemptLogin();
+  }, []);
+  const attemptLogin = async () => {
+    const auth = await dispatch(me());
+    if (auth.type === "auth/me/fulfilled") {
+      dispatch(setPage("home"));
+    }
+  };
   const handleSubmit = async () => {
     const email = emailLow.toLowerCase();
     const auth = await dispatch(authenticate({ email, password }));
