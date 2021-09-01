@@ -65,6 +65,7 @@ export default function LogIn() {
             value={password}
             placeholder="Password"
             autoCapitalize="none"
+            secureTextEntry={true}
             onChangeText={onChangePassword}
           />
         </Layout>

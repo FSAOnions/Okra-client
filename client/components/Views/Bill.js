@@ -17,6 +17,7 @@ import { emptyAll } from "../../redux/reducers/menu";
 import { payBill } from "../../redux/reducers/bill";
 import { reset } from "../../redux/reducers/user";
 import loadAsset from "../../util/loadAsset";
+import Hamburger from "./Hamburger";
 
 export default function Bill() {
   const dispatch = useDispatch();
@@ -60,10 +61,7 @@ export default function Bill() {
 
   return (
     <SafeAreaView style={styles.mainContainer}>
-      <TouchableOpacity onPress={() => dispatch(setPage("home"))}>
-        <Image source={{ uri: loadAsset("/home.png") }} style={styles.image} />
-      </TouchableOpacity>
-
+      <Hamburger uri="home.png" page="home" />
       <View style={styles.container}>
         <Text style={styles.text}>Bill Summary:</Text>
         {orders.map((order) => (

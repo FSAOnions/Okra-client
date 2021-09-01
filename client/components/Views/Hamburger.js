@@ -4,8 +4,9 @@ import { TouchableOpacity, StyleSheet, View } from "react-native";
 import { setPage } from "../../redux/reducers/userPage";
 import { Image } from "react-native";
 import getDimensions from "../../util/getDimensions";
+import loadAsset from "../../util/loadAsset";
 
-export default function Hamburger() {
+export default function Hamburger({ uri, page }) {
   const dispatch = useDispatch();
   const { windowWidth } = getDimensions();
   return (
@@ -20,11 +21,12 @@ export default function Hamburger() {
         backgroundColor: "none",
       }}
     >
-     <TouchableOpacity onPress={() => dispatch(setPage("home"))}>
-      <Image
-        source={require("../../../public/menu-outline.png")}
-        style={{width: windowWidth*0.1, height: windowWidth*0.1}}
-      /></TouchableOpacity>
+      <TouchableOpacity onPress={() => dispatch(setPage(page))}>
+        <Image
+          source={{ uri: loadAsset(`/${uri}`) }}
+          style={{ width: windowWidth * 0.1, height: windowWidth * 0.1 }}
+        />
+      </TouchableOpacity>
     </View>
   );
 }

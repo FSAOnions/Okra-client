@@ -21,7 +21,7 @@ export default function ARScanner() {
   // }, []);
   return (
     <View style={styles.scanner}>
-      <Hamburger />
+      <Hamburger uri="home.png" page="home" />
       <View
         style={{
           position: "absolute",
