@@ -60,19 +60,19 @@ export default function Home() {
             <View style={{ marginTop: 5, alignItems: "center" }}>
               <Button
                 style={{ width: 250, marginTop: 10 }}
-                // onPress={() => dispatch(setPage("cart"))}
+                onPress={() => dispatch(setPage("bill"))}
               >
-                My cart
+                My Bill
               </Button>
             </View>
-            <View style={{ marginTop: 5, alignItems: "center" }}>
+            {/* <View style={{ marginTop: 5, alignItems: "center" }}>
               <Button
                 style={{ width: 250, marginTop: 10 }}
                 //onPress={() => dispatch(setPage("cart"))}
               >
                 Previous orders
               </Button>
-            </View>
+            </View> */}
           </View>
         ) : (
           <View

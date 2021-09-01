@@ -10,16 +10,19 @@ const { windowWidth, windowHeight } = getDimensions();
 
 export default function Settings() {
   const dispatch = useDispatch();
-  const { id, firstName, lastName, email, password } = useSelector(selectUser);
+  const { firstName, lastName, email, password } = useSelector(selectUser);
   const [firstNameS, setFirstName] = useState(firstName);
   const [lastNameS, setLastName] = useState(lastName);
-  const [emailLow, setEmail] = useState(email);
   const [passwordS, setPassword] = useState("");
 
   const handleSubmit = () => {
-    const email = emailLow.toLowerCase();
     const userUpdated = dispatch(
-      update({ id, firstName, lastName, email, password })
+      update({
+        firstName: firstNameS,
+        lastName: lastNameS,
+        email,
+        password: passwordS,
+      })
     );
     if (userUpdated) {
       dispatch(setPage("home"));
@@ -62,16 +65,6 @@ export default function Settings() {
           />
         </Layout>
         <Layout style={styles.container} level="1">
-          <Text>Email</Text>
-          <Input
-            style={styles.input}
-            value={emailLow}
-            placeholder={email}
-            autoCapitalize="none"
-            onChangeText={setEmail}
-          />
-        </Layout>
-        <Layout style={styles.container} level="1">
           <Text>Password</Text>
           <Input
             style={styles.input}
@@ -102,6 +95,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     width: windowWidth,
     height: windowHeight,
+    backgroundColor: "#FFFFFF",
   },
   container: {
     display: "flex",
