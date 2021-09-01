@@ -9,6 +9,8 @@ import ARScanner from "../components/AR2DOverlay/ARScanner";
 import Start from "../components/Views/Start";
 import Settings from "../components/Views/Settings";
 import Pending from "../components/Views/Pending";
+import ThankYou from "../components/Views/ThankYou";
+import Bill from "../components/Views/Bill";
 
 export default function getPage(link) {
   switch (link) {
@@ -26,8 +28,12 @@ export default function getPage(link) {
       return <Start />;
     case "settings":
       return <Settings />;
+    case "bill":
+      return <Bill />;
     case "pending":
       return <Pending />;
+    case "thankyou":
+      return <ThankYou />;
     default:
       return <FourOhFour />;
   }
