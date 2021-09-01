@@ -10,16 +10,12 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { setPage } from "../../redux/reducers/userPage";
 import getDimensions from "../../util/getDimensions";
-import {
-  selectMenu,
-  fetchOrders,
-  fetchAllRestaurants,
-} from "../../redux/reducers/menu";
+import { selectMenu, fetchOrders } from "../../redux/reducers/menu";
 import { Button, Text } from "@ui-kitten/components";
-import { selectUser, me } from "../../redux/reducers/user";
+import { updateUserRestaurant } from "../../redux/reducers/user";
 const { windowHeight, windowWidth } = getDimensions();
-import { setRestaurant } from "../../redux/reducers/menu";
-import { payBill, selectBill } from "../../redux/reducers/bill";
+import { emptyAll } from "../../redux/reducers/menu";
+import { payBill } from "../../redux/reducers/bill";
 
 const serverUrl = "https://okra-onions.herokuapp.com";
 const loadAsset = (path) => {
@@ -50,6 +46,16 @@ export default function Bill() {
       )
       .reduce((total, itemTotal) => total + itemTotal, 0);
 
+  const handlePayBill = async () => {
+    const bill = await dispatch(payBill());
+
+    if (bill.type === "payBill/fulfilled") {
+      // update user rest
+      dispatch(emptyAll());
+      dispatch(updateUserRestaurant(""));
+    }
+  };
+
   return (
     <SafeAreaView style={styles.mainContainer}>
       <TouchableOpacity onPress={() => dispatch(setPage("home"))}>
@@ -68,7 +74,7 @@ export default function Bill() {
           </View>
         ))}
         <Text style={styles.text}>Total: ${totalPrice / 100}</Text>
-        <Button onPress={() => dispatch(payBill())}>Pay Bill</Button>
+        <Button onPress={handlePayBill}>Pay Bill</Button>
       </View>
     </SafeAreaView>
   );
@@ -79,7 +85,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     height: "100%",
-    backgroundColor: "#C2E1C2",
+    backgroundColor: "#FFFFFF",
   },
   container: {
     flex: 1,
@@ -104,7 +110,6 @@ const styles = StyleSheet.create({
   image: {
     width: windowWidth * 0.1,
     height: windowWidth * 0.1,
-    backgroundColor: "transparent",
     marginLeft: 5,
     marginTop: 0,
   },

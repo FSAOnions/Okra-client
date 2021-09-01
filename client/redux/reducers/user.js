@@ -26,14 +26,13 @@ export const authenticate = createAsyncThunk("auth", async (user) => {
 });
 
 export const update = createAsyncThunk("update", async (user) => {
-  const { data } = await axios.put(`${serverUrl}/auth/${user.id}`, user);
+  const { data } = await axios.put(`${serverUrl}/auth/update`, user);
   return data;
 });
 
 export const updateUserRestaurant = createAsyncThunk(
   "updateUserRestaurant",
   async (id) => {
-    console.log(id, typeof id);
     const { data } = await axios.put(
       `${serverUrl}/auth/currentRestaurant/${id}`
     );
