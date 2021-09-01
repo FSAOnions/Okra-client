@@ -80,6 +80,7 @@ export default function MenuNav(props) {
         menuBar: windowHeight * 0.25,
       };
 
+
   const serverUrl = "https://okra-onions.herokuapp.com";
   const loadAsset = (path) => {
     return `${serverUrl}${path}`;
