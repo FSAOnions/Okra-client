@@ -5,6 +5,7 @@ import { setPage } from "../../redux/reducers/userPage";
 import { useDispatch, useSelector } from "react-redux";
 import { update, selectUser, logout } from "../../redux/reducers/user";
 import getDimensions from "../../util/getDimensions";
+import Hamburger from "./Hamburger";
 
 const { windowWidth, windowHeight } = getDimensions();
 
@@ -36,6 +37,7 @@ export default function Settings() {
   };
   return (
     <SafeAreaView style={styles.mainContainer}>
+      <Hamburger uri="home.png" page="home" />
       <View
         style={{
           marginTop: 100,

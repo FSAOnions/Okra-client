@@ -35,7 +35,7 @@ export default function ARMenu() {
         height: "100%",
       }}
     >
-      <Hamburger />
+      <Hamburger uri="home.png" page="home" />
 
       <ViroARSceneNavigator
         initialScene={{ scene: initScene, passProps: { ...props } }}
