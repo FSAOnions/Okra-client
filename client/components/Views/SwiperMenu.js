@@ -24,7 +24,7 @@ const DURATION = 1000;
 
 const SwiperMenu = ({ pFU }) => {
   //const [activeIndex, setActiveIndex] = useState(0);
-  const { currentRestaurant, filteredAssets } = useSelector(selectMenu);
+  const { filteredAssets } = useSelector(selectMenu);
   const dispatch = useDispatch();
   const handleSnap = (index) => {
     dispatch(setSingleProduct(filteredAssets[index]));

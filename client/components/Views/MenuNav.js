@@ -150,23 +150,9 @@ export default function MenuNav(props) {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            // height: menuBar,
-
             backgroundColor: "rgb(255, 255, 255)",
           }}
         >
-          {/* <ScrollType /> */}
-          {/* <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "center",
-              // width: windowWidth,
-            }}
-          >
-            <ScrollType />
-          </View> */}
-
           <ScrollView style={{ height: "100%", overflow: "hidden" }}>
             <Text
               style={{
@@ -176,7 +162,7 @@ export default function MenuNav(props) {
                 textAlign: "center",
               }}
             >
-              {singleProduct.description}
+              {singleProduct && singleProduct.description}
             </Text>
           </ScrollView>
         </View>

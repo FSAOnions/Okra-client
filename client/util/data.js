@@ -144,4 +144,20 @@ export default [
       rotate: -90,
     },
   },
+  {
+    product_name: "Cupcake",
+    product_imgUrl: loadAsset("/Dessert/Cupcake/cupcake.png"), //img from Sung
+    threeD_imgUrl: "", //img with mtl and obj
+    price: 199,
+    description: "Yummy mmm good",
+    product_type: "Dessert",
+    assets: {
+      name: "cupcake",
+      source: loadAsset(`/Dessert/Cupcake/12187_Cupcake_v1_L3.obj`),
+      mtl: loadAsset(`/Dessert/Cupcake/12187_Cupcake_v1_L3.mtl`),
+      type: "OBJ",
+      scale: 0.01,
+      rotate: -90,
+    },
+  },
 ];

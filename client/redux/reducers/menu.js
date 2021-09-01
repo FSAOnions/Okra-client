@@ -4,7 +4,7 @@ import data from "../../util/data";
 const serverUrl = "https://okra-onions.herokuapp.com";
 const local = "http://10.0.0.206:8080";
 const loadAsset = (path) => {
-  return `${local}${path}`;
+  return `${serverUrl}${path}`;
 };
 
 // export const fetchProducts = createAsyncThunk(
@@ -64,22 +64,22 @@ const types = ["Appetizer", "Drink", "Entree", "Dessert"];
 const INIT_STATE = {
   selected: [],
   currentRestaurant: {
-    products: [
-      ...data.filter((product) => product.product_type === types[0]),
-      ...data.filter((product) => product.product_type === types[1]),
-      ...data.filter((product) => product.product_type === types[2]),
-      ...data.filter((product) => product.product_type === types[3]),
-    ],
+    // products: [
+    //   ...data.filter((product) => product.product_type === types[0]),
+    //   ...data.filter((product) => product.product_type === types[1]),
+    //   ...data.filter((product) => product.product_type === types[2]),
+    //   ...data.filter((product) => product.product_type === types[3]),
+    // ],
   },
   restaurants: [],
   orders: [],
   singleProduct: {},
   filteredProducts: [],
   filteredAssets: [
-    ...data.filter((product) => product.product_type === types[0]),
-    ...data.filter((product) => product.product_type === types[1]),
-    ...data.filter((product) => product.product_type === types[2]),
-    ...data.filter((product) => product.product_type === types[3]),
+    // ...data.filter((product) => product.product_type === types[0]),
+    // ...data.filter((product) => product.product_type === types[1]),
+    // ...data.filter((product) => product.product_type === types[2]),
+    // ...data.filter((product) => product.product_type === types[3]),
   ],
 };
 //Slice
@@ -94,10 +94,17 @@ const menuSlice = createSlice({
     setFilter(state, action) {
       const type = action.payload;
       const products = state.currentRestaurant.products;
-      const filtered = !type
+      let filtered = !type
         ? products
         : products.filter((product) => product.product_type === type);
-      return { ...state, filteredAssets: filtered, singleProduct: filtered[0] };
+      if (!filtered) {
+        filtered = [{}];
+      }
+      return {
+        ...state,
+        filteredAssets: filtered,
+        singleProduct: filtered[0],
+      };
     },
     setRestaurant(state, action) {
       const assets = action.payload.products;
