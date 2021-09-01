@@ -12,10 +12,10 @@ import { setPage } from "../../redux/reducers/userPage";
 import getDimensions from "../../util/getDimensions";
 import { selectMenu, fetchOrders } from "../../redux/reducers/menu";
 import { Button, Text } from "@ui-kitten/components";
-import { updateUserRestaurant } from "../../redux/reducers/user";
 const { windowHeight, windowWidth } = getDimensions();
 import { emptyAll } from "../../redux/reducers/menu";
 import { payBill } from "../../redux/reducers/bill";
+import { resetCurrentRestaurant } from "../../redux/reducers/user";
 
 const serverUrl = "https://okra-onions.herokuapp.com";
 const loadAsset = (path) => {
@@ -52,14 +52,15 @@ export default function Bill() {
     if (bill.type === "payBill/fulfilled") {
       // update user rest
       dispatch(emptyAll());
-      dispatch(updateUserRestaurant(""));
+      console.log(resetCurrentRestaurant);
+      dispatch(resetCurrentRestaurant());
     }
   };
 
   return (
     <SafeAreaView style={styles.mainContainer}>
       <TouchableOpacity onPress={() => dispatch(setPage("home"))}>
-        <Image source={loadAsset("/home.png")} style={styles.image} />
+        <Image source={{ uri: loadAsset("/home.png") }} style={styles.image} />
       </TouchableOpacity>
 
       <View style={styles.container}>

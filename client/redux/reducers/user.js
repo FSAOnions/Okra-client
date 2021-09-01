@@ -54,6 +54,10 @@ const userAuthSlice = createSlice({
     setUser(state, action) {
       return { user: action.payload };
     },
+    resetCurrentRestaurant(state, action) {
+      const { user } = state;
+      return { ...state, user: { ...user, currentRestaurantId: null } };
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -77,7 +81,7 @@ const userAuthSlice = createSlice({
 
 //Actions
 /////////////////////////////////////////////////////////////
-export const { setUser } = userAuthSlice.actions;
+export const { setUser, resetCurrentRestaurant } = userAuthSlice.actions;
 
 //Reducer
 /////////////////////////////////////////////////////////////
