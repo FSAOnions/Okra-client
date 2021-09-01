@@ -1,7 +1,16 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { View, Button, Alert, Text } from "react-native";
+import {
+  View,
+  Button,
+  Alert,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  ScrollView,
+} from "react-native";
 import {
   selectMenu,
   emptySelected,
@@ -16,18 +25,15 @@ import {
 } from "../../redux/reducers/bill";
 import { setPage } from "../../redux/reducers/userPage";
 import { selectUser } from "../../redux/reducers/user";
+import { setFilter } from "../../redux/reducers/menu";
 
 export default function MenuNav(props) {
   const [open, setOpen] = useState(false);
-  const { currentRestaurant, selected, singleProduct, filteredProducts } =
+  const { currentRestaurant, selected, singleProduct, filteredAssets } =
     useSelector(selectMenu);
   const { loading } = useSelector(selectBill);
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    Filtering();
-  }, []);
 
   const handleOrderClick = () => {
     Alert.alert("Confirm Order", "Are you sure?", [
@@ -65,24 +71,20 @@ export default function MenuNav(props) {
 
   const { arScene, menuBar } = open
     ? {
-        arScene: windowHeight * 0.6,
-        menuBar: windowHeight * 0.4,
+        arScene: windowHeight * 0.5,
+        menuBar: windowHeight * 0.5,
       }
     : {
-        arScene: windowHeight * 0.82,
-        menuBar: windowHeight * 0.18,
+        arScene: windowHeight * 0.7,
+        menuBar: windowHeight * 0.3,
       };
 
-  const Filtering = (type = null) => {
-    type
-      ? dispatch(
-          setFilteredProducts(
-            currentRestaurant.products.filter(
-              (product) => product.product_type === type
-            )
-          )
-        )
-      : dispatch(setFilteredProducts(currentRestaurant.products));
+  const filter = (type = null) => {
+    dispatch(setFilter(type));
+  };
+  const local = "http://10.0.0.206:8080";
+  const loadAsset = (path) => {
+    return `${local}${path}`;
   };
 
   return (
@@ -119,54 +121,64 @@ export default function MenuNav(props) {
       >
         <View
           style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
             marginBottom: 0,
-            height: 100,
+            height: 130,
             width: "100%",
             backgroundColor: "none",
           }}
         >
           <SwiperMenu {...props} />
+          <TouchableOpacity
+            onPress={() => setOpen(!open)}
+            style={styles.toggle}
+          >
+            <Image
+              source={{
+                uri: loadAsset("/uparrow.png"),
+              }}
+              style={open ? styles.flip : styles.image}
+            />
+          </TouchableOpacity>
         </View>
-        <View style={{ height: "100%", backgroundColor: "rgb(255, 255, 255)" }}>
-          <Button
-            title={"Menu"}
-            onPress={() => {
-              // ReactNativeHapticFeedback.trigger("impactLight", options);
-              setOpen(!open);
-            }}
-            accessibilityLabel="Learn more about this purple button"
-          />
+        <View
+          style={{
+            display: "flex",
+            justifyContent: "flex-start",
+            alignItems: "center",
+            height: menuBar,
+
+            backgroundColor: "rgb(255, 255, 255)",
+          }}
+        >
           <View style={{ flexDirection: "row", justifyContent: "center" }}>
             <Button
               title={"Appetizers"}
               onPress={() => {
-                Filtering("Appetizer");
+                filter("Appetizer");
               }}
             />
             <Button
               title={"Entrees"}
               onPress={() => {
-                Filtering("Entree");
+                filter("Entree");
               }}
             />
             <Button
               title={"Drinks"}
               onPress={() => {
-                Filtering("Drink");
+                filter("Drink");
               }}
             />
           </View>
-
-          {/* <ScrollView style={{ height: "100%", overflow: "hidden" }}>
-            {assets.map((product, index) => {
-              console.log("assets from scrollview", assets);
-              const { id, description } = product; */}
-          <Button
+          {/* <Button
             title={"Order"}
             onPress={handleOrderClick}
             accessibilityLabel="Learn more about this purple button"
-          />
-          {singleProduct && singleProduct.id ? (
+          /> */}
+          <ScrollView style={{ height: "100%", overflow: "hidden" }}>
             <Text
               style={{
                 margin: 10,
@@ -177,28 +189,28 @@ export default function MenuNav(props) {
             >
               {singleProduct.description}
             </Text>
-          ) : (
-            <></>
-          )}
-          {/* <ScrollView style={{ height: "100%", overflow: "hidden" }}>
-            {assets.map((product) => {
-              const { product_name, id } = product;
-              return (
-                <View>
-                  <Button
-                    key={id}
-                    title={""}
-                    onPress={() => {
-                      dispatch(setItem(product));
-                    }}
-                    accessibilityLabel="Learn more about this purple button"
-                  />
-                </View>
-              );
-            })}
-          </ScrollView> */}
+          </ScrollView>
         </View>
       </View>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  image: {
+    height: 30,
+    width: 60,
+  },
+  flip: {
+    height: 30,
+    width: 60,
+    transform: [{ rotate: "180deg" }],
+  },
+  toggle: {
+    display: "flex",
+    justifyContent: "center",
+    height: 30,
+    width: 60,
+    backgroundColor: "rgba(255, 255, 255, 0.3)",
+  },
+});

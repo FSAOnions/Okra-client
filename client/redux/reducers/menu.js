@@ -1,10 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-
+import data from "../../util/data";
 const serverUrl = "https://okra-onions.herokuapp.com";
 const local = "http://10.0.0.206:8080";
 const loadAsset = (path) => {
-  return `${serverUrl}${path}`;
+  return `${local}${path}`;
 };
 
 // export const fetchProducts = createAsyncThunk(
@@ -60,14 +60,27 @@ export const fetchOrders = createAsyncThunk("fetchOrders", async () => {
 
   return data;
 });
-
+const types = ["Appetizer", "Drink", "Entree", "Dessert"];
 const INIT_STATE = {
   selected: [],
-  currentRestaurant: {},
+  currentRestaurant: {
+    products: [
+      ...data.filter((product) => product.product_type === types[0]),
+      ...data.filter((product) => product.product_type === types[1]),
+      ...data.filter((product) => product.product_type === types[2]),
+      ...data.filter((product) => product.product_type === types[3]),
+    ],
+  },
   restaurants: [],
   orders: [],
   singleProduct: {},
-  filteredProducts: []
+  filteredProducts: [],
+  filteredAssets: [
+    ...data.filter((product) => product.product_type === types[0]),
+    ...data.filter((product) => product.product_type === types[1]),
+    ...data.filter((product) => product.product_type === types[2]),
+    ...data.filter((product) => product.product_type === types[3]),
+  ],
 };
 //Slice
 /////////////////////////////////////////////////////////////
@@ -78,8 +91,21 @@ const menuSlice = createSlice({
     setSelected(state, action) {
       return { ...state, selected: [...state.selected, action.payload] };
     },
+    setFilter(state, action) {
+      const type = action.payload;
+      const products = state.currentRestaurant.products;
+      const filtered = !type
+        ? products
+        : products.filter((product) => product.product_type === type);
+      return { ...state, filteredAssets: filtered };
+    },
     setRestaurant(state, action) {
-      return { ...state, currentRestaurant: action.payload };
+      const assets = action.payload.products;
+      return {
+        ...state,
+        currentRestaurant: action.payload,
+        filteredAssets: assets,
+      };
     },
     setSingleProduct(state, action) {
       return { ...state, singleProduct: action.payload };
@@ -120,6 +146,7 @@ export const {
   setProducts,
   setSingleProduct,
   setFilteredProducts,
+  setFilter,
   emptySelected,
   setRestaurant,
   emptyAll,
