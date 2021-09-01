@@ -41,13 +41,13 @@ const MenuARScene = ({ pFU, setPFU }) => {
         setText("Hello World!");
       }}
       ref={(scene) => (sceneRef = scene)}
-      onCameraTransformUpdate={async () => {
-        const { position, forward, up } =
-          await sceneRef.getCameraOrientationAsync();
-        const [x, y, z] = position;
-        0, -0.5, -0.5;
-        setPFU({ position: [x, -0.5 + y, -0.5 + z], forward, up });
-      }}
+      // onCameraTransformUpdate={async () => {
+      //   const { position, forward, up } =
+      //     await sceneRef.getCameraOrientationAsync();
+      //   const [x, y, z] = position;
+      //   0, -0.5, -0.5;
+      //   setPFU({ position: [x, -0.5 + y, -0.5 + z], forward, up });
+      // }}
     >
       <ViroText
         text={text}

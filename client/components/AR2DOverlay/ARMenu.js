@@ -36,6 +36,7 @@ export default function ARMenu() {
       }}
     >
       <Hamburger />
+
       <ViroARSceneNavigator
         initialScene={{ scene: initScene, passProps: { ...props } }}
       />

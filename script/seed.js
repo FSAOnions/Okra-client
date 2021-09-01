@@ -46,11 +46,12 @@ const userSeed = [
 
 const productSeed = [
   {
-    product_name: "Coffee",
+    product_name: "Caffè Americano",
     product_imgUrl: loadAsset("/CoffeeCup/obj/1st_rend.png"), //img from Sung
     threeD_imgUrl: "", //img with mtl and obj
-    price: 5.99,
-    description: "Cappuccino",
+    price: 499,
+    description:
+      "Espresso shots topped with hot water create a light layer of crema culminating in this wonderfully rich cup with depth and nuance.",
     product_type: "Drink",
     assets: {
       name: "coffee cup",
