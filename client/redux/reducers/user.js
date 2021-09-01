@@ -3,11 +3,11 @@ import { State } from "@ui-kitten/components";
 import axios from "axios";
 import { Alert } from "react-native";
 import store from "../store";
-const serverUrl = "https://okra-onions.herokuapp.com";
+import path from "../../util/loadAsset";
 
 export const me = createAsyncThunk("auth/me", async () => {
   console.log("ME");
-  const { data } = await axios.get(`${serverUrl}/auth/me`, {
+  const { data } = await axios.get(path(`/auth/me`), {
     credentials: "include",
   });
   return data;
@@ -18,24 +18,22 @@ function select(state) {
 }
 
 export const authenticate = createAsyncThunk("auth", async (user) => {
-  await axios.post(`${serverUrl}/auth/${select(store.getState())}`, user);
-  const { data } = await axios.get(`${serverUrl}/auth/me`, {
+  await axios.post(path(`/auth/${select(store.getState())}`), user);
+  const { data } = await axios.get(path(`/auth/me`), {
     credentials: "include",
   });
   return data;
 });
 
 export const update = createAsyncThunk("update", async (user) => {
-  const { data } = await axios.put(`${serverUrl}/auth/update`, user);
+  const { data } = await axios.put(path(`/auth/update`), user);
   return data;
 });
 
 export const updateUserRestaurant = createAsyncThunk(
   "updateUserRestaurant",
   async (id) => {
-    const { data } = await axios.put(
-      `${serverUrl}/auth/currentRestaurant/${id}`
-    );
+    const { data } = await axios.put(path(`/auth/currentRestaurant/${id}`));
 
     return data;
   }
@@ -50,11 +48,11 @@ export const logout = () => {
 const userAuthSlice = createSlice({
   name: "user",
   initialState: {},
-  reducer: {
+  reducers: {
     setUser(state, action) {
       return { user: action.payload };
     },
-    resetCurrentRestaurant(state, action) {
+    reset(state, action) {
       const { user } = state;
       return { ...state, user: { ...user, currentRestaurantId: null } };
     },
@@ -81,7 +79,7 @@ const userAuthSlice = createSlice({
 
 //Actions
 /////////////////////////////////////////////////////////////
-export const { setUser, resetCurrentRestaurant } = userAuthSlice.actions;
+export const { setUser, reset } = userAuthSlice.actions;
 
 //Reducer
 /////////////////////////////////////////////////////////////
