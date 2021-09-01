@@ -3,7 +3,7 @@ import { StyleSheet, View, SafeAreaView } from "react-native";
 import { Layout, Input, Button, Text } from "@ui-kitten/components";
 import { setPage } from "../../redux/reducers/userPage";
 import { useDispatch, useSelector } from "react-redux";
-import { update, selectUser } from "../../redux/reducers/user";
+import { update, selectUser, logout } from "../../redux/reducers/user";
 import getDimensions from "../../util/getDimensions";
 
 const { windowWidth, windowHeight } = getDimensions();
@@ -28,7 +28,12 @@ export default function Settings() {
       dispatch(setPage("home"));
     }
   };
-
+  const handleLogout = async () => {
+    const loggedOut = await dispatch(logout());
+    if (loggedOut.type === "user/logout/fulfilled") {
+      dispatch(setPage("login"));
+    }
+  };
   return (
     <SafeAreaView style={styles.mainContainer}>
       <View
@@ -81,6 +86,14 @@ export default function Settings() {
             onPress={handleSubmit}
           >
             Apply changes
+          </Button>
+        </View>
+        <View style={{ marginTop: 5, alignItems: "center" }}>
+          <Button
+            style={{ width: "50%", marginTop: 10 }}
+            onPress={handleLogout}
+          >
+            Logout
           </Button>
         </View>
       </View>

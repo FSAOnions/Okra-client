@@ -39,11 +39,10 @@ export const updateUserRestaurant = createAsyncThunk(
   }
 );
 
-export const logout = () => {
-  return {
-    auth: { id: {} },
-  };
-};
+export const logout = createAsyncThunk("user/logout", async () => {
+  const { data } = await axios.delete(path(`/auth/logout`));
+  return data;
+});
 
 const userAuthSlice = createSlice({
   name: "user",
@@ -61,6 +60,9 @@ const userAuthSlice = createSlice({
     builder
       .addCase(authenticate.fulfilled, (state, action) => {
         state.user = action.payload;
+      })
+      .addCase(logout.fulfilled, (state, action) => {
+        state = {};
       })
       .addCase(update.fulfilled, (state, action) => {
         state.user = action.payload;

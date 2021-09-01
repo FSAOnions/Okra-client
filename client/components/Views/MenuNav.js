@@ -27,6 +27,7 @@ import { selectUser } from "../../redux/reducers/user";
 import { setFilter } from "../../redux/reducers/menu";
 import ScrollType from "./ScrollType";
 import { Button } from "@ui-kitten/components";
+import loadAsset from "../../util/loadAsset";
 
 export default function MenuNav(props) {
   const [open, setOpen] = useState(false);
@@ -79,12 +80,6 @@ export default function MenuNav(props) {
         arScene: windowHeight * 0.75,
         menuBar: windowHeight * 0.25,
       };
-
-
-  const serverUrl = "https://okra-onions.herokuapp.com";
-  const loadAsset = (path) => {
-    return `${serverUrl}${path}`;
-  };
 
   return (
     <View

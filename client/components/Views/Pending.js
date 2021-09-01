@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import getDimensions from "../../util/getDimensions";
 import { setPage } from "../../redux/reducers/userPage";
 import { me } from "../../redux/reducers/user";
+import loadAsset from "../../util/loadAsset";
 
 const { windowWidth } = getDimensions();
 
@@ -14,13 +15,13 @@ export default function Pending() {
     dispatch(me());
     setTimeout(() => {
       dispatch(setPage("settings"));
-    }, 4000);
+    }, 2000);
   }, []);
   return (
     <SafeAreaView style={styles.mainContainer}>
       <View>
         <Image
-          source={require("../../../public/okraAnimated.gif")}
+          source={{ uri: loadAsset("/okraAnimated.gif") }}
           style={styles.logo}
         />
       </View>
