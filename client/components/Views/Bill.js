@@ -43,9 +43,15 @@ export default function Bill() {
       .reduce((total, itemTotal) => total + itemTotal, 0);
 
   const handlePayBill = async () => {
-    const bill = await dispatch(payBill());
-
-    if (bill.type === "payBill/fulfilled") {
+    if (totalPrice) {
+      const bill = await dispatch(payBill());
+      if (bill.type === "payBill/fulfilled") {
+        dispatch(emptyAll());
+        dispatch(reset());
+        dispatch(setPage("home"));
+      }
+    } else {
+      //TODO Reset user restaurant on backend
       dispatch(emptyAll());
       dispatch(reset());
       dispatch(setPage("home"));
@@ -61,9 +67,9 @@ export default function Bill() {
       <View style={styles.container}>
         <Text style={styles.text}>Bill Summary:</Text>
         {orders.map((order) => (
-          <View>
+          <View key={order.id}>
             {order.products.map((product) => (
-              <Text>
+              <Text key={product.id}>
                 {product.product_name}: ${product.price / 100}
               </Text>
             ))}
