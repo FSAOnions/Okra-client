@@ -12,6 +12,7 @@ import MenuNav from "../Views/MenuNav";
 const initScene = require("../../../js/MenuARScene");
 import { selectMenu } from "../../redux/reducers/menu";
 import { selectUser } from "../../redux/reducers/user";
+import MenuOverlay from "../Views/MenuOverlay";
 
 export default function ARMenu() {
   const [pFU, setPFU] = useState({
@@ -36,7 +37,7 @@ export default function ARMenu() {
       }}
     >
       <Hamburger uri="home.png" page="home" />
-
+      <MenuOverlay />
       <ViroARSceneNavigator
         initialScene={{ scene: initScene, passProps: { ...props } }}
       />
