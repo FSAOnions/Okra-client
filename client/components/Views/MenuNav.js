@@ -37,38 +37,6 @@ export default function MenuNav(props) {
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
 
-  const handleOrderClick = () => {
-    Alert.alert("Confirm Order", "Are you sure?", [
-      {
-        text: "Cancel",
-        onPress: () => console.log("Cancel Pressed"),
-        style: "cancel",
-      },
-      {
-        text: "Order",
-        onPress: async () => {
-          await dispatch(createBill(currentRestaurant.id));
-          const cleanedUpArr = selected.map(({ price, id }) => ({ price, id }));
-          const payload = {};
-
-          cleanedUpArr.forEach(({ id, price }) => {
-            if (id in payload) {
-              payload[id].quantity++;
-            } else {
-              payload[id] = { quantity: 1, price };
-            }
-          });
-          const order = await dispatch(addOrderItems(payload));
-
-          if (order.type === "addOrderItems/fulfilled") {
-            await dispatch(emptySelected());
-            await dispatch(setPage("thankyou"));
-          }
-        },
-      },
-    ]);
-  };
-
   const { windowHeight } = getDimensions();
 
   const { arScene, menuBar } = open
@@ -146,9 +114,6 @@ export default function MenuNav(props) {
             backgroundColor: "rgb(255, 255, 255)",
           }}
         >
-          <Button style={{ margin: 2 }} onPress={handleOrderClick}>
-            Order
-          </Button>
           <ScrollView style={{ height: "100%", overflow: "hidden" }}>
             <Text
               style={{
