@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 // import { useDispatch, useSelector } from "react-redux";
 import { StyleSheet, View, Button } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,8 +12,7 @@ import MenuNav from "../Views/MenuNav";
 const initScene = require("../../../js/MenuARScene");
 import { selectMenu } from "../../redux/reducers/menu";
 import { selectUser } from "../../redux/reducers/user";
-import Trashcan from "../Views/Trashcan";
-
+import MenuOverlay from "../Views/MenuOverlay";
 
 export default function ARMenu() {
   const [pFU, setPFU] = useState({
@@ -21,17 +20,11 @@ export default function ARMenu() {
     forward: [0, 0, 0],
     up: [0, 0, 0],
   });
+
   const props = {
     pFU,
     setPFU,
   };
-  const [canDelete, setDelete] = useState(false);
-  const delProps = { canDelete, setDelete };
-  const del = useRef({ canDelete: false });
-
-  useEffect(() => {
-    del.current.canDelete = canDelete;
-  }, [canDelete]);
 
   return (
     <View
@@ -46,12 +39,9 @@ export default function ARMenu() {
       }}
     >
       <Hamburger uri="home.png" page="home" />
-      <Trashcan {...delProps} />
+      <MenuOverlay />
       <ViroARSceneNavigator
-        initialScene={{
-          scene: initScene,
-          passProps: { del },
-        }}
+        initialScene={{ scene: initScene, passProps: { ...props } }}
       />
       <MenuNav {...props} />
     </View>
