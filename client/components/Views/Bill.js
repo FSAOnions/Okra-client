@@ -36,8 +36,8 @@ export default function Bill() {
           .reduce((total, item) => {
             return (
               total +
-              Number(item["order-item"].quantity) *
-                Number(item["order-item"].price)
+              Number(item.orderItem.quantity) *
+                Number(item.orderItem.price)
             );
           }, 0)
       )
@@ -63,6 +63,7 @@ export default function Bill() {
     <SafeAreaView style={styles.mainContainer}>
       <Hamburger uri="home.png" page="home" />
       <View style={styles.container}>
+        {console.log("ORDERA", orders)}
         <Text style={styles.text}>Bill Summary:</Text>
         {orders.map((order) => (
           <View key={order.id}>
