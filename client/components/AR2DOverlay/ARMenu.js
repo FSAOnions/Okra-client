@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 // import { useDispatch, useSelector } from "react-redux";
 import { StyleSheet, View, Button } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,6 +12,7 @@ import MenuNav from "../Views/MenuNav";
 const initScene = require("../../../js/MenuARScene");
 import { selectMenu } from "../../redux/reducers/menu";
 import { selectUser } from "../../redux/reducers/user";
+import Trashcan from "../Views/Trashcan";
 
 export default function ARMenu() {
   const [pFU, setPFU] = useState({
@@ -23,6 +24,14 @@ export default function ARMenu() {
     pFU,
     setPFU,
   };
+  const [canDelete, setDelete] = useState(false);
+  const delProps = { canDelete, setDelete };
+  const del = useRef({ canDelete: false });
+
+  useEffect(() => {
+    del.current.canDelete = canDelete;
+  }, [canDelete]);
+
   return (
     <View
       style={{
@@ -36,9 +45,12 @@ export default function ARMenu() {
       }}
     >
       <Hamburger uri="home.png" page="home" />
-
+      <Trashcan {...delProps} />
       <ViroARSceneNavigator
-        initialScene={{ scene: initScene, passProps: { ...props } }}
+        initialScene={{
+          scene: initScene,
+          passProps: { del },
+        }}
       />
       <MenuNav {...props} />
     </View>

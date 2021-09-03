@@ -25,7 +25,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 const DURATION = 1000;
 // const PATTERN = [1000, 2000, 3000];
-const types = ["All", "Appetizer", "Drink", "Entree", "Dessert"];
+const types = ["All", "Appetizers", "Drinks", "Entrees", "Desserts"];
 const ScrollType = ({ pFU }) => {
   //const [activeIndex, setActiveIndex] = useState(0);
   const { currentRestaurant, filteredAssets } = useSelector(selectMenu);

@@ -104,6 +104,14 @@ const menuSlice = createSlice({
     emptyAll(state, action) {
       return INIT_STATE;
     },
+    deleteSingleProduct(state, action) {
+      return {
+        ...state,
+        selected: state.selected.filter(
+          (product) => product.key != action.payload
+        ),
+      };
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -135,6 +143,7 @@ export const {
   emptySelected,
   setRestaurant,
   emptyAll,
+  deleteSingleProduct,
 } = menuSlice.actions;
 
 //Reducer
