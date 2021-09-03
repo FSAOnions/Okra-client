@@ -87,7 +87,6 @@ export default function MenuOverlay({ uri = "menu-outline.png" }) {
                 {Object.values(
                   selected.reduce((products, product) => {
                     const { product_name: name, price } = product;
-
                     if (products[name]) {
                       products[name].quantity++;
                     } else {
