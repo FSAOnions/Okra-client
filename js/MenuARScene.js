@@ -106,9 +106,12 @@ const MenuARScene = ({ pFU, setPFU, del }) => {
             type={product.assets.type}
             onRotate={handleRotate}
             rotation={[product.assets.rotate, rotation, 0]}
-            onClick={(state, touchPos, source) =>
-              del.current.canDelete ? handleClick(product) : null
-            }
+            onClickState={(state, touchPos, source) => {
+              if (state === 1 && del.current.canDelete) {
+                handleClick(product);
+              }
+              // del.current.canDelete ? handleClick(product) : null
+            }}
           />
         </ViroNode>
       ))}

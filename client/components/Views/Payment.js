@@ -13,7 +13,7 @@ export default function Payment() {
   useEffect(() => {
     setTimeout(() => {
       dispatch(setPage("home"));
-    }, 4000);
+    }, 2000);
   }, []);
 
   return (
