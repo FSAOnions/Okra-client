@@ -1,19 +1,13 @@
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 // import { useDispatch, useSelector } from "react-redux";
-import { StyleSheet, View, Button } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
-import { ViroARSceneNavigator, ViroARScene } from "react-viro";
-import { setScene } from "../../redux/reducers/userPage";
-import { createBill } from "../../redux/reducers/bill";
-// import { selectUserPage, setPage } from "../../redux/reducers/userPage";
+import { StyleSheet, View } from "react-native";
+import { ViroARSceneNavigator } from "react-viro";
 import Hamburger from "../Views/Hamburger";
 import MenuNav from "../Views/MenuNav";
 const initScene = require("../../../js/MenuARScene");
-import { selectMenu } from "../../redux/reducers/menu";
-import { selectUser } from "../../redux/reducers/user";
 import MenuOverlay from "../Views/MenuOverlay";
-
+import Trashcan from "../Views/Trashcan";
 export default function ARMenu() {
   const [pFU, setPFU] = useState({
     position: [0, -0.5, -0.5],
@@ -25,6 +19,14 @@ export default function ARMenu() {
     pFU,
     setPFU,
   };
+
+  const [canDelete, setDelete] = useState(false);
+  const delProps = { canDelete, setDelete };
+  const del = useRef({ canDelete: false });
+
+  useEffect(() => {
+    del.current.canDelete = canDelete;
+  }, [canDelete]);
 
   return (
     <View
@@ -40,8 +42,12 @@ export default function ARMenu() {
     >
       <Hamburger uri="home.png" page="home" />
       <MenuOverlay />
+      <Trashcan {...delProps} />
       <ViroARSceneNavigator
-        initialScene={{ scene: initScene, passProps: { ...props } }}
+        initialScene={{
+          scene: initScene,
+          passProps: { del },
+        }}
       />
       <MenuNav {...props} />
     </View>

@@ -13,8 +13,8 @@ export default function Trashcan({ canDelete, setDelete }) {
     <View
       style={{
         position: "absolute",
-        right: 20,
-        top: 60,
+        right: 15,
+        top: 75,
         zIndex: 500,
         height: 40,
         width: 40,
