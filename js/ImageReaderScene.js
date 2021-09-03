@@ -19,6 +19,7 @@ import {
   selectMenu,
   fetchMenu,
   setRestaurant,
+  emptyAll,
 } from "../client/redux/reducers/menu";
 import { updateUserRestaurant, reset } from "../client/redux/reducers/user";
 import { setPage } from "../client/redux/reducers/userPage";
@@ -66,6 +67,7 @@ const ImageReaderScene = (props) => {
               text: "Cancel",
               onPress: () => {
                 dispatch(reset());
+                dispatch(emptyAll());
                 dispatch(setPage("home"));
               },
               style: "cancel",

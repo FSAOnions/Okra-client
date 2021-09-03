@@ -47,7 +47,12 @@ const MenuARScene = ({ pFU, setPFU, del }) => {
         onPress: () => console.log("Cancel Pressed"),
         style: "cancel",
       },
-      { text: "OK", onPress: () => dispatch(deleteSingleProduct(key)) },
+      {
+        text: "OK",
+        onPress: () => {
+          dispatch(deleteSingleProduct(key));
+        },
+      },
     ]);
   };
 
@@ -95,6 +100,7 @@ const MenuARScene = ({ pFU, setPFU, del }) => {
           up={product.pFU.up}
           dragType="FixedToWorld"
           onDrag={() => {}}
+          visible={!product.removed}
         >
           <Viro3DObject
             source={{
@@ -110,7 +116,6 @@ const MenuARScene = ({ pFU, setPFU, del }) => {
               if (state === 1 && del.current.canDelete) {
                 handleClick(product);
               }
-              // del.current.canDelete ? handleClick(product) : null
             }}
           />
         </ViroNode>

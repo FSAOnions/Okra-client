@@ -105,12 +105,13 @@ const menuSlice = createSlice({
       return INIT_STATE;
     },
     deleteSingleProduct(state, action) {
-      return {
-        ...state,
-        selected: state.selected.filter(
-          (product) => product.key != action.payload
-        ),
-      };
+      const xyz = Array(3).fill(100);
+      state.selected.find((product) => {
+        if (product.key === action.payload) {
+          product.removed = true;
+          product.pFU = { position: xyz, forward: xyz, up: xyz };
+        }
+      });
     },
   },
   extraReducers: (builder) => {

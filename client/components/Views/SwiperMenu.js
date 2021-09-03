@@ -57,7 +57,9 @@ const SwiperMenu = ({ pFU }) => {
         <TouchableOpacity
           onPress={() => {
             Vibration.vibrate(100, DURATION);
-            dispatch(setSelected({ ...item, pFU, key: guid() }));
+            dispatch(
+              setSelected({ ...item, pFU, key: guid(), removed: false })
+            );
           }}
         >
           {/* <ImageBackground
