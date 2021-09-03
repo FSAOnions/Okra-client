@@ -16,6 +16,7 @@ import {
   setSelected,
   setSingleProduct,
 } from "../../redux/reducers/menu";
+import guid from "../../util/guid";
 
 import { useSelector, useDispatch } from "react-redux";
 
@@ -56,7 +57,7 @@ const SwiperMenu = ({ pFU }) => {
         <TouchableOpacity
           onPress={() => {
             Vibration.vibrate(100, DURATION);
-            dispatch(setSelected({ ...item, pFU }));
+            dispatch(setSelected({ ...item, pFU, key: guid() }));
           }}
         >
           {/* <ImageBackground

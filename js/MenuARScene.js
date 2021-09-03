@@ -4,7 +4,7 @@
 const localHost = "http://10.0.0.206:8080";
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { StyleSheet, View, YellowBox } from "react-native";
+import { StyleSheet, Alert } from "react-native";
 import {
   ViroARScene,
   ViroText,
@@ -12,6 +12,7 @@ import {
   ViroSpotLight,
   ViroNode,
   ViroOmniLight,
+  ViroSphere,
 } from "react-viro";
 
 import {
@@ -19,10 +20,14 @@ import {
   selectMenu,
   setProof,
   fetchProducts,
+  deleteSingleProduct,
 } from "../client/redux/reducers/menu";
+import { selectUser } from "../client/redux/reducers/user";
 
-const MenuARScene = ({ pFU, setPFU }) => {
+const MenuARScene = ({ pFU, setPFU, del }) => {
+  const dispatch = useDispatch();
   const { selected } = useSelector(selectMenu);
+  const user = useSelector(selectUser);
   const [text, setText] = useState("Initializing AR...");
   const [rotation, setRotation] = useState(0);
   let sceneRef = useRef();
@@ -35,10 +40,25 @@ const MenuARScene = ({ pFU, setPFU }) => {
     }
   };
 
+  const handleClick = ({ key }) => {
+    Alert.alert("Are you sure?", "Delete this item from your cart.", [
+      {
+        text: "Cancel",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel",
+      },
+      { text: "OK", onPress: () => dispatch(deleteSingleProduct(key)) },
+    ]);
+  };
+
   return (
     <ViroARScene
       onTrackingUpdated={() => {
-        setText("Hello World!");
+        setText(
+          `Welcome, ${
+            user.firstName.slice(0, 1).toUpperCase() + user.firstName.slice(1)
+          }!`
+        );
       }}
       ref={(scene) => (sceneRef = scene)}
       // onCameraTransformUpdate={async () => {
@@ -57,6 +77,7 @@ const MenuARScene = ({ pFU, setPFU }) => {
         position={[0, 0.5, -1]}
         style={styles.textStyle}
       />
+
       <ViroOmniLight color={"#aaaaaa"} />
       <ViroSpotLight
         innerAngle={5}
@@ -80,11 +101,14 @@ const MenuARScene = ({ pFU, setPFU }) => {
               uri: product.assets.source,
             }}
             lightReceivingBitMask={3}
-            //resources={[{ uri: product.assets.mtl }]}
+            resources={[{ uri: product.assets.mtl }]}
             scale={Array(3).fill(product.assets.scale)}
             type={product.assets.type}
             onRotate={handleRotate}
             rotation={[product.assets.rotate, rotation, 0]}
+            onClick={(state, touchPos, source) =>
+              del.current.canDelete ? handleClick(product) : null
+            }
           />
         </ViroNode>
       ))}
