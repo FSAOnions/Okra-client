@@ -14,6 +14,7 @@ import { selectMenu } from "../../redux/reducers/menu";
 import { selectUser } from "../../redux/reducers/user";
 import Trashcan from "../Views/Trashcan";
 
+
 export default function ARMenu() {
   const [pFU, setPFU] = useState({
     position: [0, -0.5, -0.5],
