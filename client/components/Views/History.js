@@ -54,8 +54,11 @@ export default function History() {
                 marginRight: 10,
               }}
             >
-              <TouchableOpacity onPress={()=>{(ordersId!==info.id) ? setOrderId(info.id) : setOrderId(-1)}}>
-            
+              <TouchableOpacity
+                onPress={() => {
+                  ordersId !== info.id ? setOrderId(info.id) : setOrderId(-1);
+                }}
+              >
                 <View
                   style={[
                     styles.square,
@@ -90,9 +93,10 @@ export default function History() {
                           flexDirection: "row",
                           marginTop: 3,
                           justifyContent: "space-between",
+                          justifyContent: "center",
                         }}
                       >
-                        <Text
+                        {/* <Text
                           style={{
                             fontSize: 15,
                             marginRight: 10,
@@ -101,7 +105,7 @@ export default function History() {
                           }}
                         >
                           {info.restaurant.name}
-                        </Text>
+                        </Text> */}
                         <Text
                           style={{
                             fontSize: 14,
@@ -110,10 +114,11 @@ export default function History() {
                             marginBottom: 5,
                           }}
                         >
-                          {info.createdAt.slice(0, 10)}
+                          Ordered: {info.createdAt.slice(0, 10)}
                         </Text>
                       </View>
-                      {info.orders && info.id===ordersId &&
+                      {info.orders &&
+                        info.id === ordersId &&
                         info.orders.map((order) => (
                           <View>
                             {order.products.map((product) => (
@@ -138,7 +143,7 @@ export default function History() {
                                     fontSize: 14,
                                   }}
                                 >
-                                  {Number(product.price) / 100}
+                                  ${Number(product.price) / 100}
                                 </Text>
                               </View>
                             ))}
@@ -156,6 +161,7 @@ export default function History() {
                         <Text
                           style={{
                             fontSize: 14,
+                            fontWeight: "bold",
                           }}
                         >
                           Total:
@@ -163,6 +169,7 @@ export default function History() {
                         <Text
                           style={{
                             fontSize: 14,
+                            fontWeight: "bold",
                           }}
                         >
                           {info.dollars}
@@ -178,7 +185,7 @@ export default function History() {
     </SafeAreaView>
   );
 }
- //(ordersArr.length ===0 ) ? setOrderArr(history[num].orders) : setOrderArr([])}
+//(ordersArr.length ===0 ) ? setOrderArr(history[num].orders) : setOrderArr([])}
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,

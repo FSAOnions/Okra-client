@@ -10,7 +10,7 @@ import {
   fetchAllRestaurants,
 } from "../../redux/reducers/menu";
 import { Button, Text } from "@ui-kitten/components";
-import { selectUser, me, fetchHistory} from "../../redux/reducers/user";
+import { selectUser, me, fetchHistory } from "../../redux/reducers/user";
 const { windowHeight, windowWidth } = getDimensions();
 import { setRestaurant } from "../../redux/reducers/menu";
 const serverUrl = "https://okra-onions.herokuapp.com";
@@ -65,14 +65,6 @@ export default function Home() {
                 My Bill
               </Button>
             </View>
-            <View style={{ marginTop: 5, alignItems: "center" }}>
-              <Button
-                style={{ width: 250, marginTop: 10 }}
-                onPress={() => {dispatch(fetchHistory()); dispatch(setPage("history"))}}
-              >
-                Previous orders
-              </Button>
-            </View>
           </View>
         ) : (
           <View
@@ -88,6 +80,17 @@ export default function Home() {
             </Button>
           </View>
         )}
+        <View style={{ marginTop: 5, alignItems: "center" }}>
+          <Button
+            style={{ width: 250, marginTop: 10 }}
+            onPress={() => {
+              dispatch(fetchHistory());
+              dispatch(setPage("history"));
+            }}
+          >
+            Bill History
+          </Button>
+        </View>
         <View style={{ marginTop: 5, alignItems: "center" }}>
           <Button
             style={{ width: 250, marginTop: 10 }}
