@@ -39,6 +39,12 @@ export const updateUserRestaurant = createAsyncThunk(
   }
 );
 
+export const fetchHistory = createAsyncThunk("fetchHistory", async () => {
+  const { data } = await axios.get(path(`/api/order/history`));
+  console.log(data)
+  return data;
+});
+
 export const logout = createAsyncThunk("user/logout", async () => {
   const { data } = await axios.delete(path(`/auth/logout`));
   return data;
@@ -46,7 +52,7 @@ export const logout = createAsyncThunk("user/logout", async () => {
 
 const userAuthSlice = createSlice({
   name: "user",
-  initialState: {},
+  initialState: { user: {}, history: {}},
   reducers: {
     setUser(state, action) {
       return { user: action.payload };
@@ -75,7 +81,10 @@ const userAuthSlice = createSlice({
       })
       .addCase(updateUserRestaurant.rejected, (state, action) => {
         console.log(action.payload);
-      });
+      })
+      .addCase(fetchHistory.fulfilled, (state, action) => {
+        state.history = action.payload;
+      });;
   },
 });
 
@@ -91,3 +100,4 @@ export default userAuthSlice.reducer;
 /////////////////////////////////////////////////////////////
 export const getUser = (state) => state.user;
 export const selectUser = (state) => state.user.user;
+export const getHistory = (state) => state.user.history;

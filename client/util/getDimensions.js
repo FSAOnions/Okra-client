@@ -1,7 +1,6 @@
 import { Dimensions } from "react-native";
 
-export default function getDimensions(totalItems = 10) {
-  const itemWidth = 75;
+export default function getDimensions(totalItems = 10, itemWidth = 75) {
   const padding = 40;
   const itemPadding = padding / 2;
   let initTotal = totalItems * itemWidth + totalItems * padding;
@@ -12,5 +11,12 @@ export default function getDimensions(totalItems = 10) {
   const firstLastPadding = itemOffset;
   const sliderWidth = initTotal + paddingOffset * 2;
 
-  return { firstLastPadding, itemPadding, sliderWidth, itemWidth, windowWidth, windowHeight };
+  return {
+    firstLastPadding,
+    itemPadding,
+    sliderWidth,
+    itemWidth,
+    windowWidth,
+    windowHeight,
+  };
 }

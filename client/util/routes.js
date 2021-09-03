@@ -11,7 +11,11 @@ import Settings from "../components/Views/Settings";
 import Pending from "../components/Views/Pending";
 import ThankYou from "../components/Views/ThankYou";
 import Bill from "../components/Views/Bill";
+
 import Payment from "../components/Views/Payment";
+
+import History from "../components/Views/History";
+
 
 export default function getPage(link) {
   switch (link) {
@@ -37,6 +41,8 @@ export default function getPage(link) {
       return <ThankYou />;
     case "payment":
       return <Payment />;
+    case "history":
+      return <History />;
     default:
       return <FourOhFour />;
   }

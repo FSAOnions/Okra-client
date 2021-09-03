@@ -14,7 +14,7 @@ export default function Hamburger({ uri, page }) {
       style={{
         position: "absolute",
         left: 20,
-        top: 30,
+        top: 15,
         zIndex: 500,
         height: 40,
         width: 40,
@@ -24,7 +24,7 @@ export default function Hamburger({ uri, page }) {
       <TouchableOpacity onPress={() => dispatch(setPage(page))}>
         <Image
           source={{ uri: loadAsset(`/${uri}`) }}
-          style={{ width: windowWidth * 0.1, height: windowWidth * 0.1 }}
+          style={{ width: windowWidth * 0.08, height: windowWidth * 0.08 }}
         />
       </TouchableOpacity>
     </View>

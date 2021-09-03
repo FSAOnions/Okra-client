@@ -6,8 +6,6 @@ import {
   TouchableOpacity,
   Vibration,
   ImageBackground,
-  Text,
-  Button,
   FlatList,
   StyleSheet,
 } from "react-native";
@@ -20,6 +18,7 @@ import {
   setSelected,
   setSingleProduct,
 } from "../../redux/reducers/menu";
+import { Button, Text } from "@ui-kitten/components";
 
 import { useSelector, useDispatch } from "react-redux";
 
@@ -41,36 +40,54 @@ const ScrollType = ({ pFU }) => {
   };
 
   const _renderItem = ({ item }) => {
-    const { itemPadding, windowWidth } = getDimensions();
+    const { itemPadding, windowWidth, itemWidth } = getDimensions(
+      types.length,
+      110
+    );
 
     return (
       <View
         style={{
-          width: "100%",
+          height: 40,
+          marginTop: 5,
+          marginBottom: 5,
           marginLeft: itemPadding,
           marginRight: itemPadding,
           alignItems: "center",
+          justifyContent: "center",
         }}
       >
-        <View style={{ width: "100%" }}>
+        <View>
           <Button
+            // style={{ width: windowWidth * 0.25, height: windowWidth * 0.25 }}
+            style={{
+              width: itemWidth,
+              borderColor: "rgb(105,105,105)",
+            }}
+            // style={{ width: "100%" }}
+            onPress={() => {
+              filter(item);
+            }}
+          >
+            {item}
+          </Button>
+          {/* <Button
             title={`${item}`}
             style={{ width: "100%" }}
             onPress={() => {
               filter(item);
             }}
-          />
+          /> */}
         </View>
       </View>
     );
   };
-  const { windowWidth, itemWidth } = getDimensions();
+  const { windowWidth, itemWidth } = getDimensions(types.length, 110);
   return (
     <SafeAreaView
       style={{
         flex: 1,
-        backgroundColor: "rgb(255,255,255)",
-        height: 30,
+        backgroundColor: "rgba(0,0,0,0.3)",
       }}
     >
       <View
@@ -81,15 +98,16 @@ const ScrollType = ({ pFU }) => {
         }}
       >
         <Carousel
-          layout={"default"}
+          // layout={"default"}
           ref={(ref) => (carousel = ref)}
           data={types}
           sliderWidth={windowWidth}
-          itemWidth={110}
+          itemWidth={itemWidth}
           renderItem={_renderItem}
           enableSnap={true}
           onSnapToItem={handleSnap}
-          inactiveSlideScale={0.8}
+          enableMomentum={true}
+          // inactiveSlideScale={0.8}
           inactiveSlideOpacity={0.7}
           activeAnimationType={"decay"}
         />
