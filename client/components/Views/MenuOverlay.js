@@ -72,7 +72,7 @@ export default function MenuOverlay({ uri = "menu-outline.png" }) {
               position: "absolute",
               backgroundColor: "rgb(255,255,255)",
               zIndex: 499,
-              top: 40,
+              top: 80,
               right: 20,
               height: 400,
               width: windowWidth - 80,
