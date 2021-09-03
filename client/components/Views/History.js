@@ -120,9 +120,9 @@ export default function History() {
                       {info.orders &&
                         info.id === ordersId &&
                         info.orders.map((order) => (
-                          <View>
+                          <View key={order.id}>
                             {order.products.map((product) => (
-                              <View
+                              <View key={product.id}
                                 style={{
                                   flexDirection: "row",
                                   marginLeft: 13,

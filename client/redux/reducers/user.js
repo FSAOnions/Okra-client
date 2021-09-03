@@ -50,6 +50,11 @@ export const logout = createAsyncThunk("user/logout", async () => {
   return data;
 });
 
+export const leaveRestaurant = createAsyncThunk("leaveRestaurant", async () => {
+  const {data} = await axios.post(path('/auth/leave'))
+  return data;
+} );
+
 const userAuthSlice = createSlice({
   name: "user",
   initialState: { user: {}, history: {}},
@@ -72,6 +77,9 @@ const userAuthSlice = createSlice({
       })
       .addCase(update.fulfilled, (state, action) => {
         state.user = action.payload;
+      })
+      .addCase(leaveRestaurant.fulfilled, (state, action) => {
+       console.log(action.payload)
       })
       .addCase(me.fulfilled, (state, action) => {
         state.user = action.payload;
