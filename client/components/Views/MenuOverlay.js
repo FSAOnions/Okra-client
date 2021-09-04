@@ -13,7 +13,6 @@ export default function MenuOverlay({ uri = "menu-outline.png" }) {
   const [open, setOpen] = useState(false);
   const { currentRestaurant, selected, orders } = useSelector(selectMenu);
   const { windowWidth } = getDimensions();
-  const filteredSelected = selected.filter((product) => !product.removed);
   const handleOrderClick = () => {
     Alert.alert("Confirm Order", "Are you sure?", [
       {
@@ -25,12 +24,9 @@ export default function MenuOverlay({ uri = "menu-outline.png" }) {
         text: "Order",
         onPress: async () => {
           await dispatch(createBill(currentRestaurant.id));
-          const cleanedUpArr = filteredSelected.map(({ price, id }) => ({
-            price,
-            id,
-          }));
-          const payload = {};
 
+          const cleanedUpArr = selected.map(({ price, id }) => ({ price, id }));
+          const payload = {};
           cleanedUpArr.forEach(({ id, price }) => {
             if (id in payload) {
               payload[id].quantity++;
@@ -38,8 +34,8 @@ export default function MenuOverlay({ uri = "menu-outline.png" }) {
               payload[id] = { quantity: 1, price };
             }
           });
-          const order = await dispatch(addOrderItems(payload));
 
+          const order = await dispatch(addOrderItems(payload));
           if (order.type === "addOrderItems/fulfilled") {
             await dispatch(emptySelected());
             await dispatch(setPage("thankyou"));
@@ -49,7 +45,7 @@ export default function MenuOverlay({ uri = "menu-outline.png" }) {
     ]);
   };
   const totalPrice =
-    filteredSelected.reduce((total, product) => {
+    selected.reduce((total, product) => {
       const cents = product.price * 100;
       return (total += cents);
     }, 0) / 100;
@@ -76,7 +72,7 @@ export default function MenuOverlay({ uri = "menu-outline.png" }) {
               position: "absolute",
               backgroundColor: "rgb(255,255,255)",
               zIndex: 499,
-              top: 80,
+              top: 40,
               right: 20,
               height: 400,
               width: windowWidth - 80,
@@ -89,7 +85,7 @@ export default function MenuOverlay({ uri = "menu-outline.png" }) {
 
               <View style={styles.container}>
                 {Object.values(
-                  filteredSelected.reduce((products, product) => {
+                  selected.reduce((products, product) => {
                     const { product_name: name, price } = product;
                     if (products[name]) {
                       products[name].quantity++;
