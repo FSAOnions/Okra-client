@@ -16,7 +16,6 @@ import Payment from "../components/Views/Payment";
 
 import History from "../components/Views/History";
 
-
 export default function getPage(link) {
   switch (link) {
     case "login":
