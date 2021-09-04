@@ -28,25 +28,26 @@ import {
 import { selectUser } from "../client/redux/reducers/user";
 import loadAsset from "../client/util/loadAsset";
 
-const MenuARScene = ({ pFU, setPFU, del, q, setDisabled }) => {
+const MenuARScene = ({ pFU, setPFU, del }) => {
   const dispatch = useDispatch();
   const { selected } = useSelector(selectMenu);
   const user = useSelector(selectUser);
   const [text, setText] = useState("Initializing AR...");
 
   const [rotation, setRotation] = useState(0);
-  let sceneRef = useRef();
   const sphere = useRef({
     position: [0, -0.5, -0.5],
     rotation: [1, 1, 1],
   });
-  const mat = ViroMaterials.createMaterials({
-    white: {
-      shininess: 2.0,
-      lightingModel: "Lambert",
-      diffuseTexture: require("../public/green.jpg"),
-    },
-  });
+  useEffect(() => {
+    ViroMaterials.createMaterials({
+      red: {
+        shininess: 2.0,
+        lightingModel: "Constant",
+        diffuseTexture: require("../public/red.png"),
+      },
+    });
+  }, []);
 
   const handleRotate = (rotateState, rotationFactor) => {
     const factor = rotationFactor / 2;
@@ -80,7 +81,6 @@ const MenuARScene = ({ pFU, setPFU, del, q, setDisabled }) => {
           }!`
         );
       }}
-      ref={(scene) => (sceneRef = scene)}
     >
       <ViroText
         text={text}
@@ -112,7 +112,7 @@ const MenuARScene = ({ pFU, setPFU, del, q, setDisabled }) => {
         scale={[0.008, 0.008, 0.008]}
         height={1}
         width={1}
-        materials={["white"]}
+        materials={["red"]}
       />
       {selected.map((product, idx) => (
         <ViroNode
