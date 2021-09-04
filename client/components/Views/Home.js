@@ -1,6 +1,13 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect } from "react";
-import { StyleSheet, View, SafeAreaView, Image } from "react-native";
+import {
+  StyleSheet,
+  View,
+  SafeAreaView,
+  TouchableOpacity,
+  Image,
+  ScrollView,
+} from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { setPage } from "../../redux/reducers/userPage";
 import getDimensions from "../../util/getDimensions";
@@ -33,7 +40,6 @@ export default function Home() {
         });
         console.log("hello", t);
         dispatch(setRestaurant(t));
-        // dispatch(fetchOrders());
       }
     }
   }, [user, restaurants]);
@@ -46,63 +52,320 @@ export default function Home() {
             source={{ uri: `${serverUrl}/logo.png` }}
             style={styles.logo}
           />
-        </View>
-        {user.currentRestaurantId ? (
-          <View>
-            <View style={{ marginTop: 5, alignItems: "center" }}>
-              <Button
-                style={{ width: 250, marginTop: 10 }}
-                onPress={() => dispatch(setPage("menu"))}
-              >
-                Menu
-              </Button>
-            </View>
-            <View style={{ marginTop: 5, alignItems: "center" }}>
-              <Button
-                style={{ width: 250, marginTop: 10 }}
-                onPress={() => dispatch(setPage("bill"))}
-              >
-                My Bill
-              </Button>
-            </View>
-          </View>
-        ) : (
-          <View
-            style={{ marginTop: windowHeight * 0.07, alignItems: "center" }}
-          >
-            <Button
-              style={{ width: 250, marginTop: 10 }}
-              onPress={() => {
-                dispatch(setPage("scanner"));
-              }}
-            >
-              Scan a restaurant logo
-            </Button>
-          </View>
-        )}
-        <View style={{ marginTop: 5, alignItems: "center" }}>
-          <Button
-            style={{ width: 250, marginTop: 10 }}
+          <TouchableOpacity
             onPress={() => {
-              dispatch(fetchHistory());
-              dispatch(setPage("history"));
+              ordersId !== info.id ? setOrderId(info.id) : setOrderId(-1);
             }}
           >
-            Bill History
-          </Button>
+            <View
+              style={[
+                styles.squareM,
+                {
+                  shadowOffset: {
+                    width: 0,
+                    height: 0,
+                  },
+                  shadowOpacity: 0.3,
+                  shadowRadius: 7,
+                },
+              ]}
+            >
+              <View
+                style={{
+                  alignItems: "center",
+                  justifyContent: "center",
+                  margin: 10,
+                }}
+              >
+                <Text style={{ fontSize: 30, fontFamily: "Marker Felt" }}>
+                  {user &&
+                    `Hello, ${
+                      user.firstName.slice(0, 1).toUpperCase() +
+                      user.firstName.slice(1)
+                    }`}
+                </Text>
+              </View>
+            </View>
+          </TouchableOpacity>
         </View>
-        <View style={{ marginTop: 5, alignItems: "center" }}>
-          <Button
-            style={{ width: 250, marginTop: 10 }}
-            onPress={() => dispatch(setPage("pending"))}
-          >
-            {user &&
-              `${
-                user.firstName.slice(0, 1).toUpperCase() +
-                user.firstName.slice(1)
-              }'s Profile`}
-          </Button>
+        <View style={{ marginTop: 5 }}>
+          {user.currentRestaurantId ? (
+            <View style={{ justifyContent: "center", flexDirection: "column" }}>
+             <View
+                style={{
+                  marginLeft: windowWidth*0.1,
+                  flexDirection: "row",
+                }}
+              >
+                <TouchableOpacity
+                  onPress={() => {
+                    dispatch(setPage("menu"));
+                  }}
+                >
+                  <View
+                    style={[
+                      styles.square,
+                      {
+                        shadowOffset: {
+                          width: 0,
+                          height: 0,
+                        },
+                        shadowOpacity: 0.3,
+                        shadowRadius: 7,
+                      },
+                    ]}
+                  >
+                    <View
+                      style={{
+                        alignItems: "center",
+                        justifyContent: "center",
+                        margin: 10,
+                      }}
+                    >
+                      <Image
+                        source={require("../../../public/menu.png")}
+                        style={styles.logo1}
+                      />
+                      <Text style={{ fontSize: 20, fontFamily: "Marker Felt" }}>
+                        Menu
+                      </Text>
+                    </View>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    dispatch(setPage("bill"));
+                  }}
+                >
+                  <View
+                    style={[
+                      styles.squareR,
+                      {
+                        shadowOffset: {
+                          width: 0,
+                          height: 0,
+                        },
+                        shadowOpacity: 0.3,
+                        shadowRadius: 7,
+                      },
+                    ]}
+                  >
+                    <View
+                      style={{
+                        alignItems: "center",
+                        justifyContent: "center",
+                        margin: 10,
+                      }}
+                    >
+                      <Image
+                        source={require("../../../public/cart.png")}
+                        style={styles.logo1}
+                      />
+                      <Text style={{ fontSize: 20, fontFamily: "Marker Felt" }}>
+                        Cart
+                      </Text>
+                    </View>
+                  </View>
+                </TouchableOpacity>
+              </View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  margin: windowWidth*0.1
+                }}
+              >
+                <TouchableOpacity
+                  onPress={() => {
+                    {dispatch(fetchHistory()); dispatch(setPage("history"));}
+                  }}
+                >
+                  <View
+                    style={[
+                      styles.square,
+                      {
+                        shadowOffset: {
+                          width: 0,
+                          height: 0,
+                        },
+                        shadowOpacity: 0.3,
+                        shadowRadius: 7,
+                      },
+                    ]}
+                  >
+                    <View
+                      style={{
+                        alignItems: "center",
+                        justifyContent: "center",
+                        margin: 10,
+                      }}
+                    >
+                     <Image
+                        source={require("../../../public/history.png")}
+                        style={styles.logo1}
+                      />
+                      <Text style={{ fontSize: 20, fontFamily: "Marker Felt" }}>
+                        Orders
+                      </Text>
+                    </View>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    dispatch(setPage("settings"));
+                  }}
+                >
+                  <View
+                    style={[
+                      styles.squareR,
+                      {
+                        shadowOffset: {
+                          width: 0,
+                          height: 0,
+                        },
+                        shadowOpacity: 0.3,
+                        shadowRadius: 7,
+                      },
+                    ]}
+                  >
+                    <View
+                      style={{
+                        alignItems: "center",
+                        justifyContent: "center",
+                        margin: 10,
+                      }}
+                    >
+                      <Image
+                      source={require("../../../public/settings.png")}
+                      style={styles.logo1}
+                    />
+                    <Text style={{ fontSize: 20, fontFamily: "Marker Felt" }}>
+                      Settings
+                    </Text>
+                    </View>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            </View>
+          ) : (
+            <View>
+              <View
+                style={{
+                  justifyContent: "space-between",
+                  flexDirection: "row",
+                }}
+              >
+                <TouchableOpacity
+                  onPress={() => {
+                    dispatch(setPage("scanner"));
+                  }}
+                >
+                  <View
+                    style={[
+                      styles.square,
+                      {
+                        shadowOffset: {
+                          width: 0,
+                          height: 0,
+                        },
+                        shadowOpacity: 0.3,
+                        shadowRadius: 7,
+                      },
+                    ]}
+                  >
+                    <View
+                      style={{
+                        alignItems: "center",
+                        justifyContent: "center",
+                        margin: 10,
+                      }}
+                    >
+                      <Image
+                        source={require("../../../public/scan.png")}
+                        style={styles.logo1}
+                      />
+                      <Text style={{ fontSize: 20, fontFamily: "Marker Felt" }}>
+                        Scan logo
+                      </Text>
+                    </View>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    {dispatch(fetchHistory()); dispatch(setPage("history"));}
+                  }}
+                >
+                  <View
+                    style={[
+                      styles.squareR,
+                      {
+                        shadowOffset: {
+                          width: 0,
+                          height: 0,
+                        },
+                        shadowOpacity: 0.3,
+                        shadowRadius: 7,
+                      },
+                    ]}
+                  >
+                    <View
+                      style={{
+                        alignItems: "center",
+                        justifyContent: "center",
+                        margin: 10,
+                      }}
+                    >
+                      <Image
+                        source={require("../../../public/history.png")}
+                        style={styles.logo1}
+                      />
+                      <Text style={{ fontSize: 20, fontFamily: "Marker Felt" }}>
+                        Orders
+                      </Text>
+                    </View>
+                  </View>
+                </TouchableOpacity>
+              </View>
+              <TouchableOpacity
+                onPress={() => {
+                  dispatch(setPage("settings"));
+                }}
+              >
+                <View
+                  style={[
+                    styles.squareOne,
+                    {
+                      shadowOffset: {
+                        width: 0,
+                        height: 0,
+                      },
+                      shadowOpacity: 0.3,
+                      shadowRadius: 7,
+                    },
+                  ]}
+                >
+                  <View
+                    style={{
+                      alignItems: "center",
+                      justifyContent: "center",
+                      margin: 10,
+                    }}
+                  >
+                    <Image
+                      source={require("../../../public/settings.png")}
+                      style={styles.logo1}
+                    />
+                    <Text style={{ fontSize: 20, fontFamily: "Marker Felt" }}>
+                      Settings
+                    </Text>
+                  </View>
+                </View>
+              </TouchableOpacity>
+            </View>
+          )}
         </View>
+      </View>
+      <View style={{width: "100%", alignItems: "center"}}>
+        <Text>Copyright © Okra 2021.</Text>
       </View>
     </SafeAreaView>
   );
@@ -138,5 +401,48 @@ const styles = StyleSheet.create({
   logo: {
     width: windowWidth * 0.4,
     height: windowWidth * 0.4,
+  },
+  logo1: {
+    width: windowWidth * 0.25,
+    height: windowWidth * 0.25,
+  },
+  square: {
+    alignSelf: "center",
+    backgroundColor: "white",
+    borderRadius: 7,
+    shadowColor: "black",
+    width: windowWidth * 0.35,
+    marginLeft: windowWidth * 0.1,
+    marginRight: windowWidth * 0.05,
+  },
+
+  squareR: {
+    alignSelf: "center",
+    backgroundColor: "white",
+    borderRadius: 7,
+    shadowColor: "black",
+    width: windowWidth * 0.35,
+    marginRight: windowWidth * 0.1,
+    marginLeft: windowWidth * 0.05,
+  },
+  squareM: {
+    alignSelf: "center",
+    backgroundColor: "white",
+    borderRadius: 7,
+    shadowColor: "black",
+    width: windowWidth * 0.8,
+    margin: windowWidth * 0.15,
+    marginBottom: windowWidth*0.1,
+  },
+
+  squareOne: {
+    alignSelf: "center",
+    backgroundColor: "white",
+    borderRadius: 7,
+    shadowColor: "black",
+    width: windowWidth * 0.35,
+    marginLeft: windowWidth * 0.1,
+    marginTop: windowWidth * 0.1,
+    marginRight: windowWidth * 0.55,
   },
 });

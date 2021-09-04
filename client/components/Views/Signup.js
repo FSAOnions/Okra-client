@@ -16,7 +16,7 @@ export default function Signup() {
 
   useEffect(() => {
     if (user) {
-      dispatch(setPage("home"));
+      //dispatch(setPage("home"));
     }
   }, [user]);
 

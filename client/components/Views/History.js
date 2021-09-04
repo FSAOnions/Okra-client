@@ -19,7 +19,8 @@ import { Text } from "@ui-kitten/components";
 export default function History() {
   const history = useSelector(getHistory);
   const [ordersId, setOrderId] = useState(-1);
-
+  var months = [ "January", "February", "March", "April", "May", "June", 
+  "July", "August", "September", "October", "November", "December" ];
   return (
     <SafeAreaView style={styles.mainContainer}>
       <View
@@ -92,11 +93,13 @@ export default function History() {
                         style={{
                           flexDirection: "row",
                           marginTop: 3,
-                          justifyContent: "space-between",
-                          justifyContent: "center",
+                          width: windowWidth * 0.6,
+
+                          marginLeft: 13,
+                          justifyContent: "space-between", 
                         }}
                       >
-                        {/* <Text
+                         <Text
                           style={{
                             fontSize: 15,
                             marginRight: 10,
@@ -105,7 +108,7 @@ export default function History() {
                           }}
                         >
                           {info.restaurant.name}
-                        </Text> */}
+                        </Text> 
                         <Text
                           style={{
                             fontSize: 14,
@@ -114,7 +117,7 @@ export default function History() {
                             marginBottom: 5,
                           }}
                         >
-                          Ordered: {info.createdAt.slice(0, 10)}
+                          {info.createdAt.slice(8, 10)} {months[Number(info.createdAt.slice(5, 7))]} {info.createdAt.slice(0, 4)}
                         </Text>
                       </View>
                       {info.orders &&
