@@ -92,6 +92,15 @@ const menuSlice = createSlice({
         filteredAssets: assets,
       };
     },
+    deleteSingleProduct(state, action) {
+      const xyz = Array(3).fill(100);
+      state.selected.find((product) => {
+        if (product.key === action.payload) {
+          product.removed = true;
+          product.pFU = { position: xyz, forward: xyz, up: xyz };
+        }
+      });
+    },
     setSingleProduct(state, action) {
       return { ...state, singleProduct: action.payload };
     },
@@ -135,6 +144,7 @@ export const {
   emptySelected,
   setRestaurant,
   emptyAll,
+  deleteSingleProduct,
 } = menuSlice.actions;
 
 //Reducer

@@ -7,24 +7,24 @@ import loadAsset from "../../util/loadAsset";
 
 const { windowWidth, windowHeight } = getDimensions();
 
-export default function ThankYou() {
+export default function Payment() {
   const dispatch = useDispatch();
 
   useEffect(() => {
     setTimeout(() => {
-      dispatch(setPage("bill"));
-    }, 5000);
+      dispatch(setPage("home"));
+    }, 2000);
   }, []);
 
   return (
     <SafeAreaView style={styles.mainContainer}>
       <View>
-        <Text style={styles.text}>Thank You for your Order!</Text>
+        <Text style={styles.text}>Thank You!</Text>
         <Image
-          source={{ uri: loadAsset("/greenloading2.gif") }}
+          source={{ uri: loadAsset("/paymentprocessed.gif") }}
           style={styles.logo}
         />
-        <Text style={styles.text}>The Kitchen is on it!</Text>
+        <Text style={styles.text}>Come Again!</Text>
       </View>
     </SafeAreaView>
   );
@@ -46,9 +46,13 @@ const styles = StyleSheet.create({
   },
   text: {
     marginTop: windowHeight * 0.2,
-    marginBottom: windowHeight * 0.02,
+    marginBottom: windowHeight * 0.2,
     textAlign: "center",
     fontFamily: "Marker Felt",
     fontSize: 20,
+  },
+  logo: {
+    width: windowWidth * 0.6,
+    height: windowWidth * 0.6,
   },
 });

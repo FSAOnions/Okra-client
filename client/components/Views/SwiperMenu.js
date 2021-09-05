@@ -16,13 +16,14 @@ import {
   setSelected,
   setSingleProduct,
 } from "../../redux/reducers/menu";
+import guid from "../../util/guid";
 
 import { useSelector, useDispatch } from "react-redux";
 
 const DURATION = 1000;
 // const PATTERN = [1000, 2000, 3000];
 
-const SwiperMenu = ({ pFU }) => {
+const SwiperMenu = ({ pFU, disabled }) => {
   //const [activeIndex, setActiveIndex] = useState(0);
   const { filteredAssets } = useSelector(selectMenu);
   const dispatch = useDispatch();
@@ -52,8 +53,12 @@ const SwiperMenu = ({ pFU }) => {
       >
         <TouchableOpacity
           onPress={() => {
-            Vibration.vibrate(100, DURATION);
-            dispatch(setSelected({ ...item, pFU }));
+            if (!disabled) {
+              Vibration.vibrate(100, DURATION);
+              dispatch(
+                setSelected({ ...item, pFU, key: guid(), removed: false })
+              );
+            }
           }}
         >
           {/* <ImageBackground

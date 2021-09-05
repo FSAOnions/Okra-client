@@ -24,9 +24,9 @@ export default function MenuOverlay({ uri = "menu-outline.png" }) {
         text: "Order",
         onPress: async () => {
           await dispatch(createBill(currentRestaurant.id));
+
           const cleanedUpArr = selected.map(({ price, id }) => ({ price, id }));
           const payload = {};
-
           cleanedUpArr.forEach(({ id, price }) => {
             if (id in payload) {
               payload[id].quantity++;
@@ -34,8 +34,8 @@ export default function MenuOverlay({ uri = "menu-outline.png" }) {
               payload[id] = { quantity: 1, price };
             }
           });
-          const order = await dispatch(addOrderItems(payload));
 
+          const order = await dispatch(addOrderItems(payload));
           if (order.type === "addOrderItems/fulfilled") {
             await dispatch(emptySelected());
             await dispatch(setPage("thankyou"));

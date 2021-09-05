@@ -16,19 +16,22 @@ loadAsset;
 
 const { windowWidth } = getDimensions();
 export default function Start() {
-  const animatedValue = useRef(new Animated.Value(0)).current;
+  // const animatedValue = useRef(new Animated.Value(0)).current;
   const dispatch = useDispatch();
 
-  const handleAnimation = () => {
-    Animated.timing(animatedValue, {
-      toValue: 1,
-      duration: 1000,
-      easing: Easing.ease,
-    }).start();
-    setTimeout(() => {
+  // const handleAnimation = () => {
+    // Animated.timing(animatedValue, {
+    //   toValue: 1,
+    //   duration: 2000,
+    //   easing: Easing.ease,
+    // }).start();
+    useEffect(()=>{
+      setTimeout(() => {
       attemptLogin();
-    }, 1000);
-  };
+    }, 2500);
+  })
+    
+  
   const attemptLogin = async () => {
     const auth = await dispatch(me());
     if (auth.type === "auth/me/fulfilled") {
@@ -37,26 +40,32 @@ export default function Start() {
       dispatch(setPage("login"));
     }
   };
-  const wh = windowWidth * 0.6;
   return (
     <SafeAreaView style={styles.mainContainer}>
       <View>
-        <Animated.Image
-          source={{ uri: loadAsset("/okraAnimated.gif") }}
+        {/* <Animated.Image
+          source={{ uri: loadAsset("/okra.png") }}
           onLoad={handleAnimation}
           style={{
-            width: wh,
-            height: wh,
+            width: windowWidth * 0.5,
+            height: windowWidth * 0.5,
             transform: [
               {
                 scale: animatedValue.interpolate({
-                  inputRange: [0, 0.9],
-                  outputRange: [0.9, 1],
+                  inputRange: [0, 0.3],
+                  outputRange: [0.8, 1],
                 }),
               },
             ],
           }}
-        />
+        /> */}
+        <Image
+          source={{ uri: loadAsset(`/okra.png`) }}
+          style={{
+            width: windowWidth * 0.6,
+            height: windowWidth * 0.6,
+          }}
+        ></Image>
       </View>
     </SafeAreaView>
   );

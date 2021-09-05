@@ -19,8 +19,9 @@ import {
   selectMenu,
   fetchMenu,
   setRestaurant,
+  emptyAll,
 } from "../client/redux/reducers/menu";
-import { updateUserRestaurant } from "../client/redux/reducers/user";
+import { updateUserRestaurant, reset } from "../client/redux/reducers/user";
 import { setPage } from "../client/redux/reducers/userPage";
 
 const ImageReaderScene = (props) => {
@@ -64,7 +65,11 @@ const ImageReaderScene = (props) => {
         ? Alert.alert(`Menu Found`, `Go to ${currentRestaurant.name}'s menu`, [
             {
               text: "Cancel",
-              onPress: () => dispatch(setPage("home")),
+              onPress: () => {
+                dispatch(reset());
+                dispatch(emptyAll());
+                dispatch(setPage("home"));
+              },
               style: "cancel",
             },
             {

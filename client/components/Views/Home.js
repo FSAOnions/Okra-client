@@ -1,18 +1,27 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect } from "react";
-import { StyleSheet, View, SafeAreaView, Image } from "react-native";
+import {
+  StyleSheet,
+  View,
+  SafeAreaView,
+  TouchableOpacity,
+  Image,
+} from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { setPage } from "../../redux/reducers/userPage";
 import getDimensions from "../../util/getDimensions";
-import {
-  selectMenu,
-  fetchOrders,
-  fetchAllRestaurants,
-} from "../../redux/reducers/menu";
-import { Button, Text } from "@ui-kitten/components";
-import { selectUser, me, fetchHistory} from "../../redux/reducers/user";
-const { windowHeight, windowWidth } = getDimensions();
+import { selectMenu, fetchAllRestaurants } from "../../redux/reducers/menu";
+import { Text } from "@ui-kitten/components";
+import { selectUser, me } from "../../redux/reducers/user";
 import { setRestaurant } from "../../redux/reducers/menu";
+import NameCard from "./NameCard";
+import MenuSquare from "./Squares/MenuSquare";
+import CartSquare from "./Squares/CartSquare";
+import ScannerSquare from "./Squares/ScannerSquare";
+import HistorySquare from "./Squares/HistorySquare";
+import SettingsSquare from "./Squares/SettingsSquare";
+
+const { windowHeight, windowWidth } = getDimensions();
 const serverUrl = "https://okra-onions.herokuapp.com";
 
 export default function Home() {
@@ -25,15 +34,16 @@ export default function Home() {
       dispatch(me());
     } else {
       if (!restaurants.length) {
+        // Near by
         dispatch(fetchAllRestaurants(user.currentRestaurantId));
       } else if (restaurants.length && user.currentRestaurantId) {
-        const t = restaurants.find((restaurant) => {
-          console.log("r", restaurant, user.currentRestaurantId);
-          return restaurant.id == user.currentRestaurantId;
-        });
-        console.log("hello", t);
-        dispatch(setRestaurant(t));
-        // dispatch(fetchOrders());
+        dispatch(
+          setRestaurant(
+            restaurants.find((restaurant) => {
+              return restaurant.id == user.currentRestaurantId;
+            })
+          )
+        );
       }
     }
   }, [user, restaurants]);
@@ -46,66 +56,46 @@ export default function Home() {
             source={{ uri: `${serverUrl}/logo.png` }}
             style={styles.logo}
           />
+          <NameCard user={user} />
         </View>
-        {user.currentRestaurantId ? (
-          <View>
-            <View style={{ marginTop: 5, alignItems: "center" }}>
-              <Button
-                style={{ width: 250, marginTop: 10 }}
-                onPress={() => dispatch(setPage("menu"))}
-              >
-                Menu
-              </Button>
-            </View>
-            <View style={{ marginTop: 5, alignItems: "center" }}>
-              <Button
-                style={{ width: 250, marginTop: 10 }}
-                onPress={() => dispatch(setPage("bill"))}
-              >
-                My Bill
-              </Button>
-            </View>
-            <View style={{ marginTop: 5, alignItems: "center" }}>
-              <Button
-                style={{ width: 250, marginTop: 10 }}
-                onPress={() => {dispatch(fetchHistory()); dispatch(setPage("history"))}}
-              >
-                Previous orders
-              </Button>
-            </View>
-          </View>
-        ) : (
-          <View
-            style={{ marginTop: windowHeight * 0.07, alignItems: "center" }}
-          >
-            <Button
-              style={{ width: 250, marginTop: 10 }}
-              onPress={() => {
-                dispatch(setPage("scanner"));
-              }}
-            >
-              Scan a restaurant logo
-            </Button>
-          </View>
-        )}
-        <View style={{ marginTop: 5, alignItems: "center" }}>
-          <Button
-            style={{ width: 250, marginTop: 10 }}
-            onPress={() => dispatch(setPage("pending"))}
-          >
-            {user &&
-              `${
-                user.firstName.slice(0, 1).toUpperCase() +
-                user.firstName.slice(1)
-              }'s Profile`}
-          </Button>
+        <View style={styles.squareContainer}>
+          {user.currentRestaurantId ? (
+            <MenuSquare styles={squareStyles} />
+          ) : (
+            <ScannerSquare styles={squareStyles} />
+          )}
+          {user.currentRestaurantId && (
+            <CartSquare
+              styles={squareStyles}
+              hasRestaurant={!!user.currentRestaurantId}
+            />
+          )}
         </View>
+        <View style={styles.squareContainer}>
+          <HistorySquare styles={squareStyles} />
+          <SettingsSquare styles={squareStyles} />
+        </View>
+      </View>
+      <View style={{ width: "100%", alignItems: "center" }}>
+        <Text>Copyright © Okra 2021.</Text>
       </View>
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
+const squareStyles = StyleSheet.create({
+  square: {
+    alignSelf: "center",
+    backgroundColor: "white",
+    borderRadius: 7,
+    shadowColor: "black",
+    width: windowWidth * 0.35,
+  },
+  logo1: {
+    width: windowWidth * 0.25,
+    height: windowWidth * 0.25,
+  },
+});
+export const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     width: "100%",
@@ -121,16 +111,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  text: {
-    marginTop: windowHeight * 0.2,
-    marginBottom: windowHeight * 0.02,
-    textAlign: "center",
-    fontFamily: "Marker Felt",
-  },
-  pics: {
-    width: 30,
-    height: 30,
-    backgroundColor: "transparent",
+  squareContainer: {
+    display: "flex",
+    justifyContent: "space-evenly",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    width: "100%",
+    marginLeft: 40,
+    marginRight: 40,
+    marginTop: 40,
   },
   logo: {
     width: windowWidth * 0.4,
