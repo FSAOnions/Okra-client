@@ -51,7 +51,7 @@ export const logout = createAsyncThunk("user/logout", async () => {
 });
 
 export const leaveRestaurant = createAsyncThunk("leaveRestaurant", async () => {
-  const {data} = await axios.post(path('/auth/leave'))
+  const {data} = await axios.put(path('/auth/leave'))
   return data;
 } );
 

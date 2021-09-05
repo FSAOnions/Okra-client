@@ -20,6 +20,7 @@ import CartSquare from "./Squares/CartSquare";
 import ScannerSquare from "./Squares/ScannerSquare";
 import HistorySquare from "./Squares/HistorySquare";
 import SettingsSquare from "./Squares/SettingsSquare";
+import LeaveSquare from "./Squares/LeaveSquare";
 
 const { windowHeight, windowWidth } = getDimensions();
 const serverUrl = "https://okra-onions.herokuapp.com";
@@ -64,12 +65,16 @@ export default function Home() {
           ) : (
             <ScannerSquare styles={squareStyles} />
           )}
-          {user.currentRestaurantId && (
-            <CartSquare
+          {user.currentRestaurantId && 
+            <>{user.bills && user.bills.length>0 ? <CartSquare
               styles={squareStyles}
               hasRestaurant={!!user.currentRestaurantId}
             />
-          )}
+           :
+            <LeaveSquare
+              styles={squareStyles}
+            />}</>
+          }
         </View>
         <View style={styles.squareContainer}>
           <HistorySquare styles={squareStyles} />
