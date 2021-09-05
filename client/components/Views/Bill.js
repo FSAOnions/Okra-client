@@ -72,7 +72,7 @@ export default function Bill() {
 
   return (
     <SafeAreaView style={styles.mainContainer}>
-      <Hamburger uri="home.png" page="home" />
+      <Hamburger uri="home.png" page="home" marg={39}/>
       <TouchableOpacity onPress={() => dispatch(setPage("menu"))}>
         <Image
           source={{ uri: loadAsset("/menuicon.png") }}

@@ -19,9 +19,23 @@ import { Text } from "@ui-kitten/components";
 export default function History() {
   const history = useSelector(getHistory);
   const [ordersId, setOrderId] = useState(-1);
-
+  var months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
   return (
     <SafeAreaView style={styles.mainContainer}>
+      <Hamburger uri="home.png" page="home" marg={50}/>
       <View
         style={{
           justifyContent: "center",
@@ -33,14 +47,13 @@ export default function History() {
         <Text
           style={{
             fontSize: 30,
-            margin: 15,
+            margin: 5,
             marginBottom: 10,
             color: "#212529",
           }}
         >
           Orders
         </Text>
-        <Hamburger uri="home.png" page="home" />
       </View>
 
       <ScrollView>
@@ -92,11 +105,13 @@ export default function History() {
                         style={{
                           flexDirection: "row",
                           marginTop: 3,
+                          width: windowWidth * 0.6,
+
+                          marginLeft: 13,
                           justifyContent: "space-between",
-                          justifyContent: "center",
                         }}
                       >
-                        {/* <Text
+                        <Text
                           style={{
                             fontSize: 15,
                             marginRight: 10,
@@ -105,7 +120,7 @@ export default function History() {
                           }}
                         >
                           {info.restaurant.name}
-                        </Text> */}
+                        </Text>
                         <Text
                           style={{
                             fontSize: 14,
@@ -114,7 +129,9 @@ export default function History() {
                             marginBottom: 5,
                           }}
                         >
-                          Ordered: {info.createdAt.slice(0, 10)}
+                          {info.createdAt.slice(8, 10)}{" "}
+                          {months[Number(info.createdAt.slice(5, 7))]}{" "}
+                          {info.createdAt.slice(0, 4)}
                         </Text>
                       </View>
                       {info.orders &&
@@ -122,7 +139,8 @@ export default function History() {
                         info.orders.map((order) => (
                           <View key={order.id}>
                             {order.products.map((product) => (
-                              <View key={product.id}
+                              <View
+                                key={product.id}
                                 style={{
                                   flexDirection: "row",
                                   marginLeft: 13,

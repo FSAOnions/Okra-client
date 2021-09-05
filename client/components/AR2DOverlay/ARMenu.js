@@ -43,7 +43,7 @@ export default function ARMenu() {
         height: "100%",
       }}
     >
-      <Hamburger uri="home.png" page="home" />
+      <Hamburger uri="home.png" page="home" marg={37}/>
       <MenuOverlay />
       <Trashcan {...delProps} />
       <ViroARSceneNavigator

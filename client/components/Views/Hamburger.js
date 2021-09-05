@@ -6,7 +6,7 @@ import { Image } from "react-native";
 import getDimensions from "../../util/getDimensions";
 import loadAsset from "../../util/loadAsset";
 
-export default function Hamburger({ uri, page }) {
+export default function Hamburger({ uri, page, marg=35  }) {
   const dispatch = useDispatch();
   const { windowWidth } = getDimensions();
   return (
@@ -14,7 +14,7 @@ export default function Hamburger({ uri, page }) {
       style={{
         position: "absolute",
         left: 20,
-        top: 15,
+        top: marg,
         zIndex: 500,
         height: 40,
         width: 40,
