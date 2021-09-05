@@ -4,12 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   View,
   Alert,
-  Text,
   StyleSheet,
   TouchableOpacity,
   Image,
   ScrollView,
 } from "react-native";
+import { Button, Text } from "@ui-kitten/components";
 import {
   selectMenu,
   emptySelected,
@@ -26,7 +26,6 @@ import { setPage } from "../../redux/reducers/userPage";
 import { selectUser } from "../../redux/reducers/user";
 import { setFilter } from "../../redux/reducers/menu";
 import ScrollType from "./ScrollType";
-import { Button } from "@ui-kitten/components";
 import loadAsset from "../../util/loadAsset";
 
 export default function MenuNav(props) {
@@ -45,8 +44,8 @@ export default function MenuNav(props) {
         menuBar: windowHeight * 0.5,
       }
     : {
-        arScene: windowHeight * 0.75,
-        menuBar: windowHeight * 0.25,
+        arScene: windowHeight * 0.7,
+        menuBar: windowHeight * 0.3,
       };
 
   return (
@@ -86,8 +85,8 @@ export default function MenuNav(props) {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            marginBottom: -75,
-            height: 275,
+            marginBottom: open ? -68 : -85,
+            height: 285,
             width: "100%",
             backgroundColor: "none",
           }}
@@ -112,20 +111,49 @@ export default function MenuNav(props) {
             justifyContent: "center",
             alignItems: "center",
             backgroundColor: "rgb(255, 255, 255)",
+            paddingTop: 5,
           }}
         >
-          <ScrollView style={{ height: "100%", overflow: "hidden" }}>
-            <Text
-              style={{
-                margin: 10,
-                fontSize: 25,
-                color: "green",
-                textAlign: "center",
-              }}
-            >
-              {singleProduct && singleProduct.description}
-            </Text>
-          </ScrollView>
+          {open ? (
+            <>
+              {singleProduct && (
+                <View style={styles.spaceBetween}>
+                  <Text category="h5" style={{ color: "rgb(49, 49, 49)" }}>
+                    {singleProduct.product_name}
+                  </Text>
+                  <Text category="h6" style={{ color: "rgb(49, 49, 49)" }}>
+                    ${singleProduct.price / 100}
+                  </Text>
+                </View>
+              )}
+              <ScrollView
+                style={{ height: "100%", overflow: "hidden", paddingTop: 10 }}
+              >
+                <Text category="p1" style={styles.text}>
+                  {singleProduct && singleProduct.description}
+                </Text>
+              </ScrollView>
+            </>
+          ) : (
+            <>
+              {singleProduct ? (
+                <View style={styles.title}>
+                  <Text category="h5" style={{ color: "rgb(49, 49, 49)" }}>
+                    {singleProduct.product_name}
+                  </Text>
+                  <Text category="h6" style={{ color: "rgb(49, 49, 49)" }}>
+                    ${singleProduct.price / 100}
+                  </Text>
+                </View>
+              ) : (
+                <View style={styles.title}>
+                  <Text category="h5" style={{ color: "rgb(49, 49, 49)" }}>
+                    No Product
+                  </Text>
+                </View>
+              )}
+            </>
+          )}
         </View>
       </View>
     </View>
@@ -149,5 +177,30 @@ const styles = StyleSheet.create({
     width: 60,
     marginBottom: 15,
     borderRadius: 15,
+  },
+  spaceBetween: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "100%",
+    paddingLeft: 15,
+    paddingRight: 15,
+  },
+  title: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "100%",
+    paddingLeft: 20,
+    paddingRight: 20,
+    paddingBottom: 20,
+  },
+  text: {
+    paddingLeft: 20,
+    paddingRight: 20,
+    textAlign: "justify",
+    color: "rgb(105,105,105)",
   },
 });
