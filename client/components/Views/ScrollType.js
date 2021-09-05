@@ -59,25 +59,16 @@ const ScrollType = ({ pFU }) => {
       >
         <View>
           <Button
-            // style={{ width: windowWidth * 0.25, height: windowWidth * 0.25 }}
             style={{
-              width: itemWidth,
+              width: itemWidth * 1.5,
               borderColor: "rgb(105,105,105)",
             }}
-            // style={{ width: "100%" }}
             onPress={() => {
               filter(item);
             }}
           >
             {item}
           </Button>
-          {/* <Button
-            title={`${item}`}
-            style={{ width: "100%" }}
-            onPress={() => {
-              filter(item);
-            }}
-          /> */}
         </View>
       </View>
     );
@@ -102,12 +93,12 @@ const ScrollType = ({ pFU }) => {
           ref={(ref) => (carousel = ref)}
           data={types}
           sliderWidth={windowWidth}
-          itemWidth={itemWidth}
+          itemWidth={itemWidth * 1.5}
           renderItem={_renderItem}
           enableSnap={true}
           onSnapToItem={handleSnap}
           enableMomentum={true}
-          // inactiveSlideScale={0.8}
+          inactiveSlideScale={0.8}
           inactiveSlideOpacity={0.7}
           activeAnimationType={"decay"}
         />
@@ -133,7 +124,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     overflow: "hidden",
-    // marginLeft: "40%",
     width: "100%",
   },
   bold: {
