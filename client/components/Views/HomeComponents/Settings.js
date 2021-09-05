@@ -5,7 +5,7 @@ import { setPage } from "../../../redux/reducers/userPage";
 import { Text } from "@ui-kitten/components";
 import { useDispatch } from "react-redux";
 
-export default function HomeSettings() {
+export default function HomeSettings({st = styles.squareOne}) {
   const dispatch = useDispatch();
   return (
     <TouchableOpacity
@@ -15,7 +15,7 @@ export default function HomeSettings() {
     >
       <View
         style={[
-          styles.squareR,
+          st,
           {
             shadowOffset: {
               width: 0,
