@@ -37,10 +37,7 @@ const SwiperMenu = ({ pFU, disabled }) => {
   let carousel = useRef();
 
   const _renderItem = ({ item }) => {
-    const { itemPadding, windowWidth } = getDimensions(
-      filteredAssets.length,
-      75
-    );
+    const { itemPadding, windowWidth } = getDimensions();
 
     return (
       <View
