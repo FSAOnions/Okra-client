@@ -24,11 +24,9 @@ export default function MenuOverlay({ uri = "menu-outline.png" }) {
         text: "Order",
         onPress: async () => {
           await dispatch(createBill(currentRestaurant.id));
-          const cleanedUpArr = selected
-            .filter((product) => !product.removed)
-            .map(({ price, id }) => ({ price, id }));
-          const payload = {};
 
+          const cleanedUpArr = selected.map(({ price, id }) => ({ price, id }));
+          const payload = {};
           cleanedUpArr.forEach(({ id, price }) => {
             if (id in payload) {
               payload[id].quantity++;
@@ -36,8 +34,8 @@ export default function MenuOverlay({ uri = "menu-outline.png" }) {
               payload[id] = { quantity: 1, price };
             }
           });
-          const order = await dispatch(addOrderItems(payload));
 
+          const order = await dispatch(addOrderItems(payload));
           if (order.type === "addOrderItems/fulfilled") {
             await dispatch(emptySelected());
             await dispatch(setPage("thankyou"));
@@ -74,7 +72,7 @@ export default function MenuOverlay({ uri = "menu-outline.png" }) {
               position: "absolute",
               backgroundColor: "rgb(255,255,255)",
               zIndex: 499,
-              top: 80,
+              top: 40,
               right: 20,
               height: 400,
               width: windowWidth - 80,
@@ -87,21 +85,19 @@ export default function MenuOverlay({ uri = "menu-outline.png" }) {
 
               <View style={styles.container}>
                 {Object.values(
-                  selected
-                    .filter((product) => !product.removed)
-                    .reduce((products, product) => {
-                      const { product_name: name, price } = product;
-                      if (products[name]) {
-                        products[name].quantity++;
-                      } else {
-                        products[name] = {
-                          name,
-                          price,
-                          quantity: 1,
-                        };
-                      }
-                      return products;
-                    }, {})
+                  selected.reduce((products, product) => {
+                    const { product_name: name, price } = product;
+                    if (products[name]) {
+                      products[name].quantity++;
+                    } else {
+                      products[name] = {
+                        name,
+                        price,
+                        quantity: 1,
+                      };
+                    }
+                    return products;
+                  }, {})
                 ).map((product, idx) => (
                   <View
                     key={`${product.product_name}-${idx}`}

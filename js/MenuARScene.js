@@ -13,6 +13,9 @@ import {
   ViroNode,
   ViroOmniLight,
   ViroSphere,
+  ViroARPlane,
+  ViroBox,
+  ViroMaterials,
 } from "react-viro";
 
 import {
@@ -23,14 +26,28 @@ import {
   deleteSingleProduct,
 } from "../client/redux/reducers/menu";
 import { selectUser } from "../client/redux/reducers/user";
+import loadAsset from "../client/util/loadAsset";
 
 const MenuARScene = ({ pFU, setPFU, del }) => {
   const dispatch = useDispatch();
   const { selected } = useSelector(selectMenu);
   const user = useSelector(selectUser);
   const [text, setText] = useState("Initializing AR...");
+
   const [rotation, setRotation] = useState(0);
-  let sceneRef = useRef();
+  const sphere = useRef({
+    position: [0, -0.5, -0.5],
+    rotation: [1, 1, 1],
+  });
+  useEffect(() => {
+    ViroMaterials.createMaterials({
+      red: {
+        shininess: 2.0,
+        lightingModel: "Constant",
+        diffuseTexture: require("../public/red.png"),
+      },
+    });
+  }, []);
 
   const handleRotate = (rotateState, rotationFactor) => {
     const factor = rotationFactor / 2;
@@ -55,24 +72,15 @@ const MenuARScene = ({ pFU, setPFU, del }) => {
       },
     ]);
   };
-
   return (
     <ViroARScene
       onTrackingUpdated={() => {
         setText(
           `Welcome, ${
-            user.firstName.slice(0, 1).toUpperCase() + user.firstName.slice(1)
+            user.firstName.slice(0, 1).toUpperCase() + user.firstName
           }!`
         );
       }}
-      ref={(scene) => (sceneRef = scene)}
-      // onCameraTransformUpdate={async () => {
-      //   const { position, forward, up } =
-      //     await sceneRef.getCameraOrientationAsync();
-      //   const [x, y, z] = position;
-      //   0, -0.5, -0.5;
-      //   setPFU({ position: [x, -0.5 + y, -0.5 + z], forward, up });
-      // }}
     >
       <ViroText
         text={text}
@@ -91,6 +99,20 @@ const MenuARScene = ({ pFU, setPFU, del }) => {
         position={[0, 3, 1]}
         color="#ffffff"
         castsShadow={true}
+      />
+      <ViroSphere
+        heightSegmentCount={20}
+        widthSegmentCount={20}
+        radius={2}
+        position={sphere.current.position}
+        rotation={sphere.current.rotation}
+        onDrag={(position) => {
+          setPFU({ ...pFU, position });
+        }}
+        scale={[0.008, 0.008, 0.008]}
+        height={1}
+        width={1}
+        materials={["red"]}
       />
       {selected.map((product, idx) => (
         <ViroNode

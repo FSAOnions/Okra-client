@@ -8,18 +8,21 @@ import MenuNav from "../Views/MenuNav";
 const initScene = require("../../../js/MenuARScene");
 import MenuOverlay from "../Views/MenuOverlay";
 import Trashcan from "../Views/Trashcan";
+import Queue from "../../util/queue";
 export default function ARMenu() {
   const [pFU, setPFU] = useState({
     position: [0, -0.5, -0.5],
     forward: [0, 0, 0],
     up: [0, 0, 0],
   });
-
+  const [disabled, setDisabled] = useState(false);
   const props = {
     pFU,
     setPFU,
+    setDisabled,
   };
-
+  const onLoad = (data) => console.log("Grabbed", data);
+  const q = new Queue(onLoad);
   const [canDelete, setDelete] = useState(false);
   const delProps = { canDelete, setDelete };
   const del = useRef({ canDelete: false });
@@ -46,7 +49,7 @@ export default function ARMenu() {
       <ViroARSceneNavigator
         initialScene={{
           scene: initScene,
-          passProps: { del },
+          passProps: { ...props, del },
         }}
       />
       <MenuNav {...props} />

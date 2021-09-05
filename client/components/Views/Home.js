@@ -30,14 +30,16 @@ export default function Home() {
       dispatch(me());
     } else {
       if (!restaurants.length) {
+        // Near by
         dispatch(fetchAllRestaurants(user.currentRestaurantId));
       } else if (restaurants.length && user.currentRestaurantId) {
-        const t = restaurants.find((restaurant) => {
-          console.log("r", restaurant, user.currentRestaurantId);
-          return restaurant.id == user.currentRestaurantId;
-        });
-        console.log("hello", t);
-        dispatch(setRestaurant(t));
+        dispatch(
+          setRestaurant(
+            restaurants.find((restaurant) => {
+              return restaurant.id == user.currentRestaurantId;
+            })
+          )
+        );
       }
     }
   }, [user, restaurants]);
