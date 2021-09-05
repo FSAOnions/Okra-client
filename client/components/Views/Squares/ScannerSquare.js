@@ -1,21 +1,23 @@
 import React from "react";
-import { View, TouchableOpacity, Image } from "react-native";
-import { styles } from "../Home";
-import { fetchHistory } from "../../../redux/reducers/user";
-import { setPage } from "../../../redux/reducers/userPage";
-import { Text } from "@ui-kitten/components";
 import { useDispatch } from "react-redux";
+import { TouchableOpacity, StyleSheet, View } from "react-native";
+import { setPage } from "../../../redux/reducers/userPage";
+import { Image } from "react-native";
+import getDimensions from "../../../util/getDimensions";
+import loadAsset from "../../../util/loadAsset";
+import { Text } from "@ui-kitten/components";
 
-export default function HomeHistory() {
+const { windowHeight, windowWidth } = getDimensions();
+
+export default function ScannerSquare({ styles }) {
   const dispatch = useDispatch();
+  const { windowWidth } = getDimensions();
   return (
     <TouchableOpacity
       onPress={() => {
-        {
-          dispatch(fetchHistory());
-          dispatch(setPage("history"));
-        }
+        dispatch(setPage("scanner"));
       }}
+      style={{ width: "100%" }}
     >
       <View
         style={[
@@ -38,11 +40,11 @@ export default function HomeHistory() {
           }}
         >
           <Image
-            source={require("../../../../public/history.png")}
+            source={require(`../../../../public/scan.png`)}
             style={styles.logo1}
           />
           <Text style={{ fontSize: 20, fontFamily: "Marker Felt" }}>
-            Orders
+            Scan logo
           </Text>
         </View>
       </View>
