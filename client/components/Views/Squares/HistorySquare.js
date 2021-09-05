@@ -1,21 +1,28 @@
 import React from "react";
-import { View, TouchableOpacity, Image } from "react-native";
-import { styles } from "../Home";
-import { setPage } from "../../../redux/reducers/userPage";
-import { Text } from "@ui-kitten/components";
 import { useDispatch } from "react-redux";
+import { TouchableOpacity, StyleSheet, View } from "react-native";
+import { setPage } from "../../../redux/reducers/userPage";
+import { Image } from "react-native";
+import getDimensions from "../../../util/getDimensions";
+import loadAsset from "../../../util/loadAsset";
+import { Text } from "@ui-kitten/components";
+import { fetchHistory } from "../../../redux/reducers/user";
 
-export default function HomeSettings({st = styles.squareOne}) {
+const { windowHeight, windowWidth } = getDimensions();
+
+export default function HistorySquare({ styles }) {
   const dispatch = useDispatch();
+  const { windowWidth } = getDimensions();
   return (
     <TouchableOpacity
       onPress={() => {
-        dispatch(setPage("settings"));
+        dispatch(fetchHistory());
+        dispatch(setPage("history"));
       }}
     >
       <View
         style={[
-          st,
+          styles.square,
           {
             shadowOffset: {
               width: 0,
@@ -34,11 +41,11 @@ export default function HomeSettings({st = styles.squareOne}) {
           }}
         >
           <Image
-            source={require("../../../../public/settings.png")}
+            source={require(`../../../../public/history.png`)}
             style={styles.logo1}
           />
           <Text style={{ fontSize: 20, fontFamily: "Marker Felt" }}>
-            Settings
+            Orders
           </Text>
         </View>
       </View>
