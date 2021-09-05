@@ -6,20 +6,18 @@ import {
   SafeAreaView,
   TouchableOpacity,
   Image,
-  ScrollView,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { setPage } from "../../redux/reducers/userPage";
 import getDimensions from "../../util/getDimensions";
-import {
-  selectMenu,
-  fetchOrders,
-  fetchAllRestaurants,
-} from "../../redux/reducers/menu";
-import { Button, Text } from "@ui-kitten/components";
-import { selectUser, me, fetchHistory } from "../../redux/reducers/user";
-const { windowHeight, windowWidth } = getDimensions();
+import { selectMenu, fetchAllRestaurants } from "../../redux/reducers/menu";
+import { Text } from "@ui-kitten/components";
+import { selectUser, me } from "../../redux/reducers/user";
 import { setRestaurant } from "../../redux/reducers/menu";
+import HomeHistory from "./HomeComponents/History";
+import HomeSettings from "./HomeComponents/Settings";
+
+const { windowHeight, windowWidth } = getDimensions();
 const serverUrl = "https://okra-onions.herokuapp.com";
 
 export default function Home() {
@@ -52,11 +50,6 @@ export default function Home() {
             source={{ uri: `${serverUrl}/logo.png` }}
             style={styles.logo}
           />
-          <TouchableOpacity
-            onPress={() => {
-              ordersId !== info.id ? setOrderId(info.id) : setOrderId(-1);
-            }}
-          >
             <View
               style={[
                 styles.squareM,
@@ -86,14 +79,13 @@ export default function Home() {
                 </Text>
               </View>
             </View>
-          </TouchableOpacity>
         </View>
         <View style={{ marginTop: 5 }}>
           {user.currentRestaurantId ? (
             <View style={{ justifyContent: "center", flexDirection: "column" }}>
-             <View
+              <View
                 style={{
-                  marginLeft: windowWidth*0.1,
+                  marginLeft: windowWidth * 0.1,
                   flexDirection: "row",
                 }}
               >
@@ -171,79 +163,11 @@ export default function Home() {
               <View
                 style={{
                   flexDirection: "row",
-                  margin: windowWidth*0.1
+                  margin: windowWidth * 0.1,
                 }}
               >
-                <TouchableOpacity
-                  onPress={() => {
-                    {dispatch(fetchHistory()); dispatch(setPage("history"));}
-                  }}
-                >
-                  <View
-                    style={[
-                      styles.square,
-                      {
-                        shadowOffset: {
-                          width: 0,
-                          height: 0,
-                        },
-                        shadowOpacity: 0.3,
-                        shadowRadius: 7,
-                      },
-                    ]}
-                  >
-                    <View
-                      style={{
-                        alignItems: "center",
-                        justifyContent: "center",
-                        margin: 10,
-                      }}
-                    >
-                     <Image
-                        source={require("../../../public/history.png")}
-                        style={styles.logo1}
-                      />
-                      <Text style={{ fontSize: 20, fontFamily: "Marker Felt" }}>
-                        Orders
-                      </Text>
-                    </View>
-                  </View>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => {
-                    dispatch(setPage("settings"));
-                  }}
-                >
-                  <View
-                    style={[
-                      styles.squareR,
-                      {
-                        shadowOffset: {
-                          width: 0,
-                          height: 0,
-                        },
-                        shadowOpacity: 0.3,
-                        shadowRadius: 7,
-                      },
-                    ]}
-                  >
-                    <View
-                      style={{
-                        alignItems: "center",
-                        justifyContent: "center",
-                        margin: 10,
-                      }}
-                    >
-                      <Image
-                      source={require("../../../public/settings.png")}
-                      style={styles.logo1}
-                    />
-                    <Text style={{ fontSize: 20, fontFamily: "Marker Felt" }}>
-                      Settings
-                    </Text>
-                    </View>
-                  </View>
-                </TouchableOpacity>
+                <HomeHistory />
+                <HomeSettings />
               </View>
             </View>
           ) : (
@@ -289,89 +213,22 @@ export default function Home() {
                     </View>
                   </View>
                 </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => {
-                    {dispatch(fetchHistory()); dispatch(setPage("history"));}
-                  }}
-                >
-                  <View
-                    style={[
-                      styles.squareR,
-                      {
-                        shadowOffset: {
-                          width: 0,
-                          height: 0,
-                        },
-                        shadowOpacity: 0.3,
-                        shadowRadius: 7,
-                      },
-                    ]}
-                  >
-                    <View
-                      style={{
-                        alignItems: "center",
-                        justifyContent: "center",
-                        margin: 10,
-                      }}
-                    >
-                      <Image
-                        source={require("../../../public/history.png")}
-                        style={styles.logo1}
-                      />
-                      <Text style={{ fontSize: 20, fontFamily: "Marker Felt" }}>
-                        Orders
-                      </Text>
-                    </View>
-                  </View>
-                </TouchableOpacity>
+                <HomeHistory />
               </View>
-              <TouchableOpacity
-                onPress={() => {
-                  dispatch(setPage("settings"));
-                }}
-              >
-                <View
-                  style={[
-                    styles.squareOne,
-                    {
-                      shadowOffset: {
-                        width: 0,
-                        height: 0,
-                      },
-                      shadowOpacity: 0.3,
-                      shadowRadius: 7,
-                    },
-                  ]}
-                >
-                  <View
-                    style={{
-                      alignItems: "center",
-                      justifyContent: "center",
-                      margin: 10,
-                    }}
-                  >
-                    <Image
-                      source={require("../../../public/settings.png")}
-                      style={styles.logo1}
-                    />
-                    <Text style={{ fontSize: 20, fontFamily: "Marker Felt" }}>
-                      Settings
-                    </Text>
-                  </View>
-                </View>
-              </TouchableOpacity>
+
+              <HomeSettings />
             </View>
           )}
         </View>
       </View>
-      <View style={{width: "100%", alignItems: "center"}}>
+      <View style={{ width: "100%", alignItems: "center" }}>
         <Text>Copyright © Okra 2021.</Text>
       </View>
     </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     width: "100%",
@@ -432,7 +289,7 @@ const styles = StyleSheet.create({
     shadowColor: "black",
     width: windowWidth * 0.8,
     margin: windowWidth * 0.15,
-    marginBottom: windowWidth*0.1,
+    marginBottom: windowWidth * 0.1,
   },
 
   squareOne: {
