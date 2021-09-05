@@ -43,13 +43,14 @@ const MenuARScene = ({ pFU, setPFU, del }) => {
     ViroMaterials.createMaterials({
       red: {
         shininess: 2.0,
-        lightingModel: "Constant",
+        lightingModel: "Lambert",
         diffuseTexture: require("../public/red.png"),
       },
     });
   }, []);
 
   const handleRotate = (rotateState, rotationFactor) => {
+    console.log(rotation);
     const factor = rotationFactor / 2;
     if (rotateState == 2) {
       setRotation(rotation + Math.max(Math.min(factor, 10), -10));
@@ -72,14 +73,14 @@ const MenuARScene = ({ pFU, setPFU, del }) => {
       },
     ]);
   };
+  const intensity = 1500;
   return (
     <ViroARScene
       onTrackingUpdated={() => {
-        setText(
-          `Welcome, ${
-            user.firstName.slice(0, 1).toUpperCase() + user.firstName
-          }!`
-        );
+        setText();
+        // `Welcome, ${
+        //    user.firstName.slice(0, 1).toUpperCase() + user.firstName
+        // }!`
       }}
     >
       <ViroText
@@ -98,7 +99,35 @@ const MenuARScene = ({ pFU, setPFU, del }) => {
         direction={[0, -1, -0.2]}
         position={[0, 3, 1]}
         color="#ffffff"
+        intensity={intensity}
         castsShadow={true}
+      />
+      <ViroSpotLight
+        innerAngle={5}
+        outerAngle={90}
+        direction={[0, 1, -0.2]}
+        position={[0, -3, 1]}
+        color="#ffffff"
+        intensity={intensity}
+        castsShadow={false}
+      />
+      <ViroSpotLight
+        innerAngle={5}
+        outerAngle={90}
+        direction={[1, 0, -0.2]}
+        position={[-3, 0, 1]}
+        color="#ffffff"
+        intensity={intensity}
+        castsShadow={false}
+      />
+      <ViroSpotLight
+        innerAngle={5}
+        outerAngle={90}
+        direction={[-1, 0, -0.2]}
+        position={[3, 0, 1]}
+        color="#ffffff"
+        intensity={intensity}
+        castsShadow={false}
       />
       <ViroSphere
         heightSegmentCount={20}
@@ -109,7 +138,7 @@ const MenuARScene = ({ pFU, setPFU, del }) => {
         onDrag={(position) => {
           setPFU({ ...pFU, position });
         }}
-        scale={[0.008, 0.008, 0.008]}
+        scale={[0.01, 0.01, 0.01]}
         height={1}
         width={1}
         materials={["red"]}
@@ -124,6 +153,7 @@ const MenuARScene = ({ pFU, setPFU, del }) => {
           onDrag={() => {}}
           visible={!product.removed}
         >
+          {/* {rotation + product.assets.rotateY} */}
           <Viro3DObject
             source={{
               uri: product.assets.source,
