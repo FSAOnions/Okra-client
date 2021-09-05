@@ -169,14 +169,13 @@ export default function Home() {
                 }}
               >
                 <HomeHistory />
-                <HomeSettings />
+                <HomeSettings st={styles.squareR}/>
               </View>
             </View>
           ) : (
             <View>
               <View
                 style={{
-                  justifyContent: "space-between",
                   flexDirection: "row",
                 }}
               >
@@ -217,7 +216,6 @@ export default function Home() {
                 </TouchableOpacity>
                 <HomeHistory />
               </View>
-
               <HomeSettings />
             </View>
           )}
