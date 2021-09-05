@@ -61,20 +61,27 @@ export default function Home() {
         </View>
         <View style={styles.squareContainer}>
           {user.currentRestaurantId ? (
-            <MenuSquare styles={squareStyles} />
+            <View
+              style={{
+                flexDirection: "row",
+                width: windowWidth,
+                justifyContent: "space-evenly",
+              }}
+            >
+              <MenuSquare styles={squareStyles} />
+              {user.bills &&
+              user.currentRestaurantId !== null ? (
+                <CartSquare
+                  styles={squareStyles}
+                  hasRestaurant={user.currentRestaurantId}
+                />
+              ) : (
+                <LeaveSquare styles={squareStyles} />
+              )}
+            </View>
           ) : (
             <ScannerSquare styles={squareStyles} />
           )}
-          {user.currentRestaurantId && 
-            <>{user.bills && user.bills.length>0 ? <CartSquare
-              styles={squareStyles}
-              hasRestaurant={!!user.currentRestaurantId}
-            />
-           :
-            <LeaveSquare
-              styles={squareStyles}
-            />}</>
-          }
         </View>
         <View style={styles.squareContainer}>
           <HistorySquare styles={squareStyles} />
