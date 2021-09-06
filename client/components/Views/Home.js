@@ -20,7 +20,7 @@ const serverUrl = "https://okra-onions.herokuapp.com";
 
 export default function Home() {
   const dispatch = useDispatch();
-  const { restaurants } = useSelector(selectMenu);
+  const { restaurants, selected, orders } = useSelector(selectMenu);
   const user = useSelector(selectUser);
 
   useEffect(() => {
@@ -62,7 +62,7 @@ export default function Home() {
               }}
             >
               <MenuSquare styles={squareStyles} />
-              {user.bills && user.bills.length > 0 ? (
+              {user.bills && user.bills.length > 0 || orders && orders.length>0  ? (
                 <CartSquare
                   styles={squareStyles}
                   hasRestaurant={user.currentRestaurantId}
