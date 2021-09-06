@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
-import { StyleSheet, View, SafeAreaView, Image, Text } from "react-native";
+import { StyleSheet, View, SafeAreaView, Image } from "react-native";
 import { useDispatch } from "react-redux";
 import getDimensions from "../../util/getDimensions";
 import { setPage } from "../../redux/reducers/userPage";
 import loadAsset from "../../util/loadAsset";
+import { Text } from "@ui-kitten/components";
 
 const { windowWidth, windowHeight } = getDimensions();
 
@@ -45,11 +46,11 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
   },
   text: {
-    marginTop: windowHeight * 0.2,
-    marginBottom: windowHeight * 0.2,
+    // marginTop: windowHeight * 0.2,
+    // marginBottom: windowHeight * 0.2,
     textAlign: "center",
     fontFamily: "Marker Felt",
-    fontSize: 20,
+    fontSize: 30,
   },
   logo: {
     width: windowWidth * 0.6,
