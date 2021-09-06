@@ -45,10 +45,10 @@ export default function CartSquare({ styles, hasRestaurant }) {
           }}
         >
           <Image
-            source={require(`../../../../public/cart.png`)}
+            source={require(`../../../../public/billing.png`)}
             style={styles.logo1}
           />
-          <Text style={{ fontSize: 20, fontFamily: "Marker Felt" }}>Cart</Text>
+          <Text style={{ fontSize: 20, fontFamily: "Marker Felt" }}>Bill</Text>
         </View>
       </View>
     </TouchableOpacity>
