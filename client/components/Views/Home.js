@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect } from "react";
-import { StyleSheet, View, SafeAreaView, Image } from "react-native";
+import { StyleSheet, View, SafeAreaView, Image, ScrollView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import getDimensions from "../../util/getDimensions";
 import { selectMenu, fetchAllRestaurants } from "../../redux/reducers/menu";
@@ -20,7 +20,7 @@ const serverUrl = "https://okra-onions.herokuapp.com";
 
 export default function Home() {
   const dispatch = useDispatch();
-  const { restaurants } = useSelector(selectMenu);
+  const { restaurants, selected, orders } = useSelector(selectMenu);
   const user = useSelector(selectUser);
 
   useEffect(() => {
@@ -62,7 +62,7 @@ export default function Home() {
               }}
             >
               <MenuSquare styles={squareStyles} />
-              {user.bills && user.bills.length > 0 ? (
+              {orders && orders.length>0  ? (
                 <CartSquare
                   styles={squareStyles}
                   hasRestaurant={user.currentRestaurantId}

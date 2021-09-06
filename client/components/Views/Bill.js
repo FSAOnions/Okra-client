@@ -5,6 +5,7 @@ import {
   View,
   SafeAreaView,
   Image,
+  ScrollView,
   TouchableOpacity,
   Alert,
 } from "react-native";
@@ -81,12 +82,35 @@ export default function Bill() {
       </TouchableOpacity>
 
       <View style={styles.container}>
-        <Text style={styles.title}>Bill Summary:</Text>
-        {orders.map((order, index) => {
-          return (
-            <List key={index} data={order.products} renderItem={renderItem} />
-          );
-        })}
+        <View
+          style={[
+            styles.square,
+            {
+              shadowOffset: {
+                width: 0,
+                height: 0,
+              },
+              shadowOpacity: 0.3,
+              shadowRadius: 7,
+            },
+          ]}
+        >
+          <Text style={styles.title}>Bill Summary:</Text>
+          <ScrollView>
+            {orders.map((order, index) => {
+              return (
+                <View>
+                  {(orders.length>1) ? <Text style={styles.title}>Order {index+1}</Text> : <></>}
+                  <List
+                    key={index}
+                    data={order.products}
+                    renderItem={renderItem}
+                  />
+                </View>
+              );
+            })}
+          </ScrollView>
+        </View>
         <Text style={styles.text}>Total: ${totalPrice / 100}</Text>
       </View>
       <View style={styles.container2}>
@@ -121,8 +145,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   text: {
-    marginTop: windowHeight * 0.2,
-    marginBottom: windowHeight * 0.02,
+    marginTop: windowHeight * 0.02,
     textAlign: "center",
     fontFamily: "Marker Felt",
     fontSize: 20,
@@ -173,5 +196,14 @@ const styles = StyleSheet.create({
   },
   item: {
     marginVertical: 4,
+  },
+
+  square: {
+    alignSelf: "center",
+    backgroundColor: "white",
+    borderRadius: 10,
+    shadowColor: "black",
+    width: windowWidth * 0.9,
+    height: windowHeight * 0.7,
   },
 });
