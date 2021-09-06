@@ -10,13 +10,13 @@ import {
 } from "react-native";
 import Carousel from "react-native-snap-carousel";
 
-import getDimensions from "../../util/getDimensions";
+import getDimensions from "../../../util/getDimensions";
 import {
   selectMenu,
   setSelected,
   setSingleProduct,
-} from "../../redux/reducers/menu";
-import guid from "../../util/guid";
+} from "../../../redux/reducers/menu";
+import guid from "../../../util/guid";
 
 import { useSelector, useDispatch } from "react-redux";
 

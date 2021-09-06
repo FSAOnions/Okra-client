@@ -12,7 +12,7 @@ import getDimensions from "../../util/getDimensions";
 import loadAsset from "../../util/loadAsset";
 loadAsset;
 import { getHistory } from "../../redux/reducers/user";
-import Hamburger from "./Hamburger";
+import Hamburger from "./Utils/Hamburger";
 const { windowWidth } = getDimensions();
 import { Text } from "@ui-kitten/components";
 
@@ -35,7 +35,7 @@ export default function History() {
   ];
   return (
     <SafeAreaView style={styles.mainContainer}>
-      <Hamburger uri="home.png" page="home" marg={50}/>
+      <Hamburger uri="home.png" page="home" marg={50} />
       <View
         style={{
           justifyContent: "center",

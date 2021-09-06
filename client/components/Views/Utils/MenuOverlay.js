@@ -2,16 +2,16 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { TouchableOpacity, StyleSheet, View, Alert, Image } from "react-native";
 import { Button, Text } from "@ui-kitten/components";
-import { setPage } from "../../redux/reducers/userPage";
-import getDimensions from "../../util/getDimensions";
-import loadAsset from "../../util/loadAsset";
-import { addOrderItems, createBill } from "../../redux/reducers/bill";
-import { emptySelected, selectMenu } from "../../redux/reducers/menu";
+import { setPage } from "../../../redux/reducers/userPage";
+import getDimensions from "../../../util/getDimensions";
+import loadAsset from "../../../util/loadAsset";
+import { addOrderItems, createBill } from "../../../redux/reducers/bill";
+import { emptySelected, selectMenu } from "../../../redux/reducers/menu";
 
 export default function MenuOverlay({ uri = "menu-outline.png" }) {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
-  const { currentRestaurant, selected, orders } = useSelector(selectMenu);
+  const { currentRestaurant, selected } = useSelector(selectMenu);
   const { windowWidth } = getDimensions();
   const handleOrderClick = () => {
     Alert.alert("Confirm Order", "Are you sure?", [
@@ -44,11 +44,13 @@ export default function MenuOverlay({ uri = "menu-outline.png" }) {
       },
     ]);
   };
+
   const totalPrice =
     selected.reduce((total, product) => {
       const cents = product.price * 100;
       return (total += cents);
     }, 0) / 100;
+
   return (
     <View
       style={{

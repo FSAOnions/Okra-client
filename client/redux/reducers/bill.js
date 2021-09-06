@@ -25,15 +25,6 @@ export const addOrderItems = createAsyncThunk(
   }
 );
 
-// export const removeCartItem = createAsyncThunk(
-//   "userCart/removeItem",
-//   async (cartItem) => {
-//     const { data } = await axios.delete(`${serverUrl}/api/cart/${cartItem.id}`);
-
-//     return data;
-//   }
-// );
-
 export const payBill = createAsyncThunk("payBill", async () => {
   const { data } = await axios.put(`${serverUrl}/api/bill/payBill`);
 

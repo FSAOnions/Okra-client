@@ -1,5 +1,4 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { StyleSheet, View, Button } from "react-native";
 
 export default function FourOhFour() {

@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { StyleSheet, View, SafeAreaView, Image, Text } from "react-native";
 import { useDispatch } from "react-redux";
-import getDimensions from "../../util/getDimensions";
-import { setPage } from "../../redux/reducers/userPage";
-import loadAsset from "../../util/loadAsset";
+import getDimensions from "../../../util/getDimensions";
+import { setPage } from "../../../redux/reducers/userPage";
+import loadAsset from "../../../util/loadAsset";
 
 const { windowWidth, windowHeight } = getDimensions();
 

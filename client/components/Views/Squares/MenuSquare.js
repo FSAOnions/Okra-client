@@ -1,17 +1,14 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { TouchableOpacity, StyleSheet, View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import { setPage } from "../../../redux/reducers/userPage";
 import { Image } from "react-native";
-import getDimensions from "../../../util/getDimensions";
-import loadAsset from "../../../util/loadAsset";
-import { Text } from "@ui-kitten/components";
 
-const { windowHeight, windowWidth } = getDimensions();
+import { Text } from "@ui-kitten/components";
 
 export default function MenuSquare({ styles }) {
   const dispatch = useDispatch();
-  const { windowWidth } = getDimensions();
+
   return (
     <TouchableOpacity
       onPress={() => {

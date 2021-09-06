@@ -1,40 +1,24 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import {
   View,
-  Alert,
   StyleSheet,
   TouchableOpacity,
   Image,
   ScrollView,
 } from "react-native";
-import { Button, Text } from "@ui-kitten/components";
-import {
-  selectMenu,
-  emptySelected,
-  setFilteredProducts,
-} from "../../redux/reducers/menu";
-import SwiperMenu from "./SwiperMenu";
+import { Text } from "@ui-kitten/components";
+import { selectMenu } from "../../redux/reducers/menu";
+import SwiperMenu from "./Utils/SwiperMenu";
 import getDimensions from "../../util/getDimensions";
-import {
-  addOrderItems,
-  selectBill,
-  createBill,
-} from "../../redux/reducers/bill";
-import { setPage } from "../../redux/reducers/userPage";
-import { selectUser } from "../../redux/reducers/user";
-import { setFilter } from "../../redux/reducers/menu";
-import ScrollType from "./ScrollType";
+
+import ScrollType from "./Utils/ScrollType";
 import loadAsset from "../../util/loadAsset";
 
 export default function MenuNav(props) {
   const [open, setOpen] = useState(false);
-  const { currentRestaurant, selected, singleProduct, filteredAssets } =
-    useSelector(selectMenu);
-  const { loading } = useSelector(selectBill);
-  const user = useSelector(selectUser);
-  const dispatch = useDispatch();
+  const { singleProduct } = useSelector(selectMenu);
 
   const { windowHeight } = getDimensions();
 

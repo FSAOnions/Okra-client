@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import { ViroARSceneNavigator } from "react-viro";
 import { fetchProducts } from "../../redux/reducers/menu";
-import Hamburger from "../Views/Hamburger";
+import Hamburger from "../Views/Utils/Hamburger";
 
 export default function ARScanner() {
   // const dispatch = useDispatch();

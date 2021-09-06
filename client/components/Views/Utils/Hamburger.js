@@ -1,40 +1,32 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { TouchableOpacity, StyleSheet, View } from "react-native";
-import { setPage } from "../../redux/reducers/userPage";
+import { setPage } from "../../../redux/reducers/userPage";
 import { Image } from "react-native";
-import getDimensions from "../../util/getDimensions";
-import loadAsset from "../../util/loadAsset";
+import getDimensions from "../../../util/getDimensions";
+import loadAsset from "../../../util/loadAsset";
 
-export default function Trashcan({ canDelete, setDelete }) {
+export default function Hamburger({ uri, page, marg = 35 }) {
+  const dispatch = useDispatch();
   const { windowWidth } = getDimensions();
-
   return (
     <View
       style={{
         position: "absolute",
-        right: 15,
-        top: 75,
+        left: 20,
+        top: marg,
         zIndex: 500,
         height: 40,
         width: 40,
         backgroundColor: "none",
       }}
     >
-      <TouchableOpacity
-        onPress={() => {
-          return setDelete(!canDelete);
-        }}
-      >
+      <TouchableOpacity onPress={() => dispatch(setPage(page))}>
         <Image
-          source={{
-            uri: loadAsset(`${canDelete ? "/red_trash.png" : "/trash.png"}`),
-          }}
+          source={{ uri: loadAsset(`/${uri}`) }}
           style={{ width: windowWidth * 0.08, height: windowWidth * 0.08 }}
         />
       </TouchableOpacity>
     </View>
   );
 }
-
-const styles = StyleSheet.create({});

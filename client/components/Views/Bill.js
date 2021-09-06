@@ -18,11 +18,11 @@ import { emptyAll } from "../../redux/reducers/menu";
 import { payBill } from "../../redux/reducers/bill";
 import { reset } from "../../redux/reducers/user";
 import loadAsset from "../../util/loadAsset";
-import Hamburger from "./Hamburger";
+import Hamburger from "./Utils/Hamburger";
 
 export default function Bill() {
   const dispatch = useDispatch();
-  const { orders, restaurants, currentRestaurant } = useSelector(selectMenu);
+  const { orders } = useSelector(selectMenu);
 
   useEffect(() => {
     dispatch(fetchOrders());
@@ -72,7 +72,7 @@ export default function Bill() {
 
   return (
     <SafeAreaView style={styles.mainContainer}>
-      <Hamburger uri="home.png" page="home" marg={39}/>
+      <Hamburger uri="home.png" page="home" marg={39} />
       <TouchableOpacity onPress={() => dispatch(setPage("menu"))}>
         <Image
           source={{ uri: loadAsset("/menuicon.png") }}

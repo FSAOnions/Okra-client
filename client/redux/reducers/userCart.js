@@ -66,7 +66,6 @@ const userCartSlice = createSlice({
       })
       .addCase(setToCart.fulfilled, (state, action) => {
         state.cartItems = action.payload;
-        // return { cartItems: [...state.cartItems, action.payload] };
       })
       .addCase(setToCart.rejected, (state, action) => {
         console.log(action.payload);

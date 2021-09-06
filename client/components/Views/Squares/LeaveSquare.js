@@ -1,28 +1,24 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { TouchableOpacity, StyleSheet, View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import { setPage } from "../../../redux/reducers/userPage";
-import { Image, Alert } from "react-native";
-import getDimensions from "../../../util/getDimensions";
+import { Image } from "react-native";
 import { Text } from "@ui-kitten/components";
 import { emptyAll } from "../../../redux/reducers/menu";
 import { leaveRestaurant, reset } from "../../../redux/reducers/user";
 
-const { windowHeight, windowWidth } = getDimensions();
-
-export default function LeaveSquare({ styles, hasRestaurant }) {
+export default function LeaveSquare({ styles }) {
   const dispatch = useDispatch();
-  const { windowWidth } = getDimensions();
+
   const handleLeave = () => {
     dispatch(emptyAll());
     dispatch(reset());
     dispatch(leaveRestaurant());
     dispatch(setPage("home"));
   };
+
   return (
-    <TouchableOpacity
-      onPress={handleLeave}
-    >
+    <TouchableOpacity onPress={handleLeave}>
       <View
         style={[
           styles.square,

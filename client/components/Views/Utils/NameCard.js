@@ -1,14 +1,10 @@
 import React from "react";
-import { useDispatch } from "react-redux";
-import { TouchableOpacity, StyleSheet, View } from "react-native";
-import { setPage } from "../../redux/reducers/userPage";
-import { Image } from "react-native";
-import getDimensions from "../../util/getDimensions";
-const { windowHeight, windowWidth } = getDimensions();
+import { StyleSheet, View } from "react-native";
+import getDimensions from "../../../util/getDimensions";
+const { windowWidth } = getDimensions();
 import { Text } from "@ui-kitten/components";
 
 export default function NameCard({ user }) {
-  const dispatch = useDispatch();
   return (
     <View
       style={[

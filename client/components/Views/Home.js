@@ -1,20 +1,13 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect } from "react";
-import {
-  StyleSheet,
-  View,
-  SafeAreaView,
-  TouchableOpacity,
-  Image,
-} from "react-native";
+import { StyleSheet, View, SafeAreaView, Image } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { setPage } from "../../redux/reducers/userPage";
 import getDimensions from "../../util/getDimensions";
 import { selectMenu, fetchAllRestaurants } from "../../redux/reducers/menu";
 import { Text } from "@ui-kitten/components";
 import { selectUser, me } from "../../redux/reducers/user";
 import { setRestaurant } from "../../redux/reducers/menu";
-import NameCard from "./NameCard";
+import NameCard from "./Utils/NameCard";
 import MenuSquare from "./Squares/MenuSquare";
 import CartSquare from "./Squares/CartSquare";
 import ScannerSquare from "./Squares/ScannerSquare";
@@ -22,12 +15,12 @@ import HistorySquare from "./Squares/HistorySquare";
 import SettingsSquare from "./Squares/SettingsSquare";
 import LeaveSquare from "./Squares/LeaveSquare";
 
-const { windowHeight, windowWidth } = getDimensions();
+const { windowWidth } = getDimensions();
 const serverUrl = "https://okra-onions.herokuapp.com";
 
 export default function Home() {
   const dispatch = useDispatch();
-  const { orders, restaurants, currentRestaurant } = useSelector(selectMenu);
+  const { restaurants } = useSelector(selectMenu);
   const user = useSelector(selectUser);
 
   useEffect(() => {
@@ -69,8 +62,7 @@ export default function Home() {
               }}
             >
               <MenuSquare styles={squareStyles} />
-              {user.bills &&
-              user.currentRestaurantId !== null ? (
+              {user.bills && user.bills.length > 0 ? (
                 <CartSquare
                   styles={squareStyles}
                   hasRestaurant={user.currentRestaurantId}

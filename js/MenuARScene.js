@@ -1,7 +1,5 @@
 /* eslint-disable no-unused-vars */
 "use strict";
-
-const localHost = "http://10.0.0.206:8080";
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { StyleSheet, Alert } from "react-native";
@@ -13,25 +11,14 @@ import {
   ViroNode,
   ViroOmniLight,
   ViroSphere,
-  ViroARPlane,
-  ViroBox,
   ViroMaterials,
 } from "react-viro";
 
-import {
-  proofOfThunk,
-  selectMenu,
-  setProof,
-  fetchProducts,
-  deleteSingleProduct,
-} from "../client/redux/reducers/menu";
-import { selectUser } from "../client/redux/reducers/user";
-import loadAsset from "../client/util/loadAsset";
+import { selectMenu, deleteSingleProduct } from "../client/redux/reducers/menu";
 
 const MenuARScene = ({ pFU, setPFU, del }) => {
   const dispatch = useDispatch();
   const { selected } = useSelector(selectMenu);
-  const user = useSelector(selectUser);
   const [text, setText] = useState("Initializing AR...");
 
   const [rotation, setRotation] = useState(0);
@@ -39,6 +26,7 @@ const MenuARScene = ({ pFU, setPFU, del }) => {
     position: [0, -0.5, -0.5],
     rotation: [1, 1, 1],
   });
+
   useEffect(() => {
     ViroMaterials.createMaterials({
       red: {

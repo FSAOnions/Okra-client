@@ -1,37 +1,17 @@
-import React, { useState, useRef, useEffect } from "react";
-import {
-  View,
-  SafeAreaView,
-  Image,
-  TouchableOpacity,
-  Vibration,
-  ImageBackground,
-  FlatList,
-  StyleSheet,
-} from "react-native";
+import React, { useRef } from "react";
+import { View, SafeAreaView, StyleSheet } from "react-native";
 import Carousel from "react-native-snap-carousel";
+import getDimensions from "../../../util/getDimensions";
+import { setFilter } from "../../../redux/reducers/menu";
+import { Button } from "@ui-kitten/components";
 
-import getDimensions from "../../util/getDimensions";
-import {
-  selectMenu,
-  setFilter,
-  setSelected,
-  setSingleProduct,
-} from "../../redux/reducers/menu";
-import { Button, Text } from "@ui-kitten/components";
+import { useDispatch } from "react-redux";
 
-import { useSelector, useDispatch } from "react-redux";
-
-const DURATION = 1000;
-// const PATTERN = [1000, 2000, 3000];
 const types = ["All", "Appetizer", "Drink", "Entree", "Dessert"];
+
 const ScrollType = ({ pFU }) => {
-  //const [activeIndex, setActiveIndex] = useState(0);
-  const { currentRestaurant, filteredAssets } = useSelector(selectMenu);
   const dispatch = useDispatch();
 
-  // eslint-disable-next-line no-unused-vars
-  let carousel = useRef();
   const filter = (type = null) => {
     dispatch(setFilter(type));
   };
@@ -40,10 +20,7 @@ const ScrollType = ({ pFU }) => {
   };
 
   const _renderItem = ({ item }) => {
-    const { itemPadding, windowWidth, itemWidth } = getDimensions(
-      types.length,
-      110
-    );
+    const { itemPadding, itemWidth } = getDimensions(types.length, 110);
 
     return (
       <View
@@ -89,7 +66,6 @@ const ScrollType = ({ pFU }) => {
         }}
       >
         <Carousel
-          // layout={"default"}
           ref={(ref) => (carousel = ref)}
           data={types}
           sliderWidth={windowWidth}
@@ -105,31 +81,5 @@ const ScrollType = ({ pFU }) => {
       </View>
     </SafeAreaView>
   );
-  // const { windowWidth } = getDimensions();
-  // return (
-  //   <FlatList
-  //     data={["Appetizer", "Drink", "Entree", "Dessert"]}
-  //     horizontal={true}
-  //     style={{
-  //       overflow: "hidden",
-  //       width: windowWidth,
-  //     }}
-  //     renderItem={_renderItem}
-  //   />
-  // );
 };
 export default ScrollType;
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: "row",
-    overflow: "hidden",
-    width: "100%",
-  },
-  bold: {
-    fontWeight: "bold",
-  },
-  normal: {
-    fontWeight: "normal",
-  },
-});
