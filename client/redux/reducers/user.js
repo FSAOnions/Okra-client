@@ -1,7 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { State } from "@ui-kitten/components";
 import axios from "axios";
-import { Alert } from "react-native";
 import store from "../store";
 import path from "../../util/loadAsset";
 
@@ -41,7 +39,7 @@ export const updateUserRestaurant = createAsyncThunk(
 
 export const fetchHistory = createAsyncThunk("fetchHistory", async () => {
   const { data } = await axios.get(path(`/api/order/history`));
-  console.log(data)
+  console.log(data);
   return data;
 });
 
@@ -51,13 +49,13 @@ export const logout = createAsyncThunk("user/logout", async () => {
 });
 
 export const leaveRestaurant = createAsyncThunk("leaveRestaurant", async () => {
-  const {data} = await axios.put(path('/auth/leave'))
+  const { data } = await axios.put(path("/auth/leave"));
   return data;
-} );
+});
 
 const userAuthSlice = createSlice({
   name: "user",
-  initialState: { user: {}, history: {}},
+  initialState: { user: {}, history: {} },
   reducers: {
     setUser(state, action) {
       return { user: action.payload };
@@ -79,7 +77,7 @@ const userAuthSlice = createSlice({
         state.user = action.payload;
       })
       .addCase(leaveRestaurant.fulfilled, (state, action) => {
-       console.log(action.payload)
+        console.log(action.payload);
       })
       .addCase(me.fulfilled, (state, action) => {
         state.user = action.payload;
@@ -92,7 +90,7 @@ const userAuthSlice = createSlice({
       })
       .addCase(fetchHistory.fulfilled, (state, action) => {
         state.history = action.payload;
-      });;
+      });
   },
 });
 

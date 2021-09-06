@@ -1,24 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { StyleSheet, View, SafeAreaView } from "react-native";
 import { Layout, Input, Button, Text } from "@ui-kitten/components";
-import { setPage } from "../../redux/reducers/userPage";
+import { setPage } from "../../../redux/reducers/userPage";
 import { useDispatch, useSelector } from "react-redux";
-import { authenticate, getUser } from "../../redux/reducers/user";
-import getDimensions from "../../util/getDimensions";
+import { authenticate, getUser } from "../../../redux/reducers/user";
 
 export default function Signup() {
   const dispatch = useDispatch();
-  const { user } = useSelector(getUser);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [emailLow, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  useEffect(() => {
-    if (user) {
-      //dispatch(setPage("home"));
-    }
-  }, [user]);
 
   const handleSubmit = () => {
     const email = emailLow.toLowerCase();

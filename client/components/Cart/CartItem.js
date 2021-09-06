@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { StyleSheet, View, YellowBox } from "react-native";
+import { View } from "react-native";
 import { removeCartItem, editCartItem } from "../../redux/reducers/userCart";
 
 const CartItem = ({ item, deleteCartItem, updateCart }) => {
@@ -25,8 +25,6 @@ const CartItem = ({ item, deleteCartItem, updateCart }) => {
           setQuantity(target.value);
         }}
       />
-      {/* <button onClick={handleUpdate}>Update Cart</button>
-      <button onClick={handleClick}>Remove From Cart</button> */}
     </View>
   );
 };

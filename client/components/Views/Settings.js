@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { StyleSheet, View, SafeAreaView } from "react-native";
 import { Layout, Input, Button, Text } from "@ui-kitten/components";
 import { setPage } from "../../redux/reducers/userPage";
 import { useDispatch, useSelector } from "react-redux";
 import { update, selectUser, logout } from "../../redux/reducers/user";
 import getDimensions from "../../util/getDimensions";
-import Hamburger from "./Hamburger";
+import Hamburger from "./Utils/Hamburger";
 
 const { windowWidth, windowHeight } = getDimensions();
 
 export default function Settings() {
   const dispatch = useDispatch();
-  const { firstName, lastName, email, password } = useSelector(selectUser);
+  const { firstName, lastName, email } = useSelector(selectUser);
   const [firstNameS, setFirstName] = useState(firstName);
   const [lastNameS, setLastName] = useState(lastName);
   const [passwordS, setPassword] = useState("");

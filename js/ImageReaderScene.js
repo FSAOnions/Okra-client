@@ -1,10 +1,5 @@
 /* eslint-disable no-unused-vars */
 "use strict";
-//TODO Database
-///////////////////////////
-
-////////////////////////////
-
 const serverUrl = "https://okra-onions.herokuapp.com";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,7 +12,6 @@ import {
 
 import {
   selectMenu,
-  fetchMenu,
   setRestaurant,
   emptyAll,
 } from "../client/redux/reducers/menu";

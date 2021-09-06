@@ -3,11 +3,11 @@ import React, { useEffect, useState, useRef } from "react";
 // import { useDispatch, useSelector } from "react-redux";
 import { StyleSheet, View } from "react-native";
 import { ViroARSceneNavigator } from "react-viro";
-import Hamburger from "../Views/Hamburger";
+import Hamburger from "../Views/Utils/Hamburger";
 import MenuNav from "../Views/MenuNav";
 const initScene = require("../../../js/MenuARScene");
-import MenuOverlay from "../Views/MenuOverlay";
-import Trashcan from "../Views/Trashcan";
+import MenuOverlay from "../Views/Utils/MenuOverlay";
+import Trashcan from "../Views/Utils/Trashcan";
 import Queue from "../../util/queue";
 export default function ARMenu() {
   const [pFU, setPFU] = useState({
@@ -43,7 +43,7 @@ export default function ARMenu() {
         height: "100%",
       }}
     >
-      <Hamburger uri="home.png" page="home" marg={37}/>
+      <Hamburger uri="home.png" page="home" marg={37} />
       <MenuOverlay />
       <Trashcan {...delProps} />
       <ViroARSceneNavigator
