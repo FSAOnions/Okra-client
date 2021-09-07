@@ -129,8 +129,8 @@ export default function History() {
                             marginBottom: 5,
                           }}
                         >
-                          {info.createdAt.slice(8, 10)}{" "}
                           {months[Number(info.createdAt.slice(5, 7))]}{" "}
+                          {info.createdAt.slice(8, 10)},{" "}
                           {info.createdAt.slice(0, 4)}
                         </Text>
                       </View>
