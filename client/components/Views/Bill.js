@@ -99,8 +99,12 @@ export default function Bill() {
           <ScrollView>
             {orders.map((order, index) => {
               return (
-                <View>
-                  {(orders.length>1) ? <Text style={styles.title}>Order {index+1}</Text> : <></>}
+                <View key={order.id}>
+                  {orders.length > 1 ? (
+                    <Text style={styles.title}>Order {index + 1}</Text>
+                  ) : (
+                    <></>
+                  )}
                   <List
                     key={index}
                     data={order.products}
@@ -155,9 +159,8 @@ const styles = StyleSheet.create({
     width: windowWidth * 0.1,
     height: windowWidth * 0.1,
     marginLeft: 5,
-    marginTop: 0,
-    alignSelf: "flex-end",
     marginTop: 20,
+    alignSelf: "flex-end",
     position: "absolute",
   },
   logo: {
@@ -165,7 +168,7 @@ const styles = StyleSheet.create({
     height: windowWidth * 0.1,
     alignSelf: "flex-end",
     marginTop: -10,
-    marginRight: 10,
+    marginRight: 20,
   },
 
   title: {

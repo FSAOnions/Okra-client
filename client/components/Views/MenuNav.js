@@ -102,10 +102,22 @@ export default function MenuNav(props) {
             <>
               {singleProduct && (
                 <View style={styles.spaceBetween}>
-                  <Text category="h5" style={{ color: "rgb(49, 49, 49)" }}>
+                  <Text
+                    category="h5"
+                    style={{
+                      color: "rgb(49, 49, 49)",
+                      fontFamily: "Marker Felt",
+                    }}
+                  >
                     {singleProduct.product_name}
                   </Text>
-                  <Text category="h6" style={{ color: "rgb(49, 49, 49)" }}>
+                  <Text
+                    category="h6"
+                    style={{
+                      color: "rgb(49, 49, 49)",
+                      fontFamily: "Marker Felt",
+                    }}
+                  >
                     ${singleProduct.price / 100}
                   </Text>
                 </View>
@@ -122,16 +134,34 @@ export default function MenuNav(props) {
             <>
               {singleProduct ? (
                 <View style={styles.title}>
-                  <Text category="h5" style={{ color: "rgb(49, 49, 49)" }}>
+                  <Text
+                    category="h5"
+                    style={{
+                      color: "rgb(49, 49, 49)",
+                      fontFamily: "Marker Felt",
+                    }}
+                  >
                     {singleProduct.product_name}
                   </Text>
-                  <Text category="h6" style={{ color: "rgb(49, 49, 49)" }}>
+                  <Text
+                    category="h6"
+                    style={{
+                      color: "rgb(49, 49, 49)",
+                      fontFamily: "Marker Felt",
+                    }}
+                  >
                     ${singleProduct.price / 100}
                   </Text>
                 </View>
               ) : (
                 <View style={styles.title}>
-                  <Text category="h5" style={{ color: "rgb(49, 49, 49)" }}>
+                  <Text
+                    category="h5"
+                    style={{
+                      color: "rgb(49, 49, 49)",
+                      fontFamily: "Marker Felt",
+                    }}
+                  >
                     No Product
                   </Text>
                 </View>
@@ -186,5 +216,6 @@ const styles = StyleSheet.create({
     paddingRight: 20,
     textAlign: "justify",
     color: "rgb(105,105,105)",
+    fontFamily: "Marker Felt",
   },
 });
