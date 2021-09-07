@@ -12,6 +12,7 @@ export default function MenuOverlay({ uri = "menu-outline.png" }) {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const { currentRestaurant, selected } = useSelector(selectMenu);
+  const filteredSelected = selected.filter((product) => !product.removed);
   const { windowWidth } = getDimensions();
   const handleOrderClick = () => {
     Alert.alert("Confirm Order", "Are you sure?", [
@@ -25,7 +26,10 @@ export default function MenuOverlay({ uri = "menu-outline.png" }) {
         onPress: async () => {
           await dispatch(createBill(currentRestaurant.id));
 
-          const cleanedUpArr = selected.map(({ price, id }) => ({ price, id }));
+          const cleanedUpArr = filteredSelected.map(({ price, id }) => ({
+            price,
+            id,
+          }));
           const payload = {};
           cleanedUpArr.forEach(({ id, price }) => {
             if (id in payload) {
@@ -87,7 +91,7 @@ export default function MenuOverlay({ uri = "menu-outline.png" }) {
 
               <View style={styles.container}>
                 {Object.values(
-                  selected.reduce((products, product) => {
+                  filteredSelected.reduce((products, product) => {
                     const { product_name: name, price } = product;
 
                     if (products[name]) {
