@@ -80,7 +80,6 @@ export default function Bill() {
           style={styles.logo}
         />
       </TouchableOpacity>
-
       <View style={styles.container}>
         <View
           style={[
