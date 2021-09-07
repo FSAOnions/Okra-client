@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View, Alert } from "react-native";
 import { setPage } from "../../../redux/reducers/userPage";
 import { Image } from "react-native";
 import { Text } from "@ui-kitten/components";
@@ -18,7 +18,18 @@ export default function LeaveSquare({ styles }) {
   };
 
   return (
-    <TouchableOpacity onPress={handleLeave}>
+    <TouchableOpacity
+      onPress={() => {
+        Alert.alert("Are you sure?", "You will leave this restaurant", [
+          {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel",
+          },
+          { text: "OK", onPress: handleLeave },
+        ]);
+      }}
+    >
       <View
         style={[
           styles.square,

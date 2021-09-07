@@ -1,24 +1,12 @@
 /* eslint-disable no-unused-vars */
-import React, { useEffect } from "react";
+import React from "react";
 ("react-redux");
-import { useDispatch } from "react-redux";
-import {
-  StyleSheet,
-  View,
-  Text,
-  Button,
-  Image,
-  ImageBackground,
-} from "react-native";
+
+import { StyleSheet, View, Text } from "react-native";
 import { ViroARSceneNavigator } from "react-viro";
-import { fetchProducts } from "../../redux/reducers/menu";
 import Hamburger from "../Views/Utils/Hamburger";
 
 export default function ARScanner() {
-  // const dispatch = useDispatch();
-  // useEffect(() => {
-  //   dispatch(fetchProducts());
-  // }, []);
   return (
     <View style={styles.scanner}>
       <Hamburger uri="home.png" page="home" />

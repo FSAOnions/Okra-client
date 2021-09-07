@@ -80,7 +80,6 @@ export default function Bill() {
           style={styles.logo}
         />
       </TouchableOpacity>
-
       <View style={styles.container}>
         <View
           style={[
@@ -99,13 +98,13 @@ export default function Bill() {
           <ScrollView>
             {orders.map((order, index) => {
               return (
-                <View>
-                  {(orders.length>1) ? <Text style={styles.title}>Order {index+1}</Text> : <></>}
-                  <List
-                    key={index}
-                    data={order.products}
-                    renderItem={renderItem}
-                  />
+                <View key={index}>
+                  {orders.length > 1 ? (
+                    <Text style={styles.title}>Order {index + 1}</Text>
+                  ) : (
+                    <></>
+                  )}
+                  <List data={order.products} renderItem={renderItem} />
                 </View>
               );
             })}
