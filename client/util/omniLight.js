@@ -3,6 +3,8 @@ export default [
   [0, -3, 1],
   [3, 0, 1],
   [-3, 0, 1],
+  [0, 0, 4],
+  [0, 0, -3],
 ].map((xyz) => {
   return {
     color: "#ffffff",
