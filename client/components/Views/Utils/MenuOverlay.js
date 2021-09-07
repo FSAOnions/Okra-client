@@ -50,7 +50,7 @@ export default function MenuOverlay({ uri = "menu-outline.png" }) {
   };
 
   const totalPrice =
-    selected.reduce((total, product) => {
+    filteredSelected.reduce((total, product) => {
       const cents = product.price * 100;
       return (total += cents);
     }, 0) / 100;
