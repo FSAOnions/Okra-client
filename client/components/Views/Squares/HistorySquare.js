@@ -41,7 +41,7 @@ export default function HistorySquare({ styles }) {
             style={styles.logo1}
           />
           <Text style={{ fontSize: 20, fontFamily: "Marker Felt" }}>
-            Orders
+            History
           </Text>
         </View>
       </View>
