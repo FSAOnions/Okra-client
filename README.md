@@ -1,10 +1,21 @@
-# <center><img src='./public/okra.png'  width="200" height="200"></center>
+# Introduction
 
-<center>AR end to end solution for customers dining in a restaurant
+<p align='center' width="100%"><img src='./public/okra.png'  width="200" height="200"></p>
 
-[About The Project](#about-the-project) • [How To Use](#how-to-use) • [Credits](#credits)
+<p align='center' width="100%">AR end to end solution for customers dining out</p>
 
-</center>
+<p align='center' width="100%"><img src='./public/okra.gif'  width="400" height="700"></p>
+
+---
+
+## Table of Contents
+
+- [Introduction](#introduction)
+  - [Table of Contents](#table-of-contents)
+  - [About The Project](#about-the-project)
+    - [Tech](#tech)
+  - [How To Use](#how-to-use)
+  - [Credits](#credits)
 
 ---
 
@@ -16,12 +27,20 @@ Okra is an innovative Augmented Reality (AR) end to end solution for customers d
 
 - Viro Media
 - React-Native
+- UI-Kitten
 
 ---
 
 ## How To Use
 
-lorem ipsum
+**Okra is currently only compatible with iOS devices**
+
+- Clone our repo `git clone`
+- run `npm start` in your terminal and copy the ngrok endpoint
+- Download Viro Media in the App Store
+  - Open the Viro Media app and open the hamburger on the top left hand side
+  - Enter Testbed
+  - Enter the ngrok endpoint or copy/paste your localhost address here and press go
 
 ---
 
@@ -29,3 +48,4 @@ lorem ipsum
 
 - Credit to the team [Albina Usmanova](https://github.com/Lighein), [Andrew Bloodworth](https://github.com/AndrewBloodworth), [Mohamed Adam](https://github.com/MoAdam10), and [Sung Paik](https://github.com/spaik11) for their outstanding dedication and countless late nights to be able to make this vision come to _augmented_ reality.
 - Thanks to our instructors [Gary Kertis](https://github.com/GaryKertis) and [Sarah Zhao](https://github.com/sarahzhao25) for constantly challenging us to create the best user experience.
+- Last but not least, thank you to [Nicole Young](https://github.com/nicoledotyoung) for constantly checking up on us.
